@@ -392,3 +392,155 @@ nav ul li{
 
 }
 
+.career-hero{
+
+    background:
+    linear-gradient(rgba(15,23,42,.65),rgba(15,23,42,.65)),
+    url("../images/career.jpg");
+
+    background-size:cover;
+    background-position:center;
+
+    min-height:80vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    color:white;
+
+}
+
+.career-overlay{
+
+    max-width:900px;
+
+    padding:20px;
+
+}
+
+.career-overlay h1{
+
+    font-size:60px;
+
+}
+
+.career-overlay h2{
+
+    color:#D4AF37;
+
+    margin:20px 0;
+
+}
+
+.career-overlay p{
+
+    font-size:20px;
+
+    line-height:1.8;
+
+}
+
+.apply-btn{
+
+    display:inline-block;
+
+    margin-top:35px;
+
+    background:#D4AF37;
+
+    color:white;
+
+    padding:15px 35px;
+
+    text-decoration:none;
+
+    border-radius:8px;
+
+}
+
+.application{
+
+    padding:80px 40px;
+
+    background:#f5f5f5;
+
+    text-align:center;
+
+}
+
+.application h2{
+
+    font-size:42px;
+
+    color:#0f172a;
+
+    margin-bottom:10px;
+
+}
+
+.application p{
+
+    max-width:800px;
+
+    margin:0 auto 40px;
+
+    line-height:1.8;
+
+}
+
+.application form{
+
+    max-width:800px;
+
+    margin:auto;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.application input,
+.application textarea,
+.application select{
+
+    padding:15px;
+
+    font-size:16px;
+
+    border:1px solid #ddd;
+
+    border-radius:6px;
+
+}
+
+.application button{
+
+    background:#D4AF37;
+
+    color:white;
+
+    border:none;
+
+    padding:16px;
+
+    font-size:18px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+}
+
+.application button:hover{
+
+    background:#b8952e;
+
+}
