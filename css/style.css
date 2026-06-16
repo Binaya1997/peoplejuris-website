@@ -992,43 +992,64 @@ nav ul li{
 
 @media(max-width:900px){
 
-.contact-wrapper{
+    .contact-wrapper{
 
-grid-template-columns:1fr;
+        grid-template-columns:1fr;
+
+    }
 
 }
 
 .home-btn{
-
     position:fixed;
-
     top:100px;
-
     left:30px;
-
     background:#0f172a;
-
     color:white;
-
     padding:12px 24px;
-
     border-radius:8px;
-
     text-decoration:none;
-
     font-weight:bold;
-
     z-index:999;
-
-    transition:0.3s;
-
+    transition:.3s;
 }
 
 .home-btn:hover{
-
     background:#D4AF37;
-
-    color:white;
-
 }
+
+.popup-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100vh;
+    background:rgba(0,0,0,.75);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:999999;
+}
+
+.popup-box{
+    background:#fff;
+    width:90%;
+    max-width:900px;
+    max-height:85vh;
+    overflow-y:auto;
+    padding:30px;
+    border-radius:10px;
+}
+
+#agreeBtn{
+    display:block;
+    margin:25px auto 0;
+    background:#D4AF37;
+    color:white;
+    border:none;
+    padding:15px 40px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
 

@@ -1,6 +1,6 @@
 let prevScrollPos = window.pageYOffset;
 
-window.onscroll = function() {
+window.onscroll = function () {
 
     let currentScrollPos = window.pageYOffset;
 
@@ -11,4 +11,27 @@ window.onscroll = function() {
     }
 
     prevScrollPos = currentScrollPos;
-}
+};
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    console.log("Script loaded");
+
+    const popup = document.getElementById("disclaimerPopup");
+    const agreeBtn = document.getElementById("agreeBtn");
+
+    console.log(popup);
+    console.log(agreeBtn);
+
+    if (localStorage.getItem("peoplejurisDisclaimer") === "accepted") {
+        popup.style.display = "none";
+    }
+
+    agreeBtn.addEventListener("click", function () {
+        localStorage.setItem("peoplejurisDisclaimer", "accepted");
+        popup.style.display = "none";
+    });
+
+});
+
+
