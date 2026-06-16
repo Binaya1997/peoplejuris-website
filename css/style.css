@@ -76,20 +76,31 @@ nav a:hover{
     padding:0 80px 40px;
 }
 
-.hero-btn{
-    background:#D4AF37;
-    color:white;
-    border:none;
-
-    padding:16px 34px;
-    font-size:20px;
-
-    border-radius:8px;
-    cursor:pointer;
+.hero-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #D4AF37, #b8902f);
+    color: #fff;
+    padding: 16px 34px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 10px;
+    text-decoration: none;   /* ✅ removes underline */
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-.hero-btn:hover{
-    background:#b8952e;
+/* Hover effect */
+.hero-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #e6c14a, #c49a2c);
+}
+
+/* Active click effect */
+.hero-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .about{
