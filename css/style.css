@@ -1053,3 +1053,182 @@ nav ul li{
 }
 
 
+/* ===================================
+   Mobile Responsive Design
+=================================== */
+
+@media screen and (max-width:768px){
+
+    body{
+        padding-top:70px;
+    }
+
+    nav{
+        flex-direction:column;
+        padding:15px;
+        text-align:center;
+    }
+
+    nav ul{
+        flex-direction:column;
+        gap:12px;
+        margin-top:15px;
+    }
+
+    .hero{
+        min-height:45vh;
+    }
+
+    .hero-bottom{
+        padding:0 20px 30px;
+        justify-content:center;
+    }
+
+    .hero-btn{
+        width:100%;
+        max-width:300px;
+        text-align:center;
+    }
+
+    .about{
+        flex-direction:column;
+        padding:40px 20px;
+        gap:30px;
+    }
+
+    .about-image img{
+        width:100%;
+        max-width:320px;
+        height:auto;
+    }
+
+    .about-content h2,
+    .legacy h2,
+    .leadership h2,
+    .contact h2,
+    .consultation h2{
+        font-size:32px;
+        text-align:center;
+    }
+
+    .about-content p{
+        font-size:16px;
+        text-align:left;
+    }
+
+    .mission-vision{
+        grid-template-columns:1fr;
+        padding:40px 20px;
+    }
+
+    .timeline{
+        grid-template-columns:1fr;
+    }
+
+    .leaders{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .leader-card{
+        width:100%;
+        max-width:350px;
+    }
+
+    .practice-grid,
+    .consult-grid{
+        grid-template-columns:1fr;
+    }
+
+    .contact{
+        padding:50px 20px;
+    }
+
+    .contact-wrapper{
+        grid-template-columns:1fr;
+    }
+
+    .contact-info,
+    .contact-form{
+        padding:25px;
+    }
+
+    .social-icons{
+        justify-content:center;
+    }
+
+    .popup-box{
+        width:95%;
+        padding:20px;
+        max-height:90vh;
+    }
+
+    .popup-box h2{
+        font-size:24px;
+    }
+
+    #agreeBtn{
+        width:100%;
+    }
+
+}
+
+.menu-toggle{
+    display:none;
+    font-size:30px;
+    cursor:pointer;
+    color:white;
+}
+
+@media screen and (max-width:768px){
+
+    nav{
+        flex-wrap:wrap;
+        padding:15px 20px;
+    }
+
+    .menu-toggle{
+        display:block;
+    }
+
+    nav ul{
+        display:none;
+        width:100%;
+        flex-direction:column;
+        margin-top:15px;
+        background:#0f172a;
+    }
+
+    nav ul.active{
+        display:flex;
+    }
+
+    nav ul li{
+        padding:12px 0;
+        text-align:center;
+    }
+}
+
+.menu-toggle{
+    display:none;
+    font-size:30px;
+    cursor:pointer;
+    color:white;
+}
+
+@media screen and (max-width:768px){
+
+    .menu-toggle{
+        display:block;
+    }
+
+    nav ul{
+        display:none;
+    }
+
+    nav ul.active{
+        display:flex;
+        flex-direction:column;
+    }
+
+}
