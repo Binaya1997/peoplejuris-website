@@ -318,17 +318,25 @@ nav ul li{
 
 .legacy{
 
-    background:#0F172A;
-
-    padding:20px 50px 80px;
+    padding:20px 50px 80px; 
 
     text-align:center;
+
+    background:
+        linear-gradient(rgba(15,23,42,.85), rgba(15,23,42,.85)),
+        url("../images/background.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
 
 }
 
 .legacy h2{
      
-    color:#D4AF37;
+    color:white;
   	
     font-size:42px;
 
@@ -718,11 +726,19 @@ nav ul li{
 
     grid-template-columns:repeat(auto-fit,minmax(450px,1fr));
 
-    gap:20px;
+    gap:40px;
 
-    padding:40px 60px;
+    padding:80px 60px 20px 60px; 
 
-    background:#0F172A;   /* Warm premium white */
+    background:
+        linear-gradient(rgba(15,23,42,.85), rgba(15,23,42,.85)),
+        url("../images/background.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
 
 }
 
@@ -1189,6 +1205,7 @@ nav ul li{
     .mission-vision{
         grid-template-columns:1fr;
         padding:80px 60px 20px 60px;
+    aransition:0.3s;
     }
 
     .timeline{
@@ -1428,3 +1445,123 @@ nav ul li{
   gap: 25px;
   margin-top: 20px;
 }
+
+
+/* ===================================
+   Practice Areas Mobile Responsive
+=================================== */
+
+@media screen and (max-width:768px){
+
+    .practice-hero{
+
+        min-height:auto;
+        padding:100px 20px 60px;
+
+    }
+
+    .practice-hero h1{
+
+        font-size:38px;
+
+    }
+
+    .practice-hero p{
+
+        font-size:18px;
+
+        line-height:1.7;
+
+    }
+
+    .main-title{
+
+        font-size:34px;
+
+        text-align:center;
+
+        margin-bottom:30px;
+
+    }
+
+    .section-title{
+
+        font-size:28px;
+
+        text-align:center;
+
+        margin-bottom:25px;
+
+    }
+
+    .service-grid{
+
+        display:grid;
+
+        grid-template-columns:1fr;
+
+        gap:20px;
+
+        padding:0 20px;
+
+    }
+
+    .service-card{
+
+        width:100%;
+
+        padding:25px;
+
+    }
+
+    .service-card h4{
+
+        font-size:22px;
+
+    }
+
+    .service-card p{
+
+        font-size:16px;
+
+    }
+
+    .service-card ul{
+
+        padding-left:18px;
+
+    }
+
+    .service-card li{
+
+        font-size:15px;
+
+        line-height:1.8;
+
+    }
+
+    .why{
+
+        padding:50px 20px;
+
+    }
+
+    .why h2{
+
+        font-size:30px;
+
+    }
+
+    .why-grid{
+
+        display:grid;
+
+        grid-template-columns:1fr;
+
+        gap:20px;
+
+    }
+
+}
+
+
