@@ -318,20 +318,22 @@ nav ul li{
 
 .legacy{
 
-    background:#f8f8f8;
+    background:#0F172A;
 
-    padding:80px 50px;
+    padding:20px 50px 80px;
 
     text-align:center;
 
 }
 
 .legacy h2{
-
+     
+    color:#D4AF37;
+  	
     font-size:42px;
 
     margin-bottom:50px;
-
+   
 }
 
 .timeline{
@@ -346,17 +348,17 @@ nav ul li{
 
 .timeline-card{
 
-    background:white;
+    background:#FFFFFF;
 
     padding:30px;
 
-    border-radius:10px;
+    border-radius:12px;
 
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
 
     border-top:5px solid #D4AF37;
 
-    transition:0.3s;
+    transition:.3s;
 
 }
 
@@ -364,6 +366,7 @@ nav ul li{
 
     transform:translateY(-8px);
 
+    box-shadow:0 15px 30px rgba(0,0,0,.12);
 }
 
 .timeline-card h3{
@@ -384,7 +387,7 @@ nav ul li{
 
 .leadership{
 
-    padding:80px 60px;
+    padding:20px 50px 80px;
 
     background:#ffffff;
 
@@ -715,23 +718,23 @@ nav ul li{
 
     grid-template-columns:repeat(auto-fit,minmax(450px,1fr));
 
-    gap:40px;
+    gap:20px;
 
-    padding:80px 60px;
+    padding:40px 60px;
 
-    background:#f8f8f8;
+    background:#0F172A;   /* Warm premium white */
 
 }
 
 .mv-card{
 
-    background:white;
+    background:#FFFFFF;
 
     padding:40px;
 
     border-radius:12px;
 
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
 
     border-top:5px solid #D4AF37;
 
@@ -739,9 +742,13 @@ nav ul li{
 
 }
 
+
 .mv-card:hover{
 
     transform:translateY(-8px);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.12);
+
 
 }
 
@@ -877,7 +884,7 @@ nav ul li{
 
 .contact{
 
-    padding:90px 70px;
+    padding:80px 60px 20px 60px;
 
     background:#0f172a;
 
@@ -1181,7 +1188,7 @@ nav ul li{
 
     .mission-vision{
         grid-template-columns:1fr;
-        padding:40px 20px;
+        padding:80px 60px 20px 60px;
     }
 
     .timeline{
