@@ -635,7 +635,7 @@ nav ul li{
 
     background:
     linear-gradient(rgba(15,23,42,.7),rgba(15,23,42,.7)),
-    url("../images/background.jpg");
+    url("../images/careerback.jpg");
 
     background-size:cover;
 
@@ -901,8 +901,11 @@ nav ul li{
 .contact{
 
     padding:80px 60px 20px 60px;
+    background:
+        linear-gradient(rgba(15,23,42,.85), rgba(15,23,42,.85)),
+        url("../images/careerback.jpg");
 
-    background:#0f172a;
+    
 
 }
 
