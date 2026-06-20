@@ -483,7 +483,7 @@ nav ul li{
 
     background:
     linear-gradient(rgba(15,23,42,.65),rgba(15,23,42,.65)),
-    url("../images/career.jpg");
+    url("../images/background.jpg");
 
     background-size:cover;
     background-position:center;
@@ -635,7 +635,7 @@ nav ul li{
 
     background:
     linear-gradient(rgba(15,23,42,.7),rgba(15,23,42,.7)),
-    url("../images/hero.jpg");
+    url("../images/background.jpg");
 
     background-size:cover;
 
