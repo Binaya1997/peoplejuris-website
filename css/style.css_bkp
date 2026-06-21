@@ -7,100 +7,304 @@ html{
     padding:0;
     box-sizing:border-box;
 }
+
 body{
-    font-family:Arial,sans-serif;
-    line-height:1.6;
+    font-family:'Inter',sans-serif;
+    line-height:1.7;
     padding-top:80px;
+    background:#faf8f3;
+    color:#4b5563;
+}
+
+h1,
+h2,
+h3,
+h4{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:700;
+}
+
+/* Dark headings for normal sections */
+
+.about h2,
+.leadership h2,
+.consultation h2,
+.application h2,
+.contact h2,
+.main-title,
+.section-title{
+    color:#0f172a;
+}
+
+/* White headings for hero sections */
+
+.practice-hero h1,
+.practice-hero p,
+.career-overlay h1,
+.career-overlay p{
+    color:white;
+}
+
+::selection{
+    background:#D4AF37;
+    color:white;
+}
+
+::-moz-selection{
+    background:#D4AF37;
+    color:white;
+}
+
+p{
+    font-size:18px;
+    line-height:1.9;
 }
 
 nav{
-    background:#0f172a;
+
+    background:rgba(15,23,42,.95);
+
+    backdrop-filter:blur(12px);
+
     color:white;
-    padding:20px 50px;
+
+    padding:22px 60px;
 
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
 
     position:fixed;
+
     top:0;
+
     left:0;
+
     width:100%;
 
     z-index:1000;
 
-    transition:top 0.4s;
+    transition:all .4s ease;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.25);
+
 }
+
+
 .logo{
-    font-size:28px;
-    font-weight:bold;
+    font-family:'Cormorant Garamond',serif;
+    font-size:34px;
+    font-weight:700;
     letter-spacing:1px;
+    color:#D4AF37;
 }
 
 nav ul{
+
     list-style:none;
+
     display:flex;
-    gap:35px;
+
+    gap:50px;
+
 }
 
 nav a{
+
     color:white;
+
     text-decoration:none;
-    transition:0.3s;
+
+    transition:.3s;
+
+    position:relative;
+
 }
 
 nav a:hover{
     color:#D4AF37;
 }
 
-.hero{
-    background:
-        linear-gradient(rgba(15,23,42,0.55), rgba(15,23,42,0.55)),
-        url("../images/hero.jpg");
+nav a::after{
 
-    background-size:cover;
-    background-position:center;
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:-8px;
+
+    width:0;
+
+    height:2px;
+
+    background:#D4AF37;
+
+    transition:.3s;
+
+}
+
+nav a:hover::after{
+
+    width:100%;
+
+}
+
+
+.hero{
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+    linear-gradient(rgba(15,23,42,0.02),rgba(15,23,42,0.02)),
+    url("../images/heroclasic.jpg");
+
+    background-size:100%;
+
+    background-position:center center;
+
     background-repeat:no-repeat;
 
     min-height:60vh;
 
     display:flex;
+
     align-items:flex-end;
+
+    animation:heroZoom 12s ease-in-out infinite alternate;
+
 }
+
+.hero::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:-120%;
+
+    width:50%;
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.18),
+        rgba(255,255,255,0.28),
+        rgba(255,255,255,0.18),
+        transparent
+    );
+
+    transform:skewX(-20deg);
+
+    animation:shine 6s linear infinite;
+
+    pointer-events:none;
+
+}
+
+@keyframes heroZoom{
+
+    0%{
+
+        background-size:100%;
+
+        background-position:center center;
+
+    }
+
+    100%{
+
+    background-size:107%;
+
+    background-position:center;
+
+    }
+
+}
+
+@keyframes shine{
+
+    0%{
+        left:-120%;
+    }
+
+    100%{
+        left:120%;
+    }
+
+}
+    
 
 .hero-bottom{
+
     width:100%;
+
     display:flex;
-    justify-content:flex-start;
+
+    justify-content:flex-end;
+
     align-items:flex-end;
+
     padding:0 80px 40px;
+
 }
 
-.hero-btn {
-    display: inline-block;
-    background: linear-gradient(135deg, #D4AF37, #b8902f);
-    color: #fff;
-    padding: 16px 34px;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 10px;
-    text-decoration: none;   /* ✅ removes underline */
-    cursor: pointer;
-    transition: all 0.25s ease;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+.hero-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:linear-gradient(135deg,#D4AF37,#b8902f);
+
+    color:white;
+
+    padding:18px 40px;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    transition:.3s;
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.25);
+
 }
 
-/* Hover effect */
-.hero-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(135deg, #e6c14a, #c49a2c);
+.hero-btn:hover{
+
+    transform:translateY(-4px);
+
+    background:linear-gradient(135deg,#e1bc45,#c2962e);
+
+    box-shadow:
+    0 18px 35px rgba(0,0,0,.30);
+
 }
 
-/* Active click effect */
-.hero-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
+.hero-btn:active{
+
+    transform:translateY(0);
+
+    box-shadow:
+    0 8px 18px rgba(0,0,0,.20);
+
 }
 
 .about{
@@ -312,26 +516,41 @@ footer{
 }
 
 nav ul li{
-    font-size:18px;
-    font-weight:500;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    letter-spacing:.5px;
+
 }
 
 .legacy{
 
-    background:#f8f8f8;
-
-    padding:80px 50px;
+    padding:20px 50px 80px; 
 
     text-align:center;
+
+    background:
+        linear-gradient(rgba(15,23,42,.85), rgba(15,23,42,.85)),
+        url("../images/background.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
 
 }
 
 .legacy h2{
-
+     
+    color:white;
+  	
     font-size:42px;
 
     margin-bottom:50px;
-
+   
 }
 
 .timeline{
@@ -346,15 +565,17 @@ nav ul li{
 
 .timeline-card{
 
-    background:white;
+    background:#FFFFFF;
 
     padding:30px;
 
-    border-radius:10px;
+    border-radius:12px;
 
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
 
-    transition:0.3s;
+    border-top:5px solid #D4AF37;
+
+    transition:.3s;
 
 }
 
@@ -362,6 +583,7 @@ nav ul li{
 
     transform:translateY(-8px);
 
+    box-shadow:0 15px 30px rgba(0,0,0,.12);
 }
 
 .timeline-card h3{
@@ -382,7 +604,7 @@ nav ul li{
 
 .leadership{
 
-    padding:80px 60px;
+    padding:20px 50px 80px;
 
     background:#ffffff;
 
@@ -470,7 +692,7 @@ nav ul li{
 
     background:
     linear-gradient(rgba(15,23,42,.65),rgba(15,23,42,.65)),
-    url("../images/career.jpg");
+    url("../images/careerback.jpg");
 
     background-size:cover;
     background-position:center;
@@ -622,7 +844,7 @@ nav ul li{
 
     background:
     linear-gradient(rgba(15,23,42,.7),rgba(15,23,42,.7)),
-    url("../images/hero.jpg");
+    url("../images/careerback.jpg");
 
     background-size:cover;
 
@@ -715,21 +937,29 @@ nav ul li{
 
     gap:40px;
 
-    padding:80px 60px;
+    padding:80px 60px 20px 60px; 
 
-    background:#f8f8f8;
+    background:
+        linear-gradient(rgba(15,23,42,.85), rgba(15,23,42,.85)),
+        url("../images/background.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
 
 }
 
 .mv-card{
 
-    background:white;
+    background:#FFFFFF;
 
     padding:40px;
 
     border-radius:12px;
 
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
 
     border-top:5px solid #D4AF37;
 
@@ -737,15 +967,19 @@ nav ul li{
 
 }
 
+
 .mv-card:hover{
 
     transform:translateY(-8px);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.12);
+
 
 }
 
 .mv-card h2{
 
-    color:#0f172a;
+    color:#0f172a; 
 
     font-size:36px;
 
@@ -875,9 +1109,12 @@ nav ul li{
 
 .contact{
 
-    padding:90px 70px;
+    padding:80px 60px 20px 60px;
+    background:
+        linear-gradient(rgba(15,23,42,.85), rgba(15,23,42,.85)),
+        url("../images/careerback.jpg");
 
-    background:#0f172a;
+    
 
 }
 
@@ -1141,8 +1378,11 @@ nav ul li{
     }
 
     .hero-bottom{
-        padding:0 20px 30px;
+
         justify-content:center;
+
+        padding:0 20px 30px;
+
     }
 
     .hero-btn{
@@ -1179,7 +1419,8 @@ nav ul li{
 
     .mission-vision{
         grid-template-columns:1fr;
-        padding:40px 20px;
+        padding:80px 60px 20px 60px;
+    aransition:0.3s;
     }
 
     .timeline{
@@ -1347,9 +1588,9 @@ nav ul li{
 .service-card {
   background: #fff;
   padding: 22px;
-  border-radius: 14px;
-
-  border: 2px solid #1e63b5;
+  border-radius: 14px;  
+  
+  border-top: 10px solid #1e63b5;
 
   /* ✨ Soft premium shadow */
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08),
@@ -1419,3 +1660,122 @@ nav ul li{
   gap: 25px;
   margin-top: 20px;
 }
+
+
+/* ===================================
+   Practice Areas Mobile Responsive
+=================================== */
+
+@media screen and (max-width:768px){
+
+    .practice-hero{
+
+        min-height:auto;
+        padding:100px 20px 60px;
+
+    }
+
+    .practice-hero h1{
+
+        font-size:38px;
+
+    }
+
+    .practice-hero p{
+
+        font-size:18px;
+
+        line-height:1.7;
+
+    }
+
+    .main-title{
+
+        font-size:34px;
+
+        text-align:center;
+
+        margin-bottom:30px;
+
+    }
+
+    .section-title{
+
+        font-size:28px;
+
+        text-align:center;
+
+        margin-bottom:25px;
+
+    }
+
+    .service-grid{
+
+        display:grid;
+
+        grid-template-columns:1fr;
+
+        gap:20px;
+
+        padding:0 20px;
+
+    }
+
+    .service-card{
+
+        width:100%;
+
+        padding:25px;
+
+    }
+
+    .service-card h4{
+
+        font-size:22px;
+
+    }
+
+    .service-card p{
+
+        font-size:16px;
+
+    }
+
+    .service-card ul{
+
+        padding-left:18px;
+
+    }
+
+    .service-card li{
+
+        font-size:15px;
+
+        line-height:1.8;
+
+    }
+
+    .why{
+
+        padding:50px 20px;
+
+    }
+
+    .why h2{
+
+        font-size:30px;
+
+    }
+
+    .why-grid{
+
+        display:grid;
+
+        grid-template-columns:1fr;
+
+        gap:20px;
+
+    }
+
+}
+
