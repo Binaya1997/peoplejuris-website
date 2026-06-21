@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
@@ -7,15 +9,32 @@
           content="width=device-width, initial-scale=1.0">
 
     <meta name="description"
-          content="Book a premium legal consultation with PeopleJuris for corporate, civil, criminal, property and business matters.">
+          content="Submit your request for a standard legal consultation with PeopleJuris. Receive preliminary legal guidance from experienced advocates.">
 
     <meta name="keywords"
-          content="PeopleJuris, Premium Consultation, Corporate Law, Property Law, Criminal Law, Business Law">
+          content="PeopleJuris, Standard Consultation, Legal Advice, Civil Law, Criminal Law, Family Law">
 
     <meta name="author"
           content="PeopleJuris">
+    <nav>
 
-    <title>Premium Consultation | PeopleJuris</title>
+       <div class="logo">PeopleJuris</div>
+
+       <ul>
+
+           <li><a href="index.html">Home</a></li>
+
+           <li><a href="practice-areas.html">Practice Areas</a></li>
+
+           <li><a href="career.html">Career</a></li>
+
+           <li><a href="consultation.html">Consultation</a></li>
+
+        </ul>
+
+    </nav>
+
+    <title>Standard Consultation | PeopleJuris</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect"
@@ -35,12 +54,11 @@
     <!-- Main CSS -->
     <link rel="stylesheet"
           href="css/style.css">
-
-    <!-- Mobile CSS -->
+        
+     <!-- Mobile CSS -->
 
     <link rel="stylesheet" href="css/mobile.css">
-
-
+   
 </head>
 
 <style>
@@ -51,14 +69,14 @@ body{
     background:#f7f7f7;
 }
 
-.paid-hero{
+.free-hero{
 
     background:
     linear-gradient(rgba(15,23,42,.75),rgba(15,23,42,.75)),
     url("images/careerback.jpg");
 
     background-size:cover;
-    background-position:center;
+    background-position:center -80px; ;
 
     height:55vh;
 
@@ -68,7 +86,7 @@ body{
 
     color:white;
     text-align:center;
-   
+    
     animation: waveGlow 2s ease-in-out infinite;
 
 }
@@ -83,14 +101,15 @@ body{
     }
 }
 
-.paid-hero h1{
+
+.free-hero h1{
 
     font-size:58px;
     margin-bottom:15px;
 
 }
 
-.paid-hero p{
+.free-hero p{
 
     font-size:22px;
     max-width:850px;
@@ -242,7 +261,7 @@ footer{
 
 </style>
 
-</head>
+
 
 <body>
 
@@ -264,16 +283,17 @@ footer{
 
 </nav>
 
-<section class="paid-hero">
+<section class="free-hero">
 
 <div>
 
-<h1>Paid Legal Consultation</h1>
+<h1>Standard Consultation</h1>
 
 <p>
 
-Receive dedicated legal assistance from experienced advocates
-for corporate, civil, criminal, property and business matters.
+Receive preliminary legal guidance from PeopleJuris.
+Fill in the details below and our legal team will review
+your request and contact you if required.
 
 </p>
 
@@ -285,14 +305,14 @@ for corporate, civil, criminal, property and business matters.
 
 <div class="form-box">
 
-<h2>Book Premium Consultation</h2>
+<h2>Standard Consultation Application</h2>
 
 <div class="info">
 
-<strong>Professional Consultation:</strong>
+<strong>Note:</strong>
 
-Choose your preferred legal service and consultation mode.
-Our team will contact you to confirm your appointment.
+This service provides initial legal guidance only.
+Submission of this form does not create an Advocate-Client relationship.
 
 </div>
 
@@ -303,7 +323,7 @@ enctype="multipart/form-data">
 
 <input type="hidden"
 name="_subject"
-value="New Paid Consultation Request">
+value="New Free Consultation Request">
 
 <input type="hidden"
 name="_captcha"
@@ -348,53 +368,51 @@ required>
 
 <div class="form-group">
 
-<label>Company / Organization (Optional)</label>
-
-<input
-type="text"
-name="Company">
-
-</div>
-
-<div class="form-group">
-
 <label>Address</label>
 
 <textarea
-rows="3"
-name="Address"></textarea>
+name="Address"
+rows="3"></textarea>
 
 </div>
 
 <div class="form-group">
 
-<label>Select Practice Area *</label>
+<label>Occupation</label>
+
+<input
+type="text"
+name="Occupation">
+
+</div>
+
+<div class="form-group">
+
+<label>Select Legal Service *</label>
 
 <select
-name="Practice Area"
+name="Service"
 required>
 
-<option value="">Select Practice Area</option>
+<option value="">Choose Service</option>
 
-<option>Corporate Law</option>
+<option>General Legal Advice</option>
 
-<option>Civil Litigation</option>
+<option>Consumer Law Advice</option>
 
-<option>Criminal Law</option>
+<option>Family Law Guidance</option>
 
-<option>Property & Land Matters</option>
+<option>Civil Law Guidance</option>
 
-<option>Consumer Law</option>
+<option>Criminal Law Guidance</option>
 
-<option>Business Compliance</option>
+<option>Property Law Guidance</option>
 
-<option>Contract Drafting</option>
+<option>Women Rights</option>
 
-<option>Arbitration</option>
+<option>Senior Citizen Rights</option>
 
-<option>Legal Notice Drafting</option>
-
-<option>Startup Advisory</option>
+<option>Document Review</option>
 
 <option>Other</option>
 
@@ -404,54 +422,23 @@ required>
 
 <div class="form-group">
 
-<label>Preferred Consultation Mode *</label>
-
-<select
-name="Consultation Mode"
-required>
-
-<option value="">Choose Mode</option>
-
-<option>Office Visit</option>
-
-<option>Video Consultation</option>
-
-<option>Phone Consultation</option>
-
-</select>
-
-</div>
-
-<div class="form-group">
-
-<label>Preferred Date *</label>
-
-<input
-type="date"
-name="Preferred Date"
-required>
-
-</div>
-
-<div class="form-group">
-
-<label>Preferred Time *</label>
-
-<input
-type="time"
-name="Preferred Time"
-required>
-
-</div>
-
-<div class="form-group">
-
-<label>Describe Your Matter *</label>
+<label>Describe Your Legal Issue *</label>
 
 <textarea
 rows="6"
-name="Legal Matter"
+name="Issue"
 required></textarea>
+
+</div>
+
+<div class="form-group">
+
+<label>Upload Identity Proof (Optional)</label>
+
+<input
+type="file"
+name="Identity Proof"
+accept=".pdf,.jpg,.jpeg,.png">
 
 </div>
 
@@ -473,16 +460,14 @@ accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
 type="checkbox"
 required>
 
-I agree to the consultation terms and conditions.
+I agree that the information provided is true and correct.
 
 </div>
 
 <button
 class="submit-btn"
 type="submit">
-
 Submit
-
 </button>
 
 </form>
@@ -491,11 +476,9 @@ Submit
 
 <b>Disclaimer:</b>
 
-Submission of this form is a consultation request only.
-PeopleJuris will review your request and contact you to confirm
-availability, consultation fees, and appointment details.
-Submission does not create an Advocate-Client relationship until
-the engagement is formally accepted.
+The submission of this application is only a request for legal guidance.
+PeopleJuris reserves the right to accept or decline consultation requests.
+Submission of this form does not establish an Advocate-Client relationship.
 
 </div>
 

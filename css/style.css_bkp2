@@ -5,27 +5,30 @@
 html{
     scroll-behavior:smooth;
     background:#0f172a;
+    overflow-x:hidden;
 }
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
+   
 }
 
-
-/* ==================================================
-   TYPOGRAPHY
-================================================== */
+html,
+body{
+    overflow-x:hidden;
+    max-width:100%;
+}
 
 body{
-
     font-family:'Inter',sans-serif;
-
     line-height:1.7;
-
     padding-top:80px;
-
+    background:#f2f7fd;
+    color:#4b5563;
+    overflow-x:hidden;
+    
 }
 
 h1,
@@ -74,10 +77,8 @@ p{
 
 nav{
 
-    background:rgba(15,23,42,.95);
-
-    backdrop-filter:blur(12px);
-
+    background:#0f172a;
+   
     color:white;
 
     padding:22px 60px;
@@ -95,6 +96,8 @@ nav{
     left:0;
 
     width:100%;
+ 
+    box-sizing:border-box;
 
     z-index:1000;
 
@@ -118,35 +121,29 @@ nav ul{
 
     display:flex;
 
-    align-items:center;
-
-    gap:40px;
+    gap:50px;
 
 }
 
 nav ul li{
 
-    font-size:16px;
+    font-size:17px;
 
-    font-weight:500;
+    font-weight:600;
 
-    letter-spacing:.8px;
-
-    
+    letter-spacing:.5px;
 
 }
 
 nav a{
 
-    color:#D4AF37;
+    color:white;
 
     text-decoration:none;
 
     position:relative;
 
     transition:.3s;
-
-    padding-bottom:8px;
 
 }
 
@@ -162,7 +159,7 @@ nav a::after{
 
     position:absolute;
 
-    left:50%;
+    left:0;
 
     bottom:-8px;
 
@@ -171,8 +168,6 @@ nav a::after{
     height:2px;
 
     background:#D4AF37;
-
-    transform:translateX(-50%);
 
     transition:.3s;
 
@@ -207,18 +202,16 @@ nav a:hover::after{
 .hero{
 
     position:relative;
-    
-    padding-top:80px;
 
     overflow:hidden;
- 
+
     background:
     linear-gradient(rgba(15,23,42,0.02),rgba(15,23,42,0.02)),
     url("../images/heroclasic.jpg");
 
-    background-size:100%;
+    background-size:cover;
 
-    background-position:center center;
+    background-position:center;
 
     background-repeat:no-repeat;
 
@@ -229,6 +222,18 @@ nav a:hover::after{
     align-items:flex-end;
 
     animation:heroZoom 12s ease-in-out infinite alternate;
+
+}
+
+@keyframes heroZoom{
+
+    0%{
+        background-size:100%;
+    }
+
+    100%{
+        background-size:103%;
+    }
 
 }
 
@@ -262,34 +267,14 @@ nav a:hover::after{
 }
 
 .hero-bottom{
-
     width:100%;
-
     display:flex;
-
     justify-content:flex-end;
-
     align-items:flex-end;
-
     padding:0 80px 40px;
-
+    box-sizing:border-box;
 }
 
-@keyframes heroZoom{
-
-    0%{
-
-        background-size:100%;
-
-    }
-
-    100%{
-
-        background-size:107%;
-
-    }
-
-}
 
 @keyframes shine{
 
@@ -583,8 +568,7 @@ nav a:hover::after{
 }
 
 .legal-services{
-    background:#f2f7fd;
-    padding:80px 0;
+    padding:60px;
 }
 
 .service-section{
@@ -840,40 +824,35 @@ nav a:hover::after{
 ================================================== */
 
 .career-hero{
+    position: relative;
+    overflow: hidden;
+}
+
+.career-hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
 
     background:
     linear-gradient(rgba(15,23,42,.65),rgba(15,23,42,.65)),
     url("../images/careerback.jpg");
 
     background-size:cover;
-
     background-position:center;
 
-    min-height:80vh;
+    z-index:-1;
 
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    text-align:center;
-
-    color:white;
-    
-     animation: luxuryMove 15s ease-in-out infinite alternate;
-
+    animation:bgZoom 15s ease-in-out infinite alternate;
 }
 
-@keyframes luxuryMove {
-    0% {
-        transform: scale(1) translateY(0);
+@keyframes bgZoom{
+    from{
+        transform:scale(1);
     }
-    100% {
-        transform: scale(1.02) translateY(-5px);
+    to{
+        transform:scale(1.03);
     }
 }
-
 
 
 .career-overlay{
@@ -921,6 +900,10 @@ nav a:hover::after{
     margin-bottom:35px;
 
 }
+
+/* ==================================================
+   APPLICATION
+================================================== */
 
 /* ==================================================
    APPLICATION
@@ -1081,44 +1064,19 @@ nav a:hover::after{
    PRACTICE AREA
 ================================================== */
 
-.practice-hero{
-
-    background:
-    linear-gradient(rgba(15,23,42,.7),rgba(15,23,42,.7)),
-    url("../images/careerback.jpg");
-
-    background-size:cover;
-
-    background-position:center;
-
-    height:50vh;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    text-align:center;
-    
-    animation: heroFloat 8s ease-in-out infinite;	
-}
-
-@keyframes heroFloat {
-    0%,100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
-}
 
 .practice-hero h1{
+    animation:titleFloat 4s ease-in-out infinite;
+}
 
-    font-size:60px;
+@keyframes titleFloat{
+    0%,100%{
+        transform:translateY(0);
+    }
 
+    50%{
+        transform:translateY(-6px);
+    }
 }
 
 .practice-hero p{
@@ -1180,17 +1138,12 @@ nav a:hover::after{
 
 .mv-card,
 .timeline-card{
-    background: #fafafa;
-    padding: 35px;
-    border-radius: 18px;
-    border-top: 3px solid #d4af37;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:.4s ease;
 }
 
 .mv-card:hover,
 .timeline-card:hover{
-    transform: translateY(-5px) scale(1.03);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    transform:translateY(-5px) scale(1.02);
 }
 
 /* Vision and Mission headings */
@@ -1361,7 +1314,7 @@ nav a:hover::after{
     background:
     linear-gradient(135deg,#0f172a,#13223d,#0f172a);
 
-    background-size:cover;
+    background-size:300% 300%;
 
     animation:gradientMove 12s ease infinite;
 
@@ -1369,7 +1322,7 @@ nav a:hover::after{
 
     text-align:center;
 
-    margin-top:0px;
+    margin-top:40px;
 
 }
 
@@ -1860,126 +1813,5 @@ footer a{
 footer a:hover{
 
     color:white;
-
-
-}
-
-/* ==================================================
-   MOBILE VIEW
-================================================== */
-
-@media (max-width:768px){
-
-    body{
-        overflow-x:hidden;
-    }
-
-    nav{
-        padding:18px 20px;
-    }
-
-    .logo{
-        font-size:1.5rem;
-    }
-
-    .menu-toggle{
-        display:block;
-    }
-
-    nav ul{
-        position:absolute;
-        top:80px;
-        left:0;
-        width:100%;
-        background:#13223d;
-        flex-direction:column;
-        gap:20px;
-        padding:25px;
-        display:none;
-    }
-
-    nav ul.active{
-        display:flex;
-    }
-
-    /* HERO */
-
-    .hero{
-
-        background-size:cover;
-
-        background-position:center;
-
-        min-height:50vh;
-
-        padding-top:100px;
-
-    }
-
-    .hero-bottom{
-
-        justify-content:center;
-
-        padding:20px;
-
-    }
-
-    .hero-btn{
-
-        width:240px;
-
-        text-align:center;
-
-    }
-
-    /* ABOUT */
-
-    .about{
-
-        flex-direction:column;
-
-        gap:40px;
-
-        padding:60px 20px;
-
-    }
-
-    .about-image{
-
-        position:static;
-
-        min-width:0;
-
-        width:100%;
-
-        text-align:center;
-
-    }
-
-    .about-image img{
-
-        width:100%;
-
-        max-width:320px;
-
-        height:auto;
-
-    }
-
-    .about-content{
-
-        width:100%;
-
-        max-width:100%;
-
-    }
-
-    .about-content h2{
-
-        font-size:48px;
-
-        text-align:center;
-
-    }
 
 }
