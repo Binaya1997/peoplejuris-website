@@ -12,6 +12,12 @@ html{
     box-sizing:border-box;
 }
 
+html,
+body{
+    background:#0f172a;
+    overflow-x:hidden;
+}
+
 /* ==================================================
    TYPOGRAPHY
 ================================================== */
@@ -23,8 +29,6 @@ body{
     line-height:1.7;
 
     padding-top:80px;
-
-    background:#f2f7fd;
 
     color:#4b5563;
 
@@ -97,6 +101,8 @@ nav{
     left:0;
 
     width:100%;
+ 
+    box-sizing:border-box;
 
     z-index:1000;
 
@@ -104,12 +110,13 @@ nav{
 
     box-shadow:0 10px 30px rgba(0,0,0,.25);
 
+
 }
 
 .logo{
     font-family: "Inter", sans-serif;
-    font-size: 2rem;
-    font-weight: 600;
+    font-size: 1.8rem;
+    font-weight: 400;
     color: white;
 }
 
