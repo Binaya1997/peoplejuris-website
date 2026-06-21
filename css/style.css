@@ -208,10 +208,10 @@ nav a:hover::after{
 
     position:relative;
     
-    padding-top:80px;
+    padding-top:10px;
 
     background:
-    linear-gradient(rgba(15,23,42,0.02),rgba(15,23,42,0.02)),
+    linear-gradient(rgba(10,20,20,0.01),rgba(10,20,20,0.01)),
     url("../images/heroclasic.jpg");
 
     background-size:cover;
