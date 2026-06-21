@@ -107,17 +107,10 @@ nav{
 }
 
 .logo{
-
-    font-family:'Cormorant Garamond',serif;
-
-    font-size:34px;
-
-    font-weight:700;
-
-    letter-spacing:1px;
-
-    color:#D4AF37;
-
+    font-family: "Inter", sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    color: white;
 }
 
 nav ul{
