@@ -219,7 +219,7 @@ nav a:hover::after{
 
     background:
         linear-gradient(rgba(8,18,35,.08),rgba(8,18,35,.08)),
-        url("../images/heroclasic.jpg");
+        url("../images/heroclasic.png");
 
     background-size:103%;
 
