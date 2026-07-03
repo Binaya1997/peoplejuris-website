@@ -153,7 +153,11 @@ label{
 
 }
 
-input,
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="number"],
 textarea,
 select{
 
@@ -166,6 +170,38 @@ select{
     border-radius:6px;
 
     font-size:16px;
+
+}
+
+.agree-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:22px;
+
+}
+
+.agree-box input[type="checkbox"]{
+
+    width:18px;
+
+    height:18px;
+
+    margin:0;
+
+    cursor:pointer;
+
+}
+
+.agree-box label{
+
+    cursor:pointer;
+
+    line-height:1.5;
 
 }
 
@@ -249,7 +285,12 @@ footer{
 
 <nav>
 
-<div class="logo">PeopleJuris</div>
+<div class="logo">
+    <img src="images/favicon.png" alt="PeopleJuris Logo">
+    <span>PeopleJuris</span>
+</div>
+
+<div class="menu-toggle" id="menuToggle"> ☰  </div>
 
 <ul>
 
@@ -458,6 +499,18 @@ required></textarea>
 
 <div class="form-group">
 
+<label>Upload Identity Proof (Optional)</label>
+
+<input
+type="file"
+name="Identity Proof"
+accept=".pdf,.jpg,.jpeg,.png">
+
+</div>
+
+
+<div class="form-group">
+
 <label>Upload Supporting Documents</label>
 
 <input
@@ -468,13 +521,16 @@ accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
 
 </div>
 
-<div class="form-group">
+<div class="form-group agree-box">
 
-<input
-type="checkbox"
-required>
+    <input
+        type="checkbox"
+        id="agree"
+        required>
 
-I agree to the consultation terms and conditions.
+    <label for="agree">
+        I agree that the information provided is true and correct.
+    </label>
 
 </div>
 

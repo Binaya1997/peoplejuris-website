@@ -101,6 +101,12 @@ nav{
 
 .logo{
 
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
     font-family:"Inter",sans-serif;
 
     font-size:1.8rem;
@@ -108,6 +114,20 @@ nav{
     font-weight:600;
 
     color:white;
+
+    text-decoration:none;
+
+}
+
+.logo img{
+
+    width:40px;
+
+    height:40px;
+
+    object-fit:contain;
+
+    display:block;
 
 }
 
@@ -181,23 +201,15 @@ nav a:hover::after{
 
 }
 
-/* ==================================================
-   HERO
-================================================== */
+/*==================================
+ HERO SECTION
+==================================*/
 
 .hero{
 
     position:relative;
 
-    background:
-    linear-gradient(rgba(10,20,20,.01),rgba(10,20,20,.01)),
-    url("../images/heroclasic.jpg");
-
-    background-size:cover;
-
-    background-position:center;
-
-    background-repeat:no-repeat;
+    overflow:hidden;
 
     min-height:60vh;
 
@@ -205,71 +217,100 @@ nav a:hover::after{
 
     align-items:flex-end;
 
-    animation: heroZoom 12s ease-in-out infinite alternate;
+    background:
+        linear-gradient(rgba(8,18,35,.08),rgba(8,18,35,.08)),
+        url("../images/heroclasic.jpg");
+
+    background-size:103%;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+    animation:heroMove 10s ease-in-out infinite alternate;
 
 }
+
+
+/*==============================
+ Glass Reflection
+==============================*/
 
 .hero::before{
 
     content:"";
 
-    position:absolute;
+    position:relative;
 
     top:0;
 
-    left:-120%;
+    left:-150%;
 
-    width:50%;
+    width:60%;
 
     height:100%;
 
     background:
-    linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,.18),
-    rgba(255,255,255,.28),
-    rgba(255,255,255,.18),
-    transparent);
+
+        linear-gradient(
+
+            110deg,
+
+            transparent 15%,
+
+            rgba(255,255,255,.05),
+
+            rgba(255,255,255,.18),
+
+            rgba(255,255,255,.30),
+
+            rgba(255,255,255,.18),
+
+            rgba(255,255,255,.05),
+
+            transparent 85%
+
+        );
 
     transform:skewX(-20deg);
 
-    animation:shine 6s linear infinite;
+    animation:glassMove 8s linear infinite;
+
+    pointer-events:none;
+
+    z-index:10;
 
 }
 
 
-@keyframes heroZoom{
+/*==============================
+ Dark Edge Vignette
+==============================*/
 
-    0%{
+.hero::after{
 
-        background-size:100%;
+    content:"";
 
-    }
+    position:absolute;
 
-    100%{
+    inset:0;
 
-        background-size:107%;
+    pointer-events:none;
 
-    }
+    background:
 
-}
+        radial-gradient(circle at center,
 
-@keyframes shine{
+        transparent 55%,
 
-    0%{
-
-        left:-120%;
-
-    }
-
-    100%{
-
-        left:120%;
-
-    }
+        rgba(0,0,0,.18) 100%);
 
 }
+
+
+/*==============================
+ Bottom Content
+==============================*/
 
 .hero-bottom{
 
@@ -283,7 +324,355 @@ nav a:hover::after{
 
     padding:0 80px 40px;
 
+    position:relative;
+
+    z-index:5;
+
 }
+
+
+/*==============================
+ Blue Glow
+==============================*/
+
+.blue-glow{
+
+    position:absolute;
+
+    left:-100px;
+
+    bottom:0;
+
+    width:320px;
+
+    height:320px;
+
+    border-radius:50%;
+
+    z-index:1;
+
+    background:
+
+        radial-gradient(circle,
+
+        rgba(0,132,255,.55),
+
+        rgba(0,132,255,.15),
+
+        transparent 75%);
+
+    filter:blur(60px);
+
+    animation:blueGlow 5s ease-in-out infinite alternate;
+
+}
+
+
+/*==============================
+ Orange Glow
+==============================*/
+
+.orange-glow{
+
+    position:absolute;
+
+    right:-100px;
+
+    bottom:0;
+
+    width:320px;
+
+    height:320px;
+
+    border-radius:50%;
+    
+    z-index:1;
+
+    background:
+
+        radial-gradient(circle,
+
+        rgba(255,95,0,.55),
+
+        rgba(255,95,0,.15),
+
+        transparent 75%);
+
+    filter:blur(60px);
+
+    animation:orangeGlow 5s ease-in-out infinite alternate;
+
+}
+
+
+/*==============================
+ Floating Particles
+==============================*/
+
+.particles{
+
+    position:absolute;
+
+    inset:0;
+
+    overflow:hidden;
+
+    pointer-events:none;
+
+    z-index:1;
+
+}
+
+.particles span{
+
+    position:absolute;
+
+    width:4px;
+
+    height:4px;
+
+    background:rgba(255,255,255,.6);
+
+    border-radius:50%;
+
+    animation:floatParticle 12s linear infinite;
+
+}
+
+.particles span:nth-child(1){
+
+    left:10%;
+
+    bottom:-20px;
+
+    animation-delay:0s;
+
+}
+
+.particles span:nth-child(2){
+
+    left:25%;
+
+    bottom:-20px;
+
+    animation-delay:2s;
+
+}
+
+.particles span:nth-child(3){
+
+    left:45%;
+
+    bottom:-20px;
+
+    animation-delay:4s;
+
+}
+
+.particles span:nth-child(4){
+
+    left:60%;
+
+    bottom:-20px;
+
+    animation-delay:6s;
+
+}
+
+.particles span:nth-child(5){
+
+    left:78%;
+
+    bottom:-20px;
+
+    animation-delay:8s;
+
+}
+
+.particles span:nth-child(6){
+
+    left:92%;
+
+    bottom:-20px;
+
+    animation-delay:10s;
+
+}
+
+
+/*==============================
+ Light Beam
+==============================*/
+
+.hero-light{
+
+    position:absolute;
+
+    top:-40%;
+
+    left:-40%;
+
+    width:45%;
+
+    height:180%;
+
+    z-index:1;
+
+    background:
+
+        linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        rgba(255,255,255,.08),
+
+        transparent);
+
+    transform:rotate(-20deg);
+
+    animation:lightBeam 12s linear infinite;
+
+}
+
+
+/*==============================
+ Animations
+==============================*/
+
+@keyframes heroMove{
+
+    0%{
+
+        background-size:103%;
+
+        background-position:50% 50%;
+
+    }
+
+    50%{
+
+        background-size:105%;
+
+        background-position:51% 49%;
+
+    }
+
+    100%{
+
+        background-size:103%;
+
+        background-position:49% 51%;
+
+    }
+
+}
+
+@keyframes glassMove{
+
+    from{
+
+        left:-150%;
+
+    }
+
+    to{
+
+        left:150%;
+
+    }
+
+}
+
+@keyframes blueGlow{
+
+    from{
+
+        opacity:.45;
+
+        transform:scale(1);
+
+    }
+
+    to{
+
+        opacity:.9;
+
+        transform:scale(1.15);
+
+    }
+
+}
+
+@keyframes orangeGlow{
+
+    from{
+
+        opacity:.45;
+
+        transform:scale(1);
+
+    }
+
+    to{
+
+        opacity:.9;
+
+        transform:scale(1.15);
+
+    }
+
+}
+
+@keyframes floatParticle{
+
+    0%{
+
+        transform:translateY(0);
+
+        opacity:0;
+
+    }
+
+    20%{
+
+        opacity:.8;
+
+    }
+
+    80%{
+
+        opacity:.3;
+
+    }
+
+    100%{
+
+        transform:translateY(-450px);
+
+        opacity:0;
+
+    }
+
+}
+
+@keyframes lightBeam{
+
+    from{
+
+        transform:translateX(-120%) rotate(-20deg);
+
+    }
+
+    to{
+
+        transform:translateX(260%) rotate(-20deg);
+
+    }
+
+}
+
 
 /* ==================================================
    BUTTONS
@@ -1243,6 +1632,8 @@ nav a:hover::after{
 .card ul{
 
     list-style:none;
+
+    z-index:1;
 
     padding-left:0;
 
