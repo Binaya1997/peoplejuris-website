@@ -39,34 +39,35 @@
 
 	}
 
-	.menu-toggle {
+	/* Hide hamburger icon */
+    .menu-toggle {
 
-		display: block;
+       display: none;
 
-	}
+    }
 
-	nav ul {
+/* Always show menu */
+    nav ul {
 
-		position: absolute;
+       position: static;
 
-		top: 80px;
+       display: flex;
 
-		left: 0;
+       flex-direction: row;
 
-		width: 100%;
+       justify-content: center;
 
-		background: #13223d;
+       align-items: center;
 
-		flex-direction: column;
+       gap: 15px;
 
-		gap: 20px;
+       width: auto;
 
-		padding: 25px;
+       background: transparent;
 
-		display: none;
+       padding: 0;
 
-	}
-
+    }
 	nav ul.active {
 
 		display: flex;
