@@ -132,10 +132,9 @@
 
 		flex-direction: column;
 
-		gap: 10px;
+		gap: 40px;
 
-		padding: 5px;
-
+                padding: 40px 20px;
 	}
 
 	.about-image {
