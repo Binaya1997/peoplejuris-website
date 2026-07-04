@@ -42,7 +42,7 @@
 	/* Hide hamburger icon */
     .menu-toggle {
 
-       display: none;
+       display: block;
 
     }
 
