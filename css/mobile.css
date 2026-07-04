@@ -38,41 +38,40 @@
 		font-size: 1.5rem;
 
 	}
-
-	/* Hide hamburger icon */
     .menu-toggle {
 
-       display: block;
+        display: block;
 
     }
 
-/* Always show menu */
     nav ul {
 
-       position: static;
+        position: absolute;
 
-       display: flex;
+        top: 80px;
 
-       flex-direction: row;
+        left: 0;
 
-       justify-content: center;
+        width: 100%;
 
-       align-items: center;
+        background: #13223d;
 
-       gap: 15px;
+        flex-direction: column;
 
-       width: auto;
+        gap: 20px;
 
-       background: transparent;
+        padding: 25px;
 
-       padding: 0;
+        display: none;
 
-    }
-	nav ul.active {
+     }
 
-		display: flex;
+     nav ul.active {
 
-	}
+        display: flex;
+
+     }
+	
 
 	/* ==================================================
        HERO
