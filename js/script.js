@@ -1,3 +1,5 @@
+console.log("script.js loaded successfully");
+
 let prevScrollPos = window.pageYOffset;
 
 window.onscroll = function () {
