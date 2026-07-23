@@ -4,18 +4,18 @@ window.onscroll = function () {
 
     let currentScrollPos = window.pageYOffset;
 
+    // Ignore very small scroll movements
+    if (Math.abs(currentScrollPos - prevScrollPos) < 20) {
+        return;
+    }
+
     if (prevScrollPos > currentScrollPos) {
-
         document.querySelector("nav").style.top = "0";
-
     } else {
-
         document.querySelector("nav").style.top = "-90px";
-
     }
 
     prevScrollPos = currentScrollPos;
-
 };
 
 document.addEventListener("DOMContentLoaded", function () {
