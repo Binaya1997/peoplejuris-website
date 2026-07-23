@@ -5,7 +5,7 @@ window.onscroll = function () {
     let currentScrollPos = window.pageYOffset;
 
     // Ignore very small scroll movements
-    if (Math.abs(currentScrollPos - prevScrollPos) < 20) {
+    if (Math.abs(currentScrollPos - prevScrollPos) < 50) {
         return;
     }
 
