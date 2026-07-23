@@ -102,32 +102,36 @@ nav{
 .logo{
 
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
     font-family:"Inter",sans-serif;
-
     font-size:1.8rem;
-
     font-weight:600;
-
     color:white;
-
-    text-decoration:none;
 
 }
 
+
 .logo img{
 
-    width:40px;
+    width:45px;
 
-    height:40px;
+    height:45px;
 
     object-fit:contain;
 
     display:block;
+
+}
+
+.logo span{
+
+    display:flex;
+
+    align-items:center;
+
+    line-height:1;
 
 }
 
@@ -221,7 +225,7 @@ nav a:hover::after{
         linear-gradient(rgba(8,18,35,.08),rgba(8,18,35,.08)),
         url("../images/heroclasic.png");
 
-    background-size:80%;
+    background-size:130%;
 
     background-position:center;
 
@@ -806,16 +810,7 @@ nav a:hover::after{
 }
 
 
-/* ==================================================
-   MISSION & VISION $ LEGACY
-================================================== 
-
-.about-values {
-    padding: 100px 5%;
-    background: linear-gradient(rgba(15, 23, 42, 0.02), rgba(15, 23, 42, 0.02)), url(../images/careerback.jpg);
-}
-
-===================================================*/
+/*===================================================*/
 
 .about-values{
 
@@ -1637,21 +1632,6 @@ nav a:hover::after{
 
 }
 
-@keyframes luxuryMove{
-
-    0%{
-
-        transform:scale(1) translateY(0);
-
-    }
-
-    100%{
-
-        transform:scale(2) translateY(-10px);
-
-    }
-
-}
 
 .career-overlay h1{
 
@@ -1840,7 +1820,15 @@ nav a:hover::after{
 
     height:100%;
 
-    background:red;
+    background:
+    linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.06),
+    rgba(255,255,255,.15),
+    rgba(255,255,255,.06),
+    transparent
+    );
 
     opacity:.5;
 
@@ -1873,44 +1861,6 @@ nav a:hover::after{
     animation:gradientMove 20s ease-in-out infinite;
 
     z-index:1;
-
-}
-
-@keyframes shineMove{
-
-    from{
-
-        left:-150%;
-
-    }
-
-    to{
-
-        left:150%;
-
-    }
-
-}
-
-@keyframes gradientMove{
-
-    0%{
-
-        background-position:0% 0%;
-
-    }
-
-    50%{
-
-        background-position:100% 100%;
-
-    }
-
-    100%{
-
-        background-position:0% 0%;
-
-    }
 
 }
 
@@ -2228,7 +2178,628 @@ footer a{
     font-size:16px;
 
     cursor:pointer;
+}
+
+/*======================================
+NEWSLETTER
+======================================*/
+
+.newsletter-home{
+
+    background:#f8fafc;
+
+    padding:40px 20px;
+
+}
+
+.newsletter-card{
+
+    max-width:700px;
+
+    margin:auto;
+
+    background:#ffffff;
+
+    padding:60px;
+
+    border-radius:20px;
+
+    box-shadow:0 20px 60px rgba(0,0,0,.08);
+
+}
+
+.newsletter-card h2{
+
+    text-align:center;
+
+    font-size:42px;
+
+    color:#13223d;
+
+    margin-bottom:20px;
+
+    font-family:"Cormorant Garamond",serif;
+
+}
+
+.newsletter-card p{
+
+    text-align:center;
+
+    color:#6b7280;
+
+    font-size:18px;
+
+    line-height:1.8;
+
+    margin-bottom:40px;
+
+}
+
+.newsletter-card label{
+
+    display:block;
+
+    margin-bottom:10px;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    color:#13223d;
+
+}
+
+.newsletter-card input{
+
+    width:100%;
+
+    padding:18px 20px;
+
+    border:2px solid #d9d9d9;
+
+    border-radius:12px;
+
+    font-size:16px;
+
+    transition:.3s;
+
+    margin-bottom:30px;
+
+}
+
+.newsletter-card input:focus{
+
+    outline:none;
+
+    border-color:#D4AF37;
+
+}
+
+.newsletter-card button{
+
+    width:100%;
+
+    background:#D4AF37;
+
+    color:white;
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:18px;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.newsletter-card button:hover{
+
+    background:#b88c22;
+
+    transform:translateY(-3px);
+}
+
+/*==================================================
+NEWSLETTER ARCHIVE
+==================================================*/
+
+.newsletter-archive{
+
+    padding:20px 20px;
+
+    background:#f8fafc;
+
+}
+
+.newsletter-archive h2{
+
+    text-align:center;
+
+    font-size:46px;
+
+    color:#13223d;
+
+    margin-bottom:18px;
+
+    font-family:"Cormorant Garamond",serif;
+
+}
+
+.archive-subtitle{
+
+    text-align:center;
+
+    max-width:760px;
+
+    margin:0 auto 60px;
+
+    color:#666;
+
+    font-size:18px;
+
+    line-height:1.8;
+
+}
+
+.archive-list{
+
+    max-width:1100px;
+
+    margin:auto;
 
 }
 
 
+.archive-item:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 20px 45px rgba(0,0,0,.12);
+
+}
+
+
+.archive-badge{
+
+    display:inline-block;
+
+    background:#D4AF37;
+
+    color:#ffffff;
+
+    padding:7px 18px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    margin-bottom:18px;
+
+    font-weight:600;
+
+}
+
+.archive-content h3{
+
+    color:#13223d;
+
+    margin-bottom:12px;
+
+    font-size:30px;
+
+    font-family:"Cormorant Garamond",serif;
+
+}
+/*
+.archive-content p{
+
+    color:#666;
+
+    line-height:1.8;
+
+}*/
+
+.archive-actions{
+
+    display:flex;
+
+    justify-content:left;
+
+    align-items:center;
+    
+    flex-wrap:wrap;
+
+    gap:50px;
+
+    width:100%;
+
+    margin-top:25px;
+
+}
+
+/*
+.archive-actions{
+
+    display:flex;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+}
+*/
+
+
+/*==========================
+ONLY "Read →" LINKS
+==========================*/
+
+.archive-item > a{
+
+    text-decoration:none;
+
+    color:#D4AF37;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.archive-item > a:hover{
+
+    color:#b88c22;
+
+}
+
+.archive-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:100px;
+
+    background:#ffffff;
+
+    border-radius:20px;
+
+    padding:35px;
+
+    margin-bottom:35px;
+
+    box-shadow:0 12px 35px rgba(0,0,0,.08);
+
+    transition:.35s;
+
+}
+
+.archive-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 20px 45px rgba(0,0,0,.12);
+
+}
+
+.archive-card:hover img{
+
+transform:scale(1.03);
+
+}
+
+.archive-cover{
+
+    width:220px;
+
+    flex-shrink:0;
+
+}
+
+.archive-cover img{
+
+    width:100%;
+
+    display:block;
+
+    border-radius:14px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+    
+    transition:.35s;
+
+}
+
+.archive-content{
+
+    flex:1;
+    text-align:left;
+}
+
+/*
+.archive-content h3{
+
+    color:#13223d;
+
+    font-size:32px;
+
+    margin-bottom:15px;
+
+    font-family:"Cormorant Garamond",serif;
+
+}
+*/
+.archive-content p{
+
+    color:#666;
+
+    line-height:1.8;
+
+    margin-bottom:25px;
+
+}
+
+
+/*=========================================
+NEWSLETTER SEARCH
+=========================================*/
+
+.newsletter-search{
+
+    width:600px;
+
+    margin:0 auto 50px;
+
+}
+
+.newsletter-search input{
+
+    width:100%;
+
+    padding:18px 24px;
+
+    border:2px solid #d8d8d8;
+
+    border-radius:50px;
+
+    font-size:17px;
+
+    transition:.3s;
+
+    background:#fff;
+
+}
+
+.newsletter-search input:focus{
+
+    outline:none;
+
+    border-color:#D4AF37;
+
+    box-shadow:0 0 15px rgba(212,175,55,.25);
+
+}
+
+/*==============================
+NEWSLETTER FILTER
+==============================*/
+
+.newsletter-filter{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    margin:35px 0 55px;
+
+}
+
+.filter-btn{
+
+    background:#ffffff;
+
+    border:2px solid #D4AF37;
+
+    color:#13223d;
+
+    padding:12px 24px;
+
+    border-radius:30px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.filter-btn:hover{
+
+    background:#D4AF37;
+
+    color:#ffffff;
+
+}
+
+.filter-btn.active{
+
+    background:#D4AF37;
+
+    color:#ffffff;
+
+}
+
+/*====================================
+PAGINATION
+====================================*/
+
+.pagination{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:25px;
+
+    margin-top:40px;
+
+    flex-wrap:wrap;
+
+}
+
+
+/* Button groups
+
+.archive-actions,
+.pagination{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:25px;
+
+}
+
+*/
+
+
+.page-number{
+
+    display:inline-block;
+
+    padding:10px 16px;
+
+    margin:0 5px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    background:#eeeeee;
+
+    transition:.3s;
+
+}
+
+.page-number.active{
+
+    background:#D4AF37;
+
+    color:#ffffff;
+
+}
+
+/*====================================
+UNIVERSAL BUTTON ALIGNMENT
+====================================*/
+
+.newsletter-btn,
+.page-btn{
+
+    width:170px;
+    height:52px;
+
+    display:inline-flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    text-decoration:none;
+
+    border:none;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    box-sizing:border-box;
+
+}
+
+
+/* PDF READ BUTTON */
+
+.newsletter-btn-read{
+
+    background:#13223d;
+
+    color:white;
+
+}
+
+
+/* DOWNLOAD BUTTON */
+
+.newsletter-btn-download{
+
+    background:#D4AF37;
+
+    color:white;
+
+}
+
+
+/* PAGINATION BUTTON */
+
+.page-btn{
+
+    background:#13223d;
+
+    color:white;
+
+}
+
+
+/* Hover */
+
+.newsletter-btn:hover,
+.page-btn:hover{
+
+    transform:translateY(-3px);
+
+}
+
+
+/* Button groups 
+
+.archive-actions,
+.pagination{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:25px;
+
+}
+
+*/
