@@ -2,17 +2,21 @@ let prevScrollPos = window.pageYOffset;
 
 window.onscroll = function () {
 
-    let currentScrollPos = window.pageYOffset;
+    const nav = document.querySelector("nav");
 
-    // Ignore very small scroll movements
-    if (Math.abs(currentScrollPos - prevScrollPos) < 50) {
+    // Mobile: Always keep the navbar visible
+    if (window.innerWidth <= 768) {
+        nav.style.top = "0";
         return;
     }
 
+    // Desktop: Hide on scroll down, show on scroll up
+    let currentScrollPos = window.pageYOffset;
+
     if (prevScrollPos > currentScrollPos) {
-        document.querySelector("nav").style.top = "0";
+        nav.style.top = "0";
     } else {
-        document.querySelector("nav").style.top = "-90px";
+        nav.style.top = "-90px";
     }
 
     prevScrollPos = currentScrollPos;
