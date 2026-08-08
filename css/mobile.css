@@ -815,61 +815,81 @@
 
 	}
 
-	/* ==================================================
-   DISCLAIMER POPUP
+/* ==================================================
+   MOBILE RESPONSIVE
 ================================================== */
 
-	.popup-box {
+@media(max-width:768px){
 
-		width: 100%;
+    .disclaimer-panel{
 
-		max-height: 90vh;
+        padding:0 12px 12px;
 
-		padding: 25px 20px;
+    }
 
-		border-radius: 14px;
+    .disclaimer-content{
 
-	}
+        max-width:100%;
 
-	.popup-box h2 {
+        border-radius:18px;
 
-		font-size: 24px;
+        padding:22px 18px;
 
-	}
+    }
 
-	.popup-content p {
+    .disclaimer-content::before{
 
-		font-size: 14px;
+        width:44px;
 
-		line-height: 1.8;
+        height:44px;
 
-		text-align: left;
+        font-size:20px;
 
-	}
+        top:-22px;
 
-	.popup-content ul {
+    }
 
-		padding-left: 20px;
+    .disclaimer-header h3{
 
-	}
+        font-size:28px;
 
-	.popup-content li {
+        text-align:center;
 
-		font-size: 14px;
+    }
 
-		line-height: 1.8;
+    .disclaimer-content p{
 
-	}
+        font-size:15px;
 
-	#agreeBtn {
+        line-height:1.65;
 
-		width: 100%;
+    }
 
-		padding: 14px;
+    .disclaimer-content ul{
 
-		font-size: 15px;
+        grid-template-columns:1fr;
 
-	}
+        gap:12px;
+
+    }
+
+    .disclaimer-content li{
+
+        font-size:14px;
+
+    }
+
+    .agree-btn{
+
+        width:100%;
+
+        max-width:320px;
+
+    }
+
+}
+
+
 
         /* ==========================================
    NEWSLETTER MOBILE ALIGNMENT FIX

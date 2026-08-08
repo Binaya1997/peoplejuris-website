@@ -25,29 +25,41 @@ window.onscroll = function () {
 };
 
 document.addEventListener("DOMContentLoaded", function () {
-
+     
     /*=========================================
-      DISCLAIMER POPUP
-    =========================================*/
+  DISCLAIMER PANEL - SHOW ONLY ONCE
+=========================================*/
 
-    const popup = document.getElementById("disclaimerPopup");
-    const agreeBtn = document.getElementById("agreeBtn");
+const popup = document.getElementById("disclaimerPopup");
+const agreeBtn = document.getElementById("agreeBtn");
 
-    if (popup) {
+if (popup) {
 
-        popup.style.display = "flex";
+    const alreadyAccepted = localStorage.getItem("peoplejurisDisclaimerAccepted");
 
+    if (alreadyAccepted === "true") {
+        popup.style.display = "none";
+    } else {
+
+        setTimeout(() => {
+            popup.classList.add("show");
+        }, 500);
+
+        if (agreeBtn) {
+            agreeBtn.addEventListener("click", function () {
+
+                popup.classList.remove("show");
+
+                localStorage.setItem("peoplejurisDisclaimerAccepted", "true");
+
+                setTimeout(() => {
+                    popup.style.display = "none";
+                }, 500);
+            });
+        }
     }
+}
 
-    if (agreeBtn) {
-
-        agreeBtn.addEventListener("click", function () {
-
-            popup.style.display = "none";
-
-        });
-
-    }
 
     /*=========================================
       MOBILE MENU
