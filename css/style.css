@@ -63,6 +63,14 @@ p{
 
 }
 
+
+
+.cinzel-<uniquifier> {
+  font-family: "Cinzel", serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
 /* ==================================================
    NAVBAR
 ================================================== */
@@ -99,41 +107,39 @@ nav{
 
 }
 
-.logo{
+/* Import Cinzel */
 
+
+
+
+.logo{
     display:flex;
     align-items:center;
     gap:12px;
-
-    font-family:"Inter",sans-serif;
-    font-size:1.8rem;
-    font-weight:600;
     color:white;
-
 }
 
-
 .logo img{
-
     width:45px;
-
     height:45px;
-
     object-fit:contain;
-
     display:block;
-
 }
 
 .logo span{
-
     display:flex;
-
     align-items:center;
-
     line-height:1;
 
+    /* Cinzel Bold 700 */
+    font-family:'Cinzel', serif;
+    font-size:1.7rem;
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform:uppercase;
+
 }
+
 
 nav ul{
 
@@ -215,7 +221,7 @@ nav a:hover::after{
 
     overflow:hidden;
 
-    min-height:60vh;
+    min-height:80vh;
 
     display:flex;
 
@@ -2067,9 +2073,6 @@ footer a{
 
 }
 
-/* ==================================================
-   DISCLAIMER SLIDE PANEL (EXACT DEMO STYLE)
-================================================== */
 
 /* ==================================================
    DISCLAIMER SLIDE PANEL - COMPACT VERSION
