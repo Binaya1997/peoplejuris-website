@@ -22,11 +22,27 @@ body{
 
     font-family:'Inter',sans-serif;
 
-
     padding-top:40px;
 
+    /* prevents white flash on mobile pull-to-refresh */
+    background-color:#0f172a;
+
+    margin:0;
+
+    overflow-x:hidden;
+
+    min-height:100vh;
+    min-height:100dvh;
+
+    -webkit-overflow-scrolling:touch;
 }
 
+html{
+
+    background-color:#0f172a;
+
+    overscroll-behavior-y:none;
+}
 
 h1,
 h2,
@@ -36,7 +52,6 @@ h4{
     font-family:'Cormorant Garamond',serif;
 
     font-weight:700;
-
 }
 
 p{
@@ -44,7 +59,6 @@ p{
     font-size:18px;
 
     line-height:1.9;
-
 }
 
 ::selection{
@@ -52,7 +66,6 @@ p{
     background:#D4AF37;
 
     color:white;
-
 }
 
 ::-moz-selection{
@@ -60,9 +73,7 @@ p{
     background:#D4AF37;
 
     color:white;
-
 }
-
 
 
 .cinzel-<uniquifier> {
