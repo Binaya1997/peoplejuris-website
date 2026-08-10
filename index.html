@@ -82,22 +82,22 @@
 
 </nav>
 
-<section id="home" class="hero">
+<section class="hero" id="home">
 
     <!-- Moving Light -->
     <div class="hero-light"></div>
 
     <!-- Ambient Glows -->
     <div class="blue-glow"></div>
-
     <div class="orange-glow"></div>
 
     <!-- Hero Button -->
     <div class="hero-bottom">
-         <a href="consultation.html" class="hero-btn"> Book Appointment </a>
-     </div>
+        <a href="consultation.html" class="hero-btn">Book Appointment</a>
+    </div>
 
 </section>
+
 
 <section id="about" class="about">
 
@@ -445,6 +445,129 @@
             <button id="agreeBtn" class="agree-btn">
                 I Understand & Agree
             </button>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ==================================================
+     PEOPLEJURIS AI HELP CHAT
+================================================== -->
+
+<div id="pjChatWidget">
+
+    <!-- Floating Button -->
+    <button id="pjChatButton" aria-label="Open PeopleJuris Help">
+        <span class="pj-chat-icon">💬</span>
+        <span class="pj-chat-label">Need Help?</span>
+    </button>
+
+
+    <!-- Chat Window -->
+    <div id="pjChatBox">
+
+        <!-- Header -->
+        <div class="pj-chat-header">
+
+            <div class="pj-chat-title">
+
+                <div class="pj-chat-logo">
+                    <img src="images/favicon.png" alt="PeopleJuris Logo">
+                </div>
+
+                <div>
+                    <h3>PeopleJuris Help</h3>
+                    <span>General Information Assistant</span>
+                </div>
+
+            </div>
+
+            <button
+                id="pjChatClose"
+                aria-label="Close chat">
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- Messages -->
+        <div id="pjChatMessages">
+
+            <div class="pj-message pj-bot">
+
+                <div class="pj-message-bubble">
+
+                    <strong>Hello! 👋</strong>
+
+                    <p>
+                        Welcome to PeopleJuris.
+                        How can I help you today?
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Quick Questions -->
+
+            <div class="pj-quick-questions">
+
+                <button data-question="What practice areas does PeopleJuris handle?">
+                    ⚖ Practice Areas
+                </button>
+
+                <button data-question="How can I contact PeopleJuris?">
+                    📞 Contact PeopleJuris
+                </button>
+
+                <button data-question="How can I apply for an internship?">
+                    💼 Internship
+                </button>
+
+                <button data-question="Where is PeopleJuris located?">
+                    📍 Office Location
+                </button>
+
+                <button data-question="What is the PeopleJuris newsletter?">
+                    📰 Newsletter
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Disclaimer -->
+        <div class="pj-chat-disclaimer">
+
+            ⚠️ This assistant provides general information
+            about PeopleJuris and does not provide legal advice.
+            No lawyer-client relationship is created through
+            this chat.
+
+        </div>
+
+
+        <!-- Input -->
+        <div class="pj-chat-input-area">
+
+            <input
+                type="text"
+                id="pjChatInput"
+                placeholder="Ask PeopleJuris..."
+                autocomplete="off">
+
+            <button
+                id="pjChatSend"
+                aria-label="Send message">
+
+                ➤
+
+            </button>
+
         </div>
 
     </div>

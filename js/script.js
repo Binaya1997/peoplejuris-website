@@ -277,3 +277,219 @@ if(newsletterCards.length && prevBtn && nextBtn && pageNumbers){
 }
 
 });
+
+/* ==================================================
+   PEOPLEJURIS AI HELP CHAT
+================================================== */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const chatButton = document.getElementById("pjChatButton");
+    const chatBox = document.getElementById("pjChatBox");
+    const chatClose = document.getElementById("pjChatClose");
+    const chatInput = document.getElementById("pjChatInput");
+    const chatSend = document.getElementById("pjChatSend");
+    const chatMessages = document.getElementById("pjChatMessages");
+    const quickQuestions = document.querySelectorAll(".pj-quick-questions button");
+
+    /* -----------------------------------------------
+       OPEN CHAT
+    ----------------------------------------------- */
+
+    if (chatButton && chatBox) {
+        chatButton.addEventListener("click", function () {
+            chatBox.classList.add("active");
+
+            setTimeout(function () {
+                if (chatInput) {
+                    chatInput.focus();
+                }
+            }, 100);
+        });
+    }
+
+    /* -----------------------------------------------
+       CLOSE CHAT
+    ----------------------------------------------- */
+
+    if (chatClose && chatBox) {
+        chatClose.addEventListener("click", function () {
+            chatBox.classList.remove("active");
+        });
+    }
+
+    /* -----------------------------------------------
+       ADD MESSAGE
+    ----------------------------------------------- */
+
+    function addMessage(text, sender) {
+        const message = document.createElement("div");
+        message.className = "pj-message " + (sender === "user" ? "pj-user" : "pj-bot");
+
+        const bubble = document.createElement("div");
+        bubble.className = "pj-message-bubble";
+        bubble.textContent = text;
+
+        message.appendChild(bubble);
+        chatMessages.appendChild(message);
+
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    /* -----------------------------------------------
+       SMART FREE PEOPLEJURIS ANSWERS
+    ----------------------------------------------- */
+
+    function getAnswer(question) {
+
+        const q = question.toLowerCase().trim();
+
+        /* ===== PeopleJuris Information ===== */
+
+        if (q.includes("service") || q.includes("practice area")) {
+            return "PeopleJuris provides legal services in Civil Law, Criminal Law, Family Law, Property Law, Corporate Law, Consumer Law, IP Law and Legal Consultation.";
+        }
+
+        if (q.includes("contact") || q.includes("phone") || q.includes("email")) {
+            return "You can contact PeopleJuris at +91 8249304020 or 943787008, or email swadhin@legaljuris.com.";
+        }
+
+        if (q.includes("address") || q.includes("location") || q.includes("office") || q.includes("located") || q.includes("where is peoplejuris") || q.includes("where are you located") || q.includes("office") || q.includes("rayagada")  ) {
+            return "PeopleJuris is located at Laxmi Nilayam, OLD SBI Lane, Near Dukum Road Square, Bissam Cuttack, Rayagada, Odisha – 765019.";
+        }
+
+        if (q.includes("intern") || q.includes("career")) {
+            return "You can apply for internship opportunities through the Career page on the PeopleJuris website.";
+        }
+
+        if (q.includes("newsletter")) {
+            return "Visit the Newsletter page to read and download PeopleJuris legal newsletters and updates.";
+        }
+
+        /* ===== Legal Awareness ===== */
+
+        if (q.includes("consumer law") || q.includes("consumer complaint")) {
+            return "Consumer law protects consumers against defective goods, deficient services and unfair trade practices. This information is general in nature and does not constitute legal advice.";
+        }
+
+        if (q.includes("civil law")) {
+            return "Civil law generally deals with disputes involving property, contracts, recovery claims and other civil rights matters. This information is general in nature and does not constitute legal advice.";
+        }
+
+        if (q.includes("criminal law")) {
+            return "Criminal law deals with offences against the State such as theft, assault, cheating and other punishable acts. This information is general in nature and does not constitute legal advice.";
+        }
+
+        if (q.includes("family law") || q.includes("divorce")) {
+            return "Family law generally covers marriage, divorce, maintenance, custody and related family matters. This information is general in nature and does not constitute legal advice.";
+        }
+
+        if (q.includes("property law") || q.includes("land")) {
+            return "Property law generally deals with ownership, transfer, registration, possession and inheritance matters relating to immovable property. This information is general in nature and does not constitute legal advice.";
+        }
+
+        if (q.includes("corporate law") || q.includes("company") || q.includes("business law")) {
+            return "Corporate law generally covers company formation, contracts, compliance, governance and commercial transactions. This information is general in nature and does not constitute legal advice.";
+        }
+
+        if (q.includes("fir")) {
+            return "An FIR is the First Information Report recorded by the police regarding a cognizable offence and enables investigation to begin. This information is general in nature and does not constitute legal advice.";
+        }
+
+        if (q.includes("bail")) {
+            return "Bail is the temporary release of an accused person from custody on conditions imposed by the court while the criminal case continues. This information is general in nature and does not constitute legal advice.";
+        }
+
+        if (q.includes("cheque bounce") || q.includes("section 138")) {
+            return "Cheque bounce matters are commonly dealt with under Section 138 of the Negotiable Instruments Act when a cheque is dishonoured and the statutory requirements are satisfied. This information is general in nature and does not constitute legal advice.";
+        }
+
+        if (q.includes("partition")) {
+            return "A partition dispute generally involves the division of jointly owned family or ancestral property among co-owners or legal heirs. This information is general in nature and does not constitute legal advice.";
+        }
+
+        if (q.includes("legal notice")) {
+            return "A legal notice is a formal communication used to assert a legal right or seek compliance before initiating legal proceedings. This information is general in nature and does not constitute legal advice.";
+        }
+
+        if (q.includes("founder") || q.includes("chandramouli")) {
+            return "PeopleJuris traces its legacy to Advocate Mr. Chandramouli Patnaik, who founded People’s Law Home in 1985 at Bissam Cuttack and worked extensively on land rights and social justice matters.";
+        }
+
+        if (q.includes("swadhin")) {
+            return "Mr. Swadhin Patnaik is part of the current leadership of PeopleJuris and focuses on Corporate Advisory, Consumer Protection, Compliance and Business Law services.";
+        }
+
+        /* ===== Greetings ===== */
+
+        if (q === "hi" || q === "hello" || q === "hey") {
+            return "Hello! 👋 Welcome to PeopleJuris. I can help you with information about our practice areas, contact details, internship opportunities, newsletters and general legal-awareness topics.";
+        }
+
+        /* ===== Default ===== */
+
+        return "I can help you with information about PeopleJuris, including practice areas, contact details, office location, internship opportunities, newsletters and general legal-awareness topics. Please note that this chat provides general information only and does not create a lawyer-client relationship or provide legal advice.";
+    }
+
+    /* -----------------------------------------------
+       SEND MESSAGE
+    ----------------------------------------------- */
+
+    function sendMessage() {
+
+        if (!chatInput || !chatMessages) return;
+
+        const text = chatInput.value.trim();
+
+        if (!text) return;
+
+        addMessage(text, "user");
+        chatInput.value = "";
+
+        setTimeout(function () {
+            const answer = getAnswer(text);
+            addMessage(answer, "bot");
+        }, 500);
+    }
+
+    /* -----------------------------------------------
+       SEND BUTTON
+    ----------------------------------------------- */
+
+    if (chatSend) {
+        chatSend.addEventListener("click", sendMessage);
+    }
+
+    /* -----------------------------------------------
+       ENTER KEY
+    ----------------------------------------------- */
+
+    if (chatInput) {
+        chatInput.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+    }
+
+    /* -----------------------------------------------
+       QUICK QUESTIONS
+    ----------------------------------------------- */
+
+    quickQuestions.forEach(function (button) {
+        button.addEventListener("click", function () {
+            const question = this.dataset.question;
+
+            if (!question) return;
+
+            addMessage(question, "user");
+
+            setTimeout(function () {
+                const answer = getAnswer(question);
+                addMessage(answer, "bot");
+            }, 500);
+        });
+    });
+
+});

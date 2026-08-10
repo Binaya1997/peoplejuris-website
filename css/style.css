@@ -2929,3 +2929,542 @@ UNIVERSAL BUTTON ALIGNMENT
 }
 
 */
+
+
+/* ==================================================
+   PEOPLEJURIS AI HELP CHAT
+================================================== */
+
+#pjChatWidget {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 99990;
+    font-family: "Inter", sans-serif;
+}
+
+
+/* ==================================================
+   FLOATING CHAT BUTTON
+================================================== */
+
+#pjChatButton {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    min-width: 145px;
+    height: 55px;
+
+    padding: 0 20px;
+
+    border: none;
+    border-radius: 50px;
+
+    background: linear-gradient(
+        135deg,
+        #D4AF37,
+        #b8902f
+    );
+
+    color: #ffffff;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.25);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+
+#pjChatButton:hover {
+
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.30);
+
+}
+
+
+.pj-chat-icon {
+
+    font-size: 20px;
+
+}
+
+
+.pj-chat-label {
+
+    white-space: nowrap;
+
+}
+
+
+/* ==================================================
+   CHAT WINDOW
+================================================== */
+
+#pjChatBox {
+
+    position: absolute;
+
+    right: 0;
+    bottom: 70px;
+
+    width: 390px;
+    max-width: calc(100vw - 30px);
+
+    height: 570px;
+    max-height: calc(100vh - 110px);
+
+    background: #ffffff;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.25);
+
+    border: 1px solid rgba(15,23,42,.08);
+
+    display: none;
+
+    flex-direction: column;
+
+    transform-origin: bottom right;
+
+    animation: pjChatOpen .3s ease;
+}
+
+
+#pjChatBox.active {
+
+    display: flex;
+
+}
+
+
+@keyframes pjChatOpen {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(20px)
+            scale(.96);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+/* ==================================================
+   CHAT HEADER
+================================================== */
+
+.pj-chat-header {
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f172a,
+            #13223d
+        );
+
+    color: #ffffff;
+
+    padding: 18px 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+
+.pj-chat-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+
+.pj-chat-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #0f172a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.pj-chat-logo img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    display: block;
+}
+
+.pj-chat-title h3 {
+
+    margin: 0;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+}
+
+
+.pj-chat-title span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 11px;
+
+    color: #cbd5e1;
+
+}
+
+
+#pjChatClose {
+
+    width: 35px;
+    height: 35px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #ffffff;
+
+    font-size: 28px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    border-radius: 50%;
+
+}
+
+
+#pjChatClose:hover {
+
+    background:
+        rgba(255,255,255,.10);
+
+}
+
+
+/* ==================================================
+   MESSAGES AREA
+================================================== */
+
+#pjChatMessages {
+
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 20px;
+
+    background: #f8fafc;
+
+}
+
+
+.pj-message {
+
+    display: flex;
+
+    margin-bottom: 15px;
+
+}
+
+
+.pj-bot {
+
+    justify-content: flex-start;
+
+}
+
+
+.pj-user {
+
+    justify-content: flex-end;
+
+}
+
+
+.pj-message-bubble {
+
+    max-width: 85%;
+
+    padding: 13px 16px;
+
+    border-radius: 15px;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+}
+
+
+.pj-bot .pj-message-bubble {
+
+    background: #ffffff;
+
+    color: #374151;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-bottom-left-radius: 4px;
+
+}
+
+
+.pj-user .pj-message-bubble {
+
+    background: #13223d;
+
+    color: #ffffff;
+
+    border-bottom-right-radius: 4px;
+
+}
+
+
+.pj-message-bubble strong {
+
+    color: #13223d;
+
+}
+
+
+.pj-user .pj-message-bubble strong {
+
+    color: #D4AF37;
+
+}
+
+
+.pj-message-bubble p {
+
+    margin: 5px 0 0;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+}
+
+
+/* ==================================================
+   QUICK QUESTIONS
+================================================== */
+
+.pj-quick-questions {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-top: 15px;
+
+    margin-bottom: 20px;
+
+}
+
+.pj-quick-questions button {
+
+    width: 100%;
+
+    padding: 11px 13px;
+
+    background: #ffffff;
+
+    border:
+        1px solid #D4AF37;
+
+    color: #13223d;
+
+    border-radius: 10px;
+
+    text-align: left;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .25s;
+
+}
+
+
+.pj-quick-questions button:hover {
+
+    background: #D4AF37;
+
+    color: #ffffff;
+
+}
+
+
+/* ==================================================
+   DISCLAIMER
+================================================== */
+
+.pj-chat-disclaimer {
+
+    padding: 10px 15px;
+
+    background: #fffaf0;
+
+    border-top:
+        1px solid #f0e2b0;
+
+    color: #6b5b25;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+
+    text-align: center;
+
+}
+
+
+/* ==================================================
+   INPUT
+================================================== */
+
+.pj-chat-input-area {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 12px;
+
+    background: #ffffff;
+
+    border-top:
+        1px solid #e5e7eb;
+
+}
+
+
+#pjChatInput {
+
+    flex: 1;
+
+    min-width: 0;
+
+    height: 44px;
+
+    padding: 0 15px;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius: 25px;
+
+    outline: none;
+
+    font-family: "Inter", sans-serif;
+
+    font-size: 14px;
+
+}
+
+
+#pjChatInput:focus {
+
+    border-color: #D4AF37;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(212,175,55,.12);
+
+}
+
+
+#pjChatSend {
+
+    width: 44px;
+    height: 44px;
+
+    flex-shrink: 0;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #D4AF37;
+
+    color: #ffffff;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition: .25s;
+
+}
+
+
+#pjChatSend:hover {
+
+    background: #b8902f;
+
+    transform: scale(1.05);
+
+}
+
+

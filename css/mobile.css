@@ -71,58 +71,7 @@
         display: flex;
 
      }
-	
 
-	/* ==================================================
-       HERO
-    ================================================== */
-
-	.hero {
-
-             display:block;
-	
-             min-height: auto;
-
-       	     padding-top: 40px;
-
-	     padding-bottom: 20px;
-
-	     background-size: cover;
-             
-             background-position: center center;
-
-	}
-
-	.hero-bottom {
-
-		width: 100%;
-
-		display: flex;
-
-		justify-content: center;
-
-		align-items: center;
-                
-                margin-top:40px; 
-		padding:0;
-
-	}
-
-	.hero-btn {
-
-		width: 220px;
-
-		text-align: center;
-
-		padding: 12px 28px;
-
-		font-size: 15px;
-
-		border-radius: 50px;
-
-                margin-top:60px;
-
-	}
 
 	/* ==================================================
    ABOUT US
@@ -134,7 +83,7 @@
 
 		gap: 40px;
 
-                padding: 40px 20px;
+                padding: 10px 20px;
 	}
 
 	.about-image {
@@ -1058,4 +1007,111 @@
 
 }
 
+}
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media (max-width: 600px) {
+
+    #pjChatWidget {
+
+        right: 15px;
+        bottom: 15px;
+
+    }
+
+
+    #pjChatButton {
+
+        width: 55px;
+        min-width: 55px;
+
+        height: 55px;
+
+        padding: 0;
+
+    }
+
+
+    .pj-chat-label {
+
+        display: none;
+
+    }
+
+
+    #pjChatBox {
+
+        right: -5px;
+
+        bottom: 65px;
+
+        width:
+            calc(100vw - 20px);
+
+        max-width:
+            calc(100vw - 20px);
+
+        height:
+            min(570px, calc(100vh - 90px));
+
+        border-radius: 18px;
+
+    }
+
+}
+
+/* ==================================================
+   HERO MOBILE FINAL PERFECT FIX
+================================================== */
+@media (max-width: 768px) {
+
+    .hero {
+        position: relative;
+        height: 275px;
+        min-height:270px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin: 0;
+        padding: 0 0 16px;
+        background-image: url("../images/heroclasic.png");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        overflow: hidden;
+    }
+
+    .hero::before,
+    .hero::after,
+    .hero-light,
+    .blue-glow,
+    .orange-glow {
+        display: none !important;
+    }
+
+    .hero-bottom {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 188px 0 0;
+        margin: 0;
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-btn {
+        width: 220px;
+        height: 48px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 24px;
+        margin: 0;
+        font-size: 15px;
+        border-radius: 50px;
+    }
 }
