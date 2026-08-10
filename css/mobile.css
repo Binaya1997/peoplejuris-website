@@ -83,7 +83,7 @@
 
 		gap: 40px;
 
-                padding: 10px 20px;
+                padding: 0px 20px;
 	}
 
 	.about-image {
@@ -1070,19 +1070,20 @@
 
     .hero {
         position: relative;
-        height: 250px;
-        min-height:0px;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
+
+        /* image area only */
+        height: 270px;
+        min-height: 0px;
+
         margin: 0;
-        background-image: url("../images/heroclasic.png");
-        background-size: cover;
-        background-position: center center;
-        background-repeat: no-repeat;
-        overflow: hidden;
+        padding: 0;
+
+        background: url("../images/heroclasic.png") center center / cover no-repeat;
+
+        overflow: visible;
     }
 
+    /* remove desktop overlays */
     .hero::before,
     .hero::after,
     .hero-light,
@@ -1091,26 +1092,41 @@
         display: none !important;
     }
 
+    /* place button on top of image bottom */
     .hero-bottom {
-        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -24px;
+
         display: flex;
         justify-content: center;
-        align-items: center;
-        padding: 110px 0 0;
+
+        padding: 0;
         margin: 0;
-        position: relative;
-        z-index: 2;
+
+        background: transparent !important;
+
+        z-index: 10;
     }
 
     .hero-btn {
-        width: 220px;
-        height: 48px;
+        width: 240px;
+        height: 52px;
+
         display: inline-flex;
         justify-content: center;
         align-items: center;
+
         padding: 0 24px;
         margin: 0;
-        font-size: 15px;
-        border-radius: 50px;
+
+        font-size: 16px;
+        border-radius: 999px;
+    }
+
+    /* remove any remaining dark strip under hero */
+    body {
+        background: #ffffff;
     }
 }
