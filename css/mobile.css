@@ -1070,8 +1070,8 @@
 
     .hero {
         position: relative;
-        height: 197px;
-        min-height:197px;
+        height: 250px;
+        min-height:0px;
         display: flex;
         justify-content: flex-end;
         align-items: center;
