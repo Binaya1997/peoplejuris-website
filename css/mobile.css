@@ -770,74 +770,58 @@
 
 @media(max-width:768px){
 
+    /* popup wrapper */
     .disclaimer-panel{
-
         padding:0 12px 12px;
 
+        /* important */
+        align-items:flex-end;
     }
 
+    /* actual popup box */
     .disclaimer-content{
-
         max-width:100%;
+        max-height:82vh;
 
         border-radius:18px;
-
         padding:22px 18px;
 
+        /* enable scrolling */
+        overflow-y:auto;
+        -webkit-overflow-scrolling:touch;
     }
 
     .disclaimer-content::before{
-
         width:44px;
-
         height:44px;
-
         font-size:20px;
-
         top:-22px;
-
     }
 
     .disclaimer-header h3{
-
         font-size:28px;
-
         text-align:center;
-
     }
 
     .disclaimer-content p{
-
         font-size:15px;
-
         line-height:1.65;
-
     }
 
     .disclaimer-content ul{
-
         grid-template-columns:1fr;
-
         gap:12px;
-
     }
 
     .disclaimer-content li{
-
         font-size:14px;
-
     }
 
     .agree-btn{
-
         width:100%;
-
         max-width:320px;
-
     }
-
 }
-
 
 
         /* ==========================================

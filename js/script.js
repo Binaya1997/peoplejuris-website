@@ -26,8 +26,8 @@ window.onscroll = function () {
 
 document.addEventListener("DOMContentLoaded", function () {
      
-    /*=========================================
-  DISCLAIMER PANEL - SHOW ONLY ONCE
+/*=========================================
+ DISCLAIMER PANEL - SHOW ONLY ONCE
 =========================================*/
 
 const popup = document.getElementById("disclaimerPopup");
@@ -38,19 +38,28 @@ if (popup) {
     const alreadyAccepted = localStorage.getItem("peoplejurisDisclaimerAccepted");
 
     if (alreadyAccepted === "true") {
+
         popup.style.display = "none";
+
     } else {
+
+        // prevent background scroll
+        document.body.style.overflow = "hidden";
 
         setTimeout(() => {
             popup.classList.add("show");
         }, 500);
 
         if (agreeBtn) {
+
             agreeBtn.addEventListener("click", function () {
 
                 popup.classList.remove("show");
 
                 localStorage.setItem("peoplejurisDisclaimerAccepted", "true");
+
+                // restore scrolling
+                document.body.style.overflow = "";
 
                 setTimeout(() => {
                     popup.style.display = "none";
@@ -59,7 +68,6 @@ if (popup) {
         }
     }
 }
-
 
     /*=========================================
       MOBILE MENU

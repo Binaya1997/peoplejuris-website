@@ -2149,6 +2149,15 @@ footer a{
 
 }
 
+/* Desktop: keep popup fixed, no scrolling */
+@media (min-width:769px){
+
+    .disclaimer-content{
+        overflow-y:hidden;
+        max-height:none;
+    }
+}
+
 /* Gold circular icon */
 .disclaimer-content::before{
 
