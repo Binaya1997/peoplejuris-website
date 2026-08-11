@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Book a premium legal consultation with PeopleJuris for corporate, civil, criminal, property and business matters.">
+
+    <meta name="keywords"
+          content="PeopleJuris LLP, Premium Consultation, Corporate Law, Property Law, Criminal Law, Business Law">
+
+    <meta name="author"
+          content="PeopleJuris LLP">
+
+    <title>Premium Consultation | PeopleJuris LLP</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+          rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet"
+          href="css/style.css">
+
+    <!-- Mobile CSS -->
+
+    <link rel="stylesheet" href="css/mobile.css">
+
+
+</head>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f7f7f7;
+}
+
+.paid-hero{
+
+    background:
+    linear-gradient(rgba(15,23,42,.75),rgba(15,23,42,.75)),
+    url("images/careerback.jpg");
+
+    background-size:cover;
+    background-position:center;
+
+    height:55vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    color:white;
+    text-align:center;
+   
+    animation: waveGlow 2s ease-in-out infinite;
+
+}
+
+@keyframes waveGlow {
+    0%,100%{
+        filter: brightness(2);
+    }
+
+    50%{
+        filter: brightness(1.5);
+    }
+}
+
+.paid-hero h1{
+
+    font-size:44px;
+    margin-bottom:10px;
+
+}
+
+.paid-hero p{
+
+    font-size:22px;
+    max-width:850px;
+    margin:auto;
+
+}
+
+.form-section{
+
+    padding:80px 50px;
+
+}
+
+.form-box{
+
+    max-width:950px;
+
+    margin:auto;
+
+    background:white;
+
+    padding:50px;
+
+    border-radius:12px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+    border-top:6px solid #D4AF37;
+
+}
+
+.form-box h2{
+
+    text-align:center;
+
+    color:#0f172a;
+
+    margin-bottom:40px;
+
+    font-size:40px;
+
+}
+
+.form-group{
+
+    margin-bottom:22px;
+
+}
+
+label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:bold;
+
+    color:#0f172a;
+
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="number"],
+textarea,
+select{
+
+    width:100%;
+
+    padding:15px;
+
+    border:1px solid #ddd;
+
+    border-radius:6px;
+
+    font-size:16px;
+
+}
+
+.agree-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:22px;
+
+}
+
+.agree-box input[type="checkbox"]{
+
+    width:18px;
+
+    height:18px;
+
+    margin:0;
+
+    cursor:pointer;
+
+}
+
+.agree-box label{
+
+    cursor:pointer;
+
+    line-height:1.5;
+
+}
+
+textarea{
+
+    resize:vertical;
+
+}
+
+.submit-btn{
+
+    width:100%;
+
+    padding:18px;
+
+    background:#D4AF37;
+
+    color:white;
+
+    border:none;
+
+    font-size:20px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.submit-btn:hover{
+
+    background:#b8952e;
+
+}
+
+.info{
+
+    background:#eef6ff;
+
+    padding:20px;
+
+    border-left:5px solid #D4AF37;
+
+    margin-bottom:35px;
+
+    border-radius:6px;
+
+}
+
+.disclaimer{
+
+    margin-top:35px;
+
+    background:#fff8e6;
+
+    padding:18px;
+
+    border-radius:8px;
+
+}
+
+footer{
+
+    background:#0f172a;
+
+    color:white;
+
+    text-align:center;
+
+    padding:20px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+<div class="logo">
+    <img src="images/favicon.ico" alt="PeopleJuris Logo">
+    <span>peoplejuris</span>
+</div>
+
+<div class="menu-toggle" id="menuToggle"> ☰  </div>
+
+<ul id="navLinks">
+
+<li><a href="index.html">Home</a></li>
+<li><a href="index.html#about">About</a></li>
+<li><a href="practice-areas.html">Practice Areas</a></li>
+<li><a href="career.html">Career</a></li>
+<li><a href="newsletter.html">Newsletter</a></li>
+<li><a href="#contact">Contact</a></li>
+
+
+</ul>
+
+</nav>
+
+<section class="paid-hero">
+
+<div>
+
+<h1>Paid Legal Consultation</h1>
+
+<p>
+
+Receive dedicated legal assistance from experienced advocates
+for corporate, civil, criminal, property and business matters.
+
+</p>
+
+</div>
+
+</section>
+
+<section class="form-section">
+
+<div class="form-box">
+
+<h2>Book Premium Consultation</h2>
+
+<div class="info">
+
+<strong>Professional Consultation:</strong>
+
+Choose your preferred legal service and consultation mode.
+Our team will contact you to confirm your appointment.
+
+</div>
+
+<form
+action="https://formsubmit.co/info@peoplejuris.com"
+method="POST"
+enctype="multipart/form-data">
+
+<input type="hidden"
+name="_subject"
+value="New paid Consultation Request">
+
+<input type="hidden"
+name="_captcha"
+value="false">
+
+<input type="hidden"
+name="_next"
+value="https://peoplejuris.com/thank.html">
+
+<div class="form-group">
+
+<label>Full Name *</label>
+
+<input
+type="text"
+name="Full Name"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Email *</label>
+
+<input
+type="email"
+name="Email"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Mobile Number *</label>
+
+<input
+type="tel"
+name="Phone"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Company / Organization (Optional)</label>
+
+<input
+type="text"
+name="Company">
+
+</div>
+
+<div class="form-group">
+
+<label>Address</label>
+
+<textarea
+rows="3"
+name="Address"></textarea>
+
+</div>
+
+<div class="form-group">
+
+<label>Select Practice Area *</label>
+
+<select
+name="Practice Area"
+required>
+
+<option value="">Select Practice Area</option>
+
+<option>Corporate Law</option>
+
+<option>Civil Litigation</option>
+
+<option>Criminal Law</option>
+
+<option>Property & Land Matters</option>
+
+<option>Consumer Law</option>
+
+<option>Business Compliance</option>
+
+<option>Contract Drafting</option>
+
+<option>Arbitration</option>
+
+<option>Legal Notice Drafting</option>
+
+<option>Startup Advisory</option>
+
+<option>Other</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Preferred Consultation Mode *</label>
+
+<select
+name="Consultation Mode"
+required>
+
+<option value="">Choose Mode</option>
+
+<option>Office Visit</option>
+
+<option>Video Consultation</option>
+
+<option>Phone Consultation</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Preferred Date *</label>
+
+<input
+type="date"
+name="Preferred Date"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Preferred Time *</label>
+
+<input
+type="time"
+name="Preferred Time"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Describe Your Matter *</label>
+
+<textarea
+rows="6"
+name="Legal Matter"
+required></textarea>
+
+</div>
+
+<div class="form-group">
+
+<label>Upload Identity Proof (Optional)</label>
+
+<input
+type="file"
+name="Identity Proof"
+accept=".pdf,.jpg,.jpeg,.png">
+
+</div>
+
+
+<div class="form-group">
+
+<label>Upload Supporting Documents</label>
+
+<input
+type="file"
+name="Case Documents"
+multiple
+accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+
+</div>
+
+<div class="form-group agree-box">
+
+    <input
+        type="checkbox"
+        id="agree"
+        required>
+
+    <label for="agree">
+        I agree that the information provided is true and correct.
+    </label>
+
+</div>
+
+<button
+class="submit-btn"
+type="submit">
+
+Submit
+
+</button>
+
+</form>
+
+<div class="disclaimer">
+
+<b>Disclaimer:</b>
+
+Submission of this form is a consultation request only.
+PeopleJuris will review your request and contact you to confirm
+availability, consultation fees, and appointment details.
+Submission does not create an Advocate-Client relationship until
+the engagement is formally accepted.
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+
+© 2026 PeopleJuris. All Rights Reserved.
+
+</footer>
+<script src="js/script.js"></script>
+</body>
+
+</html>
+
