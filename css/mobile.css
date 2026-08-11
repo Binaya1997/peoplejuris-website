@@ -768,39 +768,47 @@
    MOBILE RESPONSIVE
 ================================================== */
 
-@media(max-width:768px){
+@media (max-width:768px){
 
     /* popup wrapper */
     .disclaimer-panel{
-        padding:0 12px 12px;
-
-        /* important */
-        align-items:flex-end;
+        padding:24px 12px 12px;
+        display:flex;
+        justify-content:flex-start;
+        align-items:flex-start;
     }
 
-    /* actual popup box */
+    /* popup box */
     .disclaimer-content{
         max-width:100%;
-        max-height:82vh;
+        max-height:80vh;
 
         border-radius:18px;
-        padding:22px 18px;
+        padding:26px 18px 22px;
 
-        /* enable scrolling */
+        /* push popup lower */
+        margin-top:20px;
+
+        /* mobile scrolling */
         overflow-y:auto;
         -webkit-overflow-scrolling:touch;
     }
 
+    /* gold icon */
     .disclaimer-content::before{
         width:44px;
         height:44px;
         font-size:20px;
-        top:-22px;
+
+        /* THIS IS THE FIX */
+        top:12px;
     }
 
     .disclaimer-header h3{
         font-size:28px;
         text-align:center;
+        margin-top:40px;
+        margin-bottom:18px;
     }
 
     .disclaimer-content p{
@@ -822,8 +830,6 @@
         max-width:320px;
     }
 }
-
-
         /* ==========================================
    NEWSLETTER MOBILE ALIGNMENT FIX
 ========================================== */
