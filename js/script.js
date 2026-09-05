@@ -359,7 +359,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (q.includes("contact") || q.includes("phone") || q.includes("email")) {
-            return "You can contact PeopleJuris at +91 8249304020 or 943787008, or email info@peoplejuris.com.";
+            return "You can contact PeopleJuris at +91 8763830030, or email info@peoplejuris.com.";
         }
 
         if (q.includes("address") || q.includes("location") || q.includes("office") || q.includes("located") || q.includes("where is peoplejuris") || q.includes("where are you located") || q.includes("office") || q.includes("rayagada")  ) {
