@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Read the official PeopleJuris LLP Newsletter featuring legal updates, consumer rights, court judgments, corporate law insights and legal publications.">
+    <meta name="keywords" content="PeopleJuris LLP Newsletter, Legal Newsletter, Consumer Law, Corporate Law, Property Law, Court Judgments, Legal Updates">
+    <meta name="author" content="PeopleJuris LLP">
+    <title>Newsletter | PeopleJuris LLP</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="48x48" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/favicon.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mobile.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav>
+        <a href="index.html" class="logo" aria-label="PeopleJuris Home">
+            <img src="images/favicon.png" alt="PeopleJuris Logo">
+            <span>peoplejuris<sup class="tm-mark">™</sup></span>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">☰</button>
+
+        <ul id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="practice-areas.html">Practice Areas</a></li>
+            <li><a href="career.html">Career</a></li>
+            <li><a href="newsletter.html" class="active">Newsletter</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="consultation.html" class="nav-cta">Book Consultation</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="practice-hero">
+            <div class="ambient-canvas-wrapper" aria-hidden="true">
+                <div class="ambient-glow-blue" style="top: -20px; left: 10%;"></div>
+                <div class="ambient-glow-gold" style="bottom: -20px; right: 10%;"></div>
+            </div>
+            <h1>Legal Insights & Newsletter</h1>
+            <p>
+                Stay informed with legal updates, court judgments, business law insights and PeopleJuris publications.
+            </p>
+        </section>
+
+        <!-- Newsletter Archive Section -->
+        <section class="newsletter-archive">
+            <div class="newsletter-archive-inner">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 8px;">
+                    <h2>Newsletter Archive</h2>
+                    <a href="admin-login.html" aria-label="Admin Login" title="Administrator Portal Login" style="color: var(--pj-text-muted); font-size: 0.95rem; opacity: 0.45; transition: opacity 0.2s, color 0.2s; padding: 6px;">
+                        <i class="fas fa-lock"></i>
+                    </a>
+                </div>
+                <p class="archive-subtitle">
+                    Explore our latest legal newsletters, case law updates,
+                    consumer rights insights, corporate compliance guidance,
+                    and legal publications from PeopleJuris.
+                </p>
+
+                <!-- Search Bar -->
+                <div class="newsletter-search">
+                    <input type="text" id="newsletterSearch" placeholder="🔍 Search newsletters..." aria-label="Search newsletters">
+                </div>
+
+                <!-- Category Filters -->
+                <div class="newsletter-filter">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="consumer">Consumer Law</button>
+                    <button class="filter-btn" data-filter="corporate">Corporate Law</button>
+                    <button class="filter-btn" data-filter="property">Property Law</button>
+                    <button class="filter-btn" data-filter="civil">Civil Law</button>
+                    <button class="filter-btn" data-filter="ip">Intellectual Property Law</button>
+                </div>
+
+                <!-- Archive Cards Grid -->
+                <div class="archive-list">
+                    <!-- September 2026 -->
+                    <div class="archive-card" data-category="consumer corporate ip">
+                        <div class="archive-cover">
+                            <img src="images/newsletter-covers/September-2026.jpeg" alt="PeopleJuris Newsletter September 2026 Cover">
+                        </div>
+                        <div class="archive-content">
+                            <span class="archive-badge">Latest Edition</span>
+                            <h3>PeopleJuris Newsletter – September 2026</h3>
+                            <p>IP & Trademark Law</p>
+                            <div class="archive-actions">
+                                <a href="newsletters/sept-2026.pdf" target="_blank" rel="noopener noreferrer" class="newsletter-btn newsletter-btn-read">Read PDF</a>
+                                <a href="newsletters/sept-2026.pdf" download class="newsletter-btn newsletter-btn-download">Download</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- August 2026 -->
+                    <div class="archive-card" data-category="corporate civil">
+                        <div class="archive-cover">
+                            <img src="images/newsletter-covers/aug-2026.jpeg" alt="August 2026 Newsletter">
+                        </div>
+                        <div class="archive-content">
+                            <h3>PeopleJuris Newsletter – August 2026</h3>
+                            <p>CORPORATE GOVERNANCE</p>
+                            <div class="archive-actions">
+                                <a href="newsletters/Aug-2026.pdf" target="_blank" rel="noopener noreferrer" class="newsletter-btn newsletter-btn-read">Read PDF</a>
+                                <a href="newsletters/Aug-2026.pdf" download class="newsletter-btn newsletter-btn-download">Download</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- July 2026 -->
+                    <div class="archive-card" data-category="corporate property">
+                        <div class="archive-cover">
+                            <img src="images/newsletter-covers/july.jpeg" alt="July 2026 Newsletter">
+                        </div>
+                        <div class="archive-content">
+                            <h3>PeopleJuris Newsletter – July 2026</h3>
+                            <p>Data Governance and Digital Regulatory Compliance</p>
+                            <div class="archive-actions">
+                                <a href="newsletters/june-2026.pdf" target="_blank" rel="noopener noreferrer" class="newsletter-btn newsletter-btn-read">Read PDF</a>
+                                <a href="newsletters/june-2026.pdf" download class="newsletter-btn newsletter-btn-download">Download</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <button id="prevPage" class="page-btn">← Previous</button>
+                    <span id="pageNumbers"></span>
+                    <button id="nextPage" class="page-btn">Next →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Subscription (Brevo Form) -->
+        <section class="newsletter-home">
+            <div class="newsletter-card">
+                <h2>Stay Updated</h2>
+                <p>
+                    Subscribe to receive legal updates, court judgments,
+                    business law insights, consumer rights information,
+                    and PeopleJuris publications directly in your inbox.
+                </p>
+
+                <form action="https://d028b1b0.sibforms.com/serve/MUIFALF56Mv39idFy_42MhwdzfKEx27u3DYOKf0UHTCqhxD5z71vRLe0_UTGTTS4lF5g_qJNr2W-S6Oe9ZlJjqQQlnRP267_QPSzgE1gBey0VTus7z7m98BszWArDrZgQlEJcUZK4aVMBQKnIy-lLtFdYkhWIe60hW17izm_tmJ5Db3mpKFY_oeCiDbB97U9CL2ocsNCl9dqRbUygA==" method="POST">
+                    <label for="newsletterEmail">Email Address</label>
+                    <input type="email" id="newsletterEmail" name="EMAIL" placeholder="Enter your email address" required>
+
+                    <!-- Brevo Hidden Fields -->
+                    <input type="hidden" name="locale" value="en">
+                    <input type="text" name="email_address_check" value="" style="display:none" tabindex="-1" autocomplete="off">
+
+                    <button type="submit">Subscribe to Newsletter</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Why Choose PeopleJuris? -->
+        <section class="why">
+            <h2>Why Choose PeopleJuris?</h2>
+            <div class="why-grid">
+                <div>✔ 30+ Years of Legal Excellence</div>
+                <div>✔ Experienced Advocates</div>
+                <div>✔ Corporate & Individual Clients</div>
+                <div>✔ Ethical & Transparent Practice</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Global Footer -->
+    <footer>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap;">
+            <p>© 2026 PeopleJuris. All Rights Reserved.</p>
+            <a href="admin-login.html" aria-label="Admin Login" title="Administrator Portal Login" style="color: var(--pj-text-muted); font-size: 0.82rem; padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(212, 175, 55, 0.15); display: inline-flex; align-items: center; gap: 6px; text-decoration: none;">
+                <i class="fas fa-lock" style="font-size: 0.72rem; color: var(--pj-gold-400);"></i>
+                <span>Admin Login</span>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Bar Council Disclaimer Panel -->
+    <div id="disclaimerPopup" class="disclaimer-panel" role="dialog" aria-modal="true" aria-labelledby="disclaimerHeading">
+        <div class="disclaimer-content">
+            <div class="disclaimer-header">
+                <h3 id="disclaimerHeading">Disclaimer</h3>
+            </div>
+            <p>
+                Under the rules of the <strong>Bar Council of India</strong>,
+                <strong>PeopleJuris</strong> is prohibited from soliciting work
+                or advertising in any form or manner. By accessing
+                <strong>www.peoplejuris.com</strong>, you acknowledge that :
+            </p>
+            <ul>
+                <li>You are visiting this website on your own accord, without any solicitation or inducement by PeopleJuris or its members.</li>
+                <li>Nothing on this website constitutes legal advice or creates a lawyer-client relationship.</li>
+                <li>All content is for general informational purposes only and may not reflect the most current legal developments.</li>
+                <li>PeopleJuris is not liable for any action taken in reliance on information available on this website.</li>
+                <li>You should always seek advice from a competent legal counsel licensed to practise in the relevant jurisdiction.</li>
+                <li>Third-party links on this website do not constitute endorsements or affiliations.</li>
+                <li>Do not share confidential or sensitive information through any communication platform on this website.</li>
+                <li>All content on this website is the intellectual property of PeopleJuris.</li>
+            </ul>
+            <div class="disclaimer-actions">
+                <button id="agreeBtn" class="agree-btn">I Understand & Agree</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Help Chatbot Widget -->
+    <div id="pjChatWidget">
+        <button id="pjChatButton" aria-label="Open PeopleJuris Help Assistant">
+            <span class="pj-chat-icon">💬</span>
+            <span class="pj-chat-label">Need Help?</span>
+        </button>
+
+        <div id="pjChatBox" role="dialog" aria-label="PeopleJuris Information Assistant">
+            <div class="pj-chat-header">
+                <div class="pj-chat-title">
+                    <div class="pj-chat-logo">
+                        <img src="images/favicon.png" alt="PeopleJuris Logo">
+                    </div>
+                    <div>
+                        <h3>PeopleJuris Help</h3>
+                        <span>General Information Assistant</span>
+                    </div>
+                </div>
+                <button id="pjChatClose" aria-label="Close chat">×</button>
+            </div>
+
+            <div id="pjChatMessages">
+                <div class="pj-message pj-bot">
+                    <div class="pj-message-bubble">
+                        <strong>Hello! 👋</strong>
+                        <p>Welcome to PeopleJuris. How can I help you today?</p>
+                    </div>
+                </div>
+
+                <div class="pj-quick-questions">
+                    <button data-question="What practice areas does PeopleJuris handle?">⚖ Practice Areas</button>
+                    <button data-question="How can I contact PeopleJuris?">📞 Contact PeopleJuris</button>
+                    <button data-question="How can I apply for an internship?">💼 Internship</button>
+                    <button data-question="Where is PeopleJuris located?">📍 Office Location</button>
+                    <button data-question="What is the PeopleJuris newsletter?">📰 Newsletter</button>
+                </div>
+            </div>
+
+            <div class="pj-chat-disclaimer">
+                ⚠️ This assistant provides general information about PeopleJuris and does not provide legal advice. No lawyer-client relationship is created through this chat.
+            </div>
+
+            <div class="pj-chat-input-area">
+                <input type="text" id="pjChatInput" placeholder="Ask PeopleJuris..." autocomplete="off">
+                <button id="pjChatSend" aria-label="Send message">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript (Ambient Engine & Core Scripts) -->
+    <script src="js/ambient-engine.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

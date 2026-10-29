@@ -1,0 +1,37 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# SQLite Database & journals (regenerated automatically on first run)
+data/*.db
+data/*.sqlite3
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+*.db
+*.sqlite3
+!data/.gitkeep
+
+# Dynamic uploads generated at runtime (baseline issues remain tracked)
+newsletters/newsletter_*
+images/newsletter-covers/cover_*
+
+# Environments and Secrets
+.env
+.env.*
+venv/
+env/
+ENV/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Submit your request for a standard legal consultation with PeopleJuris LLP. Receive preliminary legal guidance from experienced advocates.">
+    <meta name="keywords" content="PeopleJuris LLP, Standard Consultation, Legal Advice, Civil Law, Criminal Law, Family Law">
+    <meta name="author" content="PeopleJuris LLP">
+    <title>Standard Consultation | PeopleJuris LLP</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="48x48" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/favicon.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mobile.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav>
+        <a href="index.html" class="logo" aria-label="PeopleJuris Home">
+            <img src="images/favicon.png" alt="PeopleJuris Logo">
+            <span>peoplejuris<sup class="tm-mark">™</sup></span>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">☰</button>
+
+        <ul id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="practice-areas.html">Practice Areas</a></li>
+            <li><a href="career.html">Career</a></li>
+            <li><a href="newsletter.html">Newsletter</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="consultation.html" class="nav-cta active">Book Consultation</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="form-hero">
+            <div class="ambient-canvas-wrapper" aria-hidden="true">
+                <div class="ambient-glow-blue" style="top: -20px; left: 10%;"></div>
+                <div class="ambient-glow-gold" style="bottom: -20px; right: 10%;"></div>
+            </div>
+            <h1>Standard Consultation</h1>
+            <p>
+                Receive preliminary legal guidance from PeopleJuris. Fill in the details below and our legal team will review your request and contact you if required.
+            </p>
+        </section>
+
+        <!-- Form Section -->
+        <section class="form-section">
+            <div class="form-box">
+                <h2>Standard Consultation Application</h2>
+
+                <div class="info-banner">
+                    <strong>Note:</strong>
+                    This service provides initial legal guidance only. Submission of this form does not create an Advocate-Client relationship.
+                </div>
+
+                <form action="https://formsubmit.co/info@peoplejuris.com" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="_subject" value="New Free Consultation Request">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="https://peoplejuris.com/thank.html">
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="Full Name" placeholder="Full Name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="Email" placeholder="Email Address" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Mobile Number *</label>
+                            <input type="tel" id="phone" name="Phone" placeholder="Mobile Number" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="occupation">Occupation</label>
+                            <input type="text" id="occupation" name="Occupation" placeholder="Your Occupation">
+                        </div>
+
+                        <div class="form-group col-span-2">
+                            <label for="address">Address</label>
+                            <textarea id="address" name="Address" rows="3" placeholder="Residential or Office Address"></textarea>
+                        </div>
+
+                        <div class="form-group col-span-2">
+                            <label for="service">Select Legal Service *</label>
+                            <select id="service" name="Service" required>
+                                <option value="">Choose Service</option>
+                                <option>General Legal Advice</option>
+                                <option>Consumer Law Advice</option>
+                                <option>Family Law Guidance</option>
+                                <option>Civil Law Guidance</option>
+                                <option>Criminal Law Guidance</option>
+                                <option>Property Law Guidance</option>
+                                <option>Women Rights</option>
+                                <option>Senior Citizen Rights</option>
+                                <option>Document Review</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-span-2">
+                            <label for="issue">Describe Your Legal Issue *</label>
+                            <textarea id="issue" rows="5" name="Issue" placeholder="Describe the background and specifics of your query" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Upload Identity Proof (Optional)</label>
+                            <div class="file-upload-zone" onclick="document.getElementById('idProof').click()">
+                                <input type="file" id="idProof" name="Identity Proof" accept=".pdf,.jpg,.jpeg,.png">
+                                <div class="file-upload-label">
+                                    <i class="fas fa-id-card"></i>
+                                    <span>Choose file or drag & drop</span>
+                                    <small style="color: var(--pj-text-muted);">PDF, JPG, PNG (Max 5MB)</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Upload Supporting Documents</label>
+                            <div class="file-upload-zone" onclick="document.getElementById('caseDocs').click()">
+                                <input type="file" id="caseDocs" name="Case Documents" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                                <div class="file-upload-label">
+                                    <i class="fas fa-folder-open"></i>
+                                    <span>Choose files or drag & drop</span>
+                                    <small style="color: var(--pj-text-muted);">PDF, DOC, DOCX, JPG (Max 10MB Total)</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-span-2 agree-box">
+                            <input type="checkbox" id="agree" name="Agreement" required>
+                            <label for="agree">
+                                I agree that the information provided is true and correct.
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="submit-btn" type="submit">Submit</button>
+                </form>
+
+                <div class="disclaimer-note">
+                    <b>Disclaimer:</b>
+                    The submission of this application is only a request for legal guidance. PeopleJuris reserves the right to accept or decline consultation requests. Submission of this form does not establish an Advocate-Client relationship.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Global Footer -->
+    <footer>
+        <p>© 2026 PeopleJuris. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Bar Council Disclaimer Panel -->
+    <div id="disclaimerPopup" class="disclaimer-panel" role="dialog" aria-modal="true" aria-labelledby="disclaimerHeading">
+        <div class="disclaimer-content">
+            <div class="disclaimer-header">
+                <h3 id="disclaimerHeading">Disclaimer</h3>
+            </div>
+            <p>
+                Under the rules of the <strong>Bar Council of India</strong>,
+                <strong>PeopleJuris</strong> is prohibited from soliciting work
+                or advertising in any form or manner. By accessing
+                <strong>www.peoplejuris.com</strong>, you acknowledge that :
+            </p>
+            <ul>
+                <li>You are visiting this website on your own accord, without any solicitation or inducement by PeopleJuris or its members.</li>
+                <li>Nothing on this website constitutes legal advice or creates a lawyer-client relationship.</li>
+                <li>All content is for general informational purposes only and may not reflect the most current legal developments.</li>
+                <li>PeopleJuris is not liable for any action taken in reliance on information available on this website.</li>
+                <li>You should always seek advice from a competent legal counsel licensed to practise in the relevant jurisdiction.</li>
+                <li>Third-party links on this website do not constitute endorsements or affiliations.</li>
+                <li>Do not share confidential or sensitive information through any communication platform on this website.</li>
+                <li>All content on this website is the intellectual property of PeopleJuris.</li>
+            </ul>
+            <div class="disclaimer-actions">
+                <button id="agreeBtn" class="agree-btn">I Understand & Agree</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Help Chatbot Widget -->
+    <div id="pjChatWidget">
+        <button id="pjChatButton" aria-label="Open PeopleJuris Help Assistant">
+            <span class="pj-chat-icon">💬</span>
+            <span class="pj-chat-label">Need Help?</span>
+        </button>
+
+        <div id="pjChatBox" role="dialog" aria-label="PeopleJuris Information Assistant">
+            <div class="pj-chat-header">
+                <div class="pj-chat-title">
+                    <div class="pj-chat-logo">
+                        <img src="images/favicon.png" alt="PeopleJuris Logo">
+                    </div>
+                    <div>
+                        <h3>PeopleJuris Help</h3>
+                        <span>General Information Assistant</span>
+                    </div>
+                </div>
+                <button id="pjChatClose" aria-label="Close chat">×</button>
+            </div>
+
+            <div id="pjChatMessages">
+                <div class="pj-message pj-bot">
+                    <div class="pj-message-bubble">
+                        <strong>Hello! 👋</strong>
+                        <p>Welcome to PeopleJuris. How can I help you today?</p>
+                    </div>
+                </div>
+
+                <div class="pj-quick-questions">
+                    <button data-question="What practice areas does PeopleJuris handle?">⚖ Practice Areas</button>
+                    <button data-question="How can I contact PeopleJuris?">📞 Contact PeopleJuris</button>
+                    <button data-question="How can I apply for an internship?">💼 Internship</button>
+                    <button data-question="Where is PeopleJuris located?">📍 Office Location</button>
+                    <button data-question="What is the PeopleJuris newsletter?">📰 Newsletter</button>
+                </div>
+            </div>
+
+            <div class="pj-chat-disclaimer">
+                ⚠️ This assistant provides general information about PeopleJuris and does not provide legal advice. No lawyer-client relationship is created through this chat.
+            </div>
+
+            <div class="pj-chat-input-area">
+                <input type="text" id="pjChatInput" placeholder="Ask PeopleJuris..." autocomplete="off">
+                <button id="pjChatSend" aria-label="Send message">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript (Ambient Engine & Core Scripts) -->
+    <script src="js/ambient-engine.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

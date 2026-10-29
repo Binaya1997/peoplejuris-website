@@ -1,0 +1,332 @@
+/* ==========================================================================
+   PEOPLEJURIS LLP — RESPONSIVE LAYOUT ENGINE & MOBILE STYLESHEET
+   Supports: 320px, 375px, 428px, 768px, 1024px
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   TABLET & SMALL DESKTOP (max-width: 1024px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  nav {
+    padding: 14px 28px;
+  }
+
+  nav.nav-scrolled {
+    padding: 10px 28px;
+  }
+
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 50px;
+    text-align: center;
+  }
+
+  .hero-content {
+    align-items: center;
+  }
+
+  .hero-subtext {
+    margin: 0 auto;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .hero-stage-3d {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .about-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .about-image {
+    position: static;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .service-grid,
+  .archive-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .why-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .timeline {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .contact-wrapper {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   MOBILE SCREENS (max-width: 768px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  nav {
+    padding: 14px 20px;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  nav ul {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 72px);
+    background: rgba(8, 14, 26, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 24px;
+    padding: 40px 24px;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    transform: translateY(-120%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    z-index: 999;
+    overflow-y: auto;
+  }
+
+  nav ul.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  nav ul li a {
+    font-size: 1.25rem;
+    padding: 10px 0;
+  }
+
+  .nav-cta {
+    margin-top: 10px;
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+    padding: 14px 24px !important;
+    font-size: 1rem !important;
+  }
+
+  /* Section Spacing Reductions */
+  .hero {
+    padding: 110px 20px 60px;
+    min-height: auto;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-subtext {
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  .hero-3d-card {
+    max-width: 320px;
+    aspect-ratio: 1 / 1.1;
+    padding: 20px;
+  }
+
+  .hero-stage-badge {
+    bottom: 14px;
+    font-size: 0.75rem;
+    padding: 6px 16px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-actions .btn-primary,
+  .hero-actions .btn-secondary,
+  .hero-actions .hero-btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .about,
+  .about-values,
+  .leadership,
+  .legal-services,
+  .consultation,
+  .career-hero,
+  .application,
+  .newsletter-archive,
+  .newsletter-home,
+  .contact,
+  .form-section,
+  .why {
+    padding: 70px 20px;
+  }
+
+  .about-content h2,
+  .main-title,
+  .legacy h2,
+  .leadership h2,
+  .consultation h2,
+  .career-overlay h1,
+  .application-inner h2,
+  .newsletter-archive h2,
+  .newsletter-card h2,
+  .contact h2,
+  .form-box h2 {
+    font-size: 2.2rem;
+  }
+
+  .about-content p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .mission-vision {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 50px;
+  }
+
+  .mv-card {
+    padding: 30px 24px;
+  }
+
+  .mv-card h2 {
+    font-size: 1.8rem;
+  }
+
+  .leaders {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .leader-card img {
+    height: 320px;
+  }
+
+  .service-grid,
+  .consult-grid,
+  .archive-list,
+  .why-grid,
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .form-group.col-span-2 {
+    grid-column: span 1;
+  }
+
+  .service-card,
+  .consult-card,
+  .form-box,
+  .application-inner,
+  .contact-info,
+  .contact-form,
+  .newsletter-card {
+    padding: 30px 20px;
+  }
+
+  /* Bar Council Disclaimer Slide Modal on Mobile */
+  .disclaimer-panel {
+    padding: 0;
+  }
+
+  .disclaimer-content {
+    border-radius: 20px 20px 0 0;
+    padding: 30px 20px 24px;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  .disclaimer-content ul {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .disclaimer-header h3 {
+    font-size: 1.8rem;
+  }
+
+  /* Chatbot Widget Mobile */
+  #pjChatWidget {
+    bottom: 20px;
+    right: 20px;
+  }
+
+  #pjChatBox {
+    position: fixed;
+    top: 72px;
+    left: 12px;
+    right: 12px;
+    bottom: 84px;
+    width: auto;
+    height: auto;
+    max-height: none;
+    border-radius: var(--pj-radius-lg);
+  }
+
+  /* Service Modal Mobile */
+  .service-modal-card {
+    padding: 30px 20px;
+  }
+
+  .service-modal-card h3 {
+    font-size: 1.7rem;
+  }
+
+  .service-modal-actions {
+    flex-direction: column;
+  }
+
+  .service-modal-actions .btn-primary,
+  .service-modal-actions .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   SMALL MOBILE PHONES (max-width: 380px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 380px) {
+  .logo span {
+    font-size: 1.2rem;
+    letter-spacing: 1.5px;
+  }
+
+  .hero h1 {
+    font-size: 2.1rem;
+  }
+
+  .service-card h4,
+  .consult-card h3 {
+    font-size: 1.45rem;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .hero-btn,
+  .submit-btn {
+    padding: 14px 20px;
+    font-size: 0.95rem;
+  }
+}

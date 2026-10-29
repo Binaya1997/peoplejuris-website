@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrator Login | PeopleJuris LLP</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="48x48" href="images/favicon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mobile.css">
+
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            background: 
+                radial-gradient(circle at 50% 30%, rgba(19, 34, 61, 0.7) 0%, rgba(6, 11, 20, 0.98) 80%),
+                var(--pj-navy-950);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 440px;
+            background: rgba(19, 34, 61, 0.65);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: var(--pj-radius-xl);
+            padding: 46px 40px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 35px rgba(212, 175, 55, 0.12);
+            position: relative;
+            z-index: 2;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            text-decoration: none;
+        }
+
+        .auth-logo img {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.4));
+        }
+
+        .auth-logo span {
+            font-family: var(--pj-font-brand);
+            font-size: 1.45rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: #ffffff;
+        }
+
+        .auth-logo .tm-mark {
+            font-size: 0.52em;
+            vertical-align: super;
+            margin-left: 2px;
+            font-family: var(--pj-font-body);
+            font-weight: 700;
+            color: var(--pj-gold-300);
+            letter-spacing: 0;
+            display: inline-block;
+        }
+
+        .auth-header h1 {
+            font-size: 1.85rem;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .auth-header p {
+            font-size: 0.92rem;
+            color: var(--pj-text-secondary);
+        }
+
+        .auth-alert {
+            display: none;
+            padding: 12px 16px;
+            border-radius: var(--pj-radius-md);
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .auth-alert.error {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #fca5a5;
+        }
+
+        .auth-alert.success {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.35);
+            color: #86efac;
+        }
+
+        .form-group input,
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: 100%;
+            background: rgba(10, 17, 32, 0.85);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            color: #ffffff;
+            font-family: var(--pj-font-body) !important;
+            font-size: 1rem !important;
+            line-height: 1.5 !important;
+            padding: 14px 18px;
+            border-radius: var(--pj-radius-md);
+            box-sizing: border-box;
+            transition: border-color var(--pj-transition-fast), box-shadow var(--pj-transition-fast);
+        }
+
+        .form-group input:focus {
+            border-color: var(--pj-gold-400);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
+            outline: none;
+        }
+
+        .form-group input::placeholder,
+        .form-group input::-webkit-input-placeholder,
+        .form-group input::-moz-placeholder,
+        .form-group input:-ms-input-placeholder {
+            color: rgba(255, 255, 255, 0.45) !important;
+            font-family: var(--pj-font-body) !important;
+            font-size: 0.95rem !important;
+            font-weight: 400 !important;
+            letter-spacing: normal !important;
+            line-height: normal !important;
+            opacity: 1 !important;
+        }
+
+        .form-group input:-webkit-autofill,
+        .form-group input:-webkit-autofill:hover, 
+        .form-group input:-webkit-autofill:focus,
+        .form-group input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 1000px #0a1120 inset !important;
+            -webkit-text-fill-color: #ffffff !important;
+            caret-color: #ffffff !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        /* Hide native browser password reveal icon */
+        input::-ms-reveal,
+        input::-ms-clear {
+            display: none;
+        }
+
+        .password-wrap {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--pj-text-muted);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 4px;
+            transition: color var(--pj-transition-fast);
+        }
+
+        .password-toggle:hover {
+            color: var(--pj-gold-400);
+        }
+
+        .auth-footer-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 18px;
+            font-size: 0.88rem;
+        }
+
+        .auth-footer-links a {
+            color: var(--pj-text-secondary);
+            transition: color var(--pj-transition-fast);
+        }
+
+        .auth-footer-links a:hover {
+            color: var(--pj-gold-400);
+        }
+
+        .return-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 28px;
+            color: var(--pj-text-muted);
+            font-size: 0.88rem;
+            text-decoration: none;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .return-link:hover {
+            color: var(--pj-gold-400);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <!-- Ambient Background Glows -->
+        <div class="ambient-canvas-wrapper" aria-hidden="true">
+            <div class="ambient-glow-gold" style="top: 20%; left: 15%;"></div>
+            <div class="ambient-glow-blue" style="bottom: 20%; right: 15%;"></div>
+        </div>
+
+        <div class="auth-card">
+            <div class="auth-header">
+                <a href="index.html" class="auth-logo" aria-label="PeopleJuris Home">
+                    <img src="images/favicon.png" alt="PeopleJuris Logo">
+                    <span>peoplejuris<sup class="tm-mark">™</sup></span>
+                </a>
+                <h1>Admin Login</h1>
+                <p>Authorized Publication & Newsletter Access</p>
+            </div>
+
+            <div id="alertBox" class="auth-alert" role="alert"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Administrator Username</label>
+                    <input type="text" id="username" name="username" placeholder="Username" required autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-wrap">
+                        <input type="password" id="password" name="password" placeholder="Enter password" required autocomplete="current-password" style="padding-right: 42px;">
+                        <button type="button" class="password-toggle" id="togglePassword" aria-label="Show or hide password">
+                            <i class="far fa-eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="auth-footer-links">
+                    <a href="admin-forgot-password.html">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn" style="margin-top: 24px;">
+                    <span id="btnText">Sign In</span>
+                    <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+                </button>
+            </form>
+
+            <a href="newsletter.html" class="return-link">
+                <i class="fas fa-chevron-left"></i>
+                <span>Return to Newsletter</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('loginForm');
+            const alertBox = document.getElementById('alertBox');
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const passwordInput = document.getElementById('password');
+            const togglePassword = document.getElementById('togglePassword');
+            const eyeIcon = document.getElementById('eyeIcon');
+
+            // Show / Hide Password Toggle (preserves cursor, focus, and styling)
+            togglePassword.addEventListener('click', function (e) {
+                e.preventDefault();
+                const isPassword = passwordInput.type === 'password';
+                const start = passwordInput.selectionStart;
+                const end = passwordInput.selectionEnd;
+                passwordInput.type = isPassword ? 'text' : 'password';
+                eyeIcon.className = isPassword ? 'far fa-eye-slash' : 'far fa-eye';
+                passwordInput.focus();
+                if (start !== null && end !== null) {
+                    passwordInput.setSelectionRange(start, end);
+                }
+            });
+
+            // Automatically determine API base URL (handles file://, different ports, localhost, etc.)
+            const apiBase = (window.location.protocol === 'file:' || (window.location.port !== '8000' && window.location.port !== ''))
+                ? 'http://localhost:8000'
+                : '';
+
+            // Detect if user opened the page as a raw local file on disk
+            if (window.location.protocol === 'file:') {
+                alertBox.className = 'auth-alert';
+                alertBox.style.display = 'flex';
+                alertBox.style.background = 'rgba(212, 175, 55, 0.15)';
+                alertBox.style.border = '1px solid rgba(212, 175, 55, 0.35)';
+                alertBox.style.color = '#f1d57e';
+                alertBox.innerHTML = '<i class="fas fa-info-circle"></i> <span>Opened via <code>file://</code>. Please open <a href="http://localhost:8000/admin-login.html" style="color:#ffffff;text-decoration:underline;font-weight:600;">http://localhost:8000/admin-login.html</a> in your browser.</span>';
+            }
+
+            // Check URL parameters for session notifications (e.g. 15-minute inactivity timeout)
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('expired') === '1') {
+                alertBox.className = 'auth-alert error';
+                alertBox.style.display = 'flex';
+                alertBox.innerHTML = '<i class="fas fa-clock" style="margin-right:8px;font-size:1.1rem;"></i> <span>Your administrator session has expired after 15 minutes of inactivity. Please sign in again.</span>';
+            } else if (urlParams.get('logout') === '1') {
+                alertBox.className = 'auth-alert success';
+                alertBox.style.display = 'flex';
+                alertBox.innerHTML = '<i class="fas fa-check-circle" style="margin-right:8px;font-size:1.1rem;"></i> <span>You have been safely logged out.</span>';
+            }
+
+            // Opening Admin Login explicitly terminates any previous session so credentials must be entered fresh
+            fetch(apiBase + '/api/admin/logout', { method: 'POST', credentials: 'include' }).catch(() => {});
+
+            // Handle Login Submission
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                alertBox.className = 'auth-alert';
+                alertBox.style.display = 'none';
+
+                const username = document.getElementById('username').value.trim();
+                const password = passwordInput.value;
+
+                if (!username || !password) {
+                    alertBox.className = 'auth-alert error';
+                    alertBox.style.display = 'flex';
+                    alertBox.textContent = 'Please enter both username and password.';
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                btnText.textContent = 'Verifying...';
+
+                try {
+                    const response = await fetch(apiBase + '/api/admin/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify({ username, password })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                        alertBox.className = 'auth-alert success';
+                        alertBox.style.display = 'flex';
+                        alertBox.textContent = 'Authentication successful. Redirecting...';
+                        setTimeout(() => {
+                            window.location.href = (window.location.protocol === 'file:' ? 'http://localhost:8000/' : '') + 'admin-dashboard.html';
+                        }, 600);
+                    } else {
+                        alertBox.className = 'auth-alert error';
+                        alertBox.style.display = 'flex';
+                        alertBox.textContent = data.error || 'Invalid credentials. Please try again.';
+                    }
+                } catch (err) {
+                    console.error('Login request error:', err);
+                    alertBox.className = 'auth-alert error';
+                    alertBox.style.display = 'flex';
+                    if (window.location.protocol === 'file:') {
+                        alertBox.innerHTML = '<i class="fas fa-exclamation-triangle" style="margin-right:6px;"></i> <span><strong>Cannot reach backend from <code>file://</code> protocol.</strong><br>Please open <a href="http://localhost:8000/admin-login.html" style="color:#ffffff;text-decoration:underline;font-weight:700;">http://localhost:8000/admin-login.html</a> directly in your browser.</span>';
+                    } else {
+                        alertBox.innerHTML = `<i class="fas fa-exclamation-triangle" style="margin-right:6px;"></i> <span>Server communication error (${err.message || 'connection failed'}). Ensure backend is running at <strong>http://localhost:8000</strong>.</span>`;
+                    }
+                } finally {
+                    submitBtn.disabled = false;
+                    btnText.textContent = 'Sign In';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
