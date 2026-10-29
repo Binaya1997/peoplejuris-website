@@ -376,12 +376,16 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
         self.send_header("Pragma", "no-cache")
         self.send_header("Expires", "0")
 
-        # Restrict CORS to same host or valid local origins
+        # Handle CORS
         origin = self.headers.get("Origin")
         host = self.headers.get("Host")
+        allowed_origins = [o.strip().lower() for o in os.environ.get("PJ_ALLOWED_ORIGINS", "").split(",") if o.strip()]
         if origin and origin != "null":
             parsed = urllib.parse.urlparse(origin)
-            if host and parsed.netloc.lower() == host.lower():
+            is_same_host = host and parsed.netloc.lower() == host.lower()
+            is_explicitly_allowed = origin.lower() in allowed_origins or parsed.netloc.lower() in allowed_origins
+            is_local = parsed.hostname in ("localhost", "127.0.0.1")
+            if is_same_host or is_explicitly_allowed or is_local:
                 self.send_header("Access-Control-Allow-Origin", origin)
                 self.send_header("Access-Control-Allow-Credentials", "true")
 
@@ -424,22 +428,34 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
         return self.client_address[0] if self.client_address else "127.0.0.1"
 
     def check_csrf(self) -> bool:
-        """Validates that mutating requests originate from the same host."""
+        """Validates that mutating requests originate from the same host or explicitly allowed origins."""
         origin = self.headers.get("Origin")
         host = self.headers.get("Host")
+        allowed_origins = [o.strip().lower() for o in os.environ.get("PJ_ALLOWED_ORIGINS", "").split(",") if o.strip()]
+
         if origin and origin != "null":
             parsed_origin = urllib.parse.urlparse(origin)
             if parsed_origin.netloc and host:
-                if parsed_origin.netloc.lower() != host.lower():
-                    return False
+                if parsed_origin.netloc.lower() == host.lower():
+                    return True
+                if origin.lower() in allowed_origins or parsed_origin.netloc.lower() in allowed_origins:
+                    return True
+                if parsed_origin.hostname in ("localhost", "127.0.0.1"):
+                    return True
+                return False
             return True
 
         referer = self.headers.get("Referer")
         if referer:
             parsed_ref = urllib.parse.urlparse(referer)
             if parsed_ref.netloc and host:
-                if parsed_ref.netloc.lower() != host.lower():
-                    return False
+                if parsed_ref.netloc.lower() == host.lower():
+                    return True
+                if referer.lower() in allowed_origins or parsed_ref.netloc.lower() in allowed_origins:
+                    return True
+                if parsed_ref.hostname in ("localhost", "127.0.0.1"):
+                    return True
+                return False
         return True
 
     def get_session_token(self) -> str:
@@ -1195,7 +1211,7 @@ def setup_initial_admin():
 # ------------------------------------------------------------------------------
 # SERVER ENTRY POINT
 # ------------------------------------------------------------------------------
-def run_server(port: int = DEFAULT_PORT):
+def run_server(port: int = None, host: str = None):
     init_database()
 
     # Automatically check if at least one admin exists; if not, create a default secure setup
@@ -1223,11 +1239,19 @@ def run_server(port: int = DEFAULT_PORT):
             print(f" Recovery Code: {code}")
             print("="*70)
 
-    server = ThreadedHTTPServer(("127.0.0.1", port), PeopleJurisHandler)
-    print(f"\n[PeopleJuris Server Running] Serving on http://localhost:{port}")
-    print(f"- Public Website:     http://localhost:{port}/index.html")
-    print(f"- Newsletter Page:    http://localhost:{port}/newsletter.html")
-    print(f"- Administrator Login: http://localhost:{port}/admin-login.html")
+    if port is None:
+        port = int(os.environ.get("PORT", DEFAULT_PORT))
+
+    if host is None:
+        # In cloud environments (PORT specified) or containers, listen on 0.0.0.0 so external proxy routes traffic
+        # Locally without PORT, default to 127.0.0.1 to avoid dual-stack socket conflicts
+        host = os.environ.get("PJ_HOST", "0.0.0.0" if os.environ.get("PORT") else "127.0.0.1")
+
+    server = ThreadedHTTPServer((host, port), PeopleJurisHandler)
+    print(f"\n[PeopleJuris Server Running] Serving on http://{host}:{port}")
+    print(f"- Public Website:     http://{host}:{port}/index.html")
+    print(f"- Newsletter Page:    http://{host}:{port}/newsletter.html")
+    print(f"- Administrator Login: http://{host}:{port}/admin-login.html")
     print(f"- SQLite Database:    {DB_PATH}\n")
     try:
         server.serve_forever()
@@ -1239,7 +1263,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "--setup-admin":
         setup_initial_admin()
     else:
-        port = DEFAULT_PORT
+        port = int(os.environ.get("PORT", DEFAULT_PORT))
         if len(sys.argv) > 1 and sys.argv[1].isdigit():
             port = int(sys.argv[1])
         run_server(port)

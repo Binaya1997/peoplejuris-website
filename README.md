@@ -68,10 +68,24 @@ python server.py
 - **Newsletter Portal:** [http://localhost:8000/newsletter.html](http://localhost:8000/newsletter.html)
 - **Admin Console:** [http://localhost:8000/admin-login.html](http://localhost:8000/admin-login.html)
 
-### Option 2: Static Hosting (GitHub Pages / Netlify / Vercel)
+### Option 2: Production Cloud Deployment (Render / Railway / VPS)
+
+To run the full-stack Python application in production with automated Git deploys:
+
+#### 1-Click Free Deploy on Render.com:
+1. Push your repository to GitHub.
+2. Log into [Render.com](https://render.com) and click **New +** → **Web Service**.
+3. Select your PeopleJuris GitHub repository.
+4. Render automatically detects the included `render.yaml` and `Procfile`:
+   - **Environment:** `Python`
+   - **Start Command:** `python server.py`
+5. Click **Deploy Web Service**. Render gives you a live HTTPS URL (e.g., `https://peoplejuris.onrender.com`). Both the public website and the admin backend will be live on the same domain with zero configuration.
+
+### Option 3: Static Hosting (GitHub Pages / Netlify / Vercel)
 The public website is fully functional as a static site:
-- Simply open `index.html` in any modern web browser or deploy directly to GitHub Pages.
-- Client forms submit seamlessly via integrated FormSubmit and Brevo services.
+- Open `index.html` in any modern web browser or deploy directly to GitHub Pages.
+- Client inquiries submit seamlessly via integrated FormSubmit and Brevo services.
+- *Note:* GitHub Pages only hosts static files and cannot execute Python code (`server.py`). To use the admin console on a GitHub Pages site, either run `server.py` locally or connect your hosted Render URL in the Admin Login settings.
 
 ---
 

@@ -1199,14 +1199,23 @@
     const archiveList = document.querySelector('.archive-list');
     if (!archiveList) return;
 
-    const apiBase = (window.location.protocol === 'file:' || (window.location.port !== '8000' && window.location.port !== ''))
-      ? 'http://localhost:8000'
-      : '';
+    let customBackend = (localStorage.getItem('pj_backend_url') || '').trim();
+    if (customBackend.endsWith('/')) customBackend = customBackend.slice(0, -1);
+
+    let apiBase = '';
+    if (customBackend) {
+      apiBase = customBackend;
+    } else if (window.location.protocol === 'file:') {
+      apiBase = 'http://localhost:8000';
+    } else if (window.location.port !== '8000' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+      apiBase = 'http://localhost:8000';
+    }
 
     try {
       const response = await fetch(apiBase + '/api/newsletters');
       if (response.ok) {
-        const data = await response.json();
+        const text = await response.text();
+        const data = text ? JSON.parse(text) : {};
         if (data.success && Array.isArray(data.newsletters) && data.newsletters.length > 0) {
           archiveList.innerHTML = '';
           data.newsletters.forEach(item => {

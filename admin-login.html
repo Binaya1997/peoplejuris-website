@@ -280,6 +280,21 @@
                 </button>
             </form>
 
+            <!-- Backend API Configuration for Static Hosting (e.g. GitHub Pages) -->
+            <div style="margin-top: 1.2rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.9rem;">
+                <button type="button" id="toggleBackendConfig" style="background: none; border: none; color: #a0aec0; font-size: 0.8rem; cursor: pointer; text-decoration: underline;">
+                    <i class="fas fa-server" style="margin-right: 4px;"></i> Backend Server Settings
+                </button>
+                <div id="backendConfigBox" style="display: none; margin-top: 0.8rem; text-align: left; background: rgba(0,0,0,0.35); padding: 0.8rem; border-radius: 6px; border: 1px solid rgba(212,175,55,0.25);">
+                    <label style="display: block; font-size: 0.78rem; color: #cbd5e0; margin-bottom: 5px;">Custom Backend API URL (e.g. <code>https://your-api.onrender.com</code>):</label>
+                    <div style="display: flex; gap: 6px;">
+                        <input type="url" id="backendUrlInput" placeholder="https://your-api.onrender.com" style="flex: 1; padding: 6px 10px; font-size: 0.82rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; color: #ffffff;">
+                        <button type="button" id="saveBackendUrlBtn" style="padding: 6px 12px; font-size: 0.82rem; background: #d4af37; color: #060b14; font-weight: 700; border: none; border-radius: 4px; cursor: pointer;">Save</button>
+                    </div>
+                    <div id="backendSavedNotice" style="display:none; font-size:0.75rem; color:#4ade80; margin-top:4px;">Backend URL saved! Reloading...</div>
+                </div>
+            </div>
+
             <a href="newsletter.html" class="return-link">
                 <i class="fas fa-chevron-left"></i>
                 <span>Return to Newsletter</span>
@@ -311,13 +326,63 @@
                 }
             });
 
-            // Automatically determine API base URL (handles file://, different ports, localhost, etc.)
-            const apiBase = (window.location.protocol === 'file:' || (window.location.port !== '8000' && window.location.port !== ''))
-                ? 'http://localhost:8000'
-                : '';
+            // Backend URL resolution
+            let customBackend = (localStorage.getItem('pj_backend_url') || '').trim();
+            if (customBackend.endsWith('/')) customBackend = customBackend.slice(0, -1);
 
-            // Detect if user opened the page as a raw local file on disk
-            if (window.location.protocol === 'file:') {
+            let apiBase = '';
+            if (customBackend) {
+                apiBase = customBackend;
+            } else if (window.location.protocol === 'file:') {
+                apiBase = 'http://localhost:8000';
+            } else if (window.location.port !== '8000' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+                apiBase = 'http://localhost:8000';
+            }
+
+            // Backend Configuration UI Toggle
+            const toggleConfigBtn = document.getElementById('toggleBackendConfig');
+            const configBox = document.getElementById('backendConfigBox');
+            const urlInput = document.getElementById('backendUrlInput');
+            const saveBtn = document.getElementById('saveBackendUrlBtn');
+            const savedNotice = document.getElementById('backendSavedNotice');
+
+            if (urlInput && customBackend) {
+                urlInput.value = customBackend;
+            }
+
+            if (toggleConfigBtn) {
+                toggleConfigBtn.addEventListener('click', () => {
+                    const isOpen = configBox.style.display === 'block';
+                    configBox.style.display = isOpen ? 'none' : 'block';
+                });
+            }
+
+            if (saveBtn) {
+                saveBtn.addEventListener('click', () => {
+                    const val = (urlInput.value || '').trim();
+                    if (val) {
+                        localStorage.setItem('pj_backend_url', val);
+                    } else {
+                        localStorage.removeItem('pj_backend_url');
+                    }
+                    savedNotice.style.display = 'block';
+                    setTimeout(() => window.location.reload(), 500);
+                });
+            }
+
+            // Static hosting detection (e.g. GitHub Pages)
+            const isStaticHost = window.location.hostname.endsWith('github.io') || 
+                                 window.location.hostname.endsWith('netlify.app') || 
+                                 window.location.hostname.endsWith('vercel.app');
+
+            if (isStaticHost && !customBackend) {
+                alertBox.className = 'auth-alert';
+                alertBox.style.display = 'flex';
+                alertBox.style.background = 'rgba(212, 175, 55, 0.15)';
+                alertBox.style.border = '1px solid rgba(212, 175, 55, 0.35)';
+                alertBox.style.color = '#f1d57e';
+                alertBox.innerHTML = '<i class="fas fa-info-circle" style="margin-right:8px;font-size:1.1rem;"></i> <span><strong>Static Hosting Detected (GitHub Pages)</strong><br>GitHub Pages hosts static files and cannot run Python scripts (<code>server.py</code>). To sign in, run <code>server.py</code> locally or connect a hosted backend URL below.</span>';
+            } else if (window.location.protocol === 'file:') {
                 alertBox.className = 'auth-alert';
                 alertBox.style.display = 'flex';
                 alertBox.style.background = 'rgba(212, 175, 55, 0.15)';
@@ -368,7 +433,16 @@
                         body: JSON.stringify({ username, password })
                     });
 
-                    const data = await response.json();
+                    let data = {};
+                    const text = await response.text();
+                    try {
+                        data = text ? JSON.parse(text) : {};
+                    } catch (parseErr) {
+                        if (response.status === 404 || response.status === 405) {
+                            throw new Error(`Endpoint not found (${response.status}). If deployed on static hosting (like GitHub Pages), the Python backend (server.py) is not active on this host.`);
+                        }
+                        throw new Error(`Server returned non-JSON response (${response.status}).`);
+                    }
 
                     if (response.ok && data.success) {
                         alertBox.className = 'auth-alert success';
@@ -380,16 +454,18 @@
                     } else {
                         alertBox.className = 'auth-alert error';
                         alertBox.style.display = 'flex';
-                        alertBox.textContent = data.error || 'Invalid credentials. Please try again.';
+                        alertBox.textContent = data.error || (response.status === 404 ? 'Backend server not found. Ensure server.py is running.' : 'Invalid credentials. Please try again.');
                     }
                 } catch (err) {
                     console.error('Login request error:', err);
                     alertBox.className = 'auth-alert error';
                     alertBox.style.display = 'flex';
-                    if (window.location.protocol === 'file:') {
+                    if (isStaticHost && !customBackend) {
+                        alertBox.innerHTML = `<i class="fas fa-exclamation-triangle" style="margin-right:6px;"></i> <span><strong>Backend Server Not Running on GitHub Pages</strong><br>GitHub Pages is a static host and cannot run Python scripts (<code>server.py</code>).<br><br>• <strong>To run locally:</strong> Open <a href="http://localhost:8000/admin-login.html" style="color:#ffffff;text-decoration:underline;font-weight:700;">http://localhost:8000/admin-login.html</a><br>• <strong>To run in production:</strong> Deploy <code>server.py</code> to Render.com (free) and set your Backend URL below.</span>`;
+                    } else if (window.location.protocol === 'file:') {
                         alertBox.innerHTML = '<i class="fas fa-exclamation-triangle" style="margin-right:6px;"></i> <span><strong>Cannot reach backend from <code>file://</code> protocol.</strong><br>Please open <a href="http://localhost:8000/admin-login.html" style="color:#ffffff;text-decoration:underline;font-weight:700;">http://localhost:8000/admin-login.html</a> directly in your browser.</span>';
                     } else {
-                        alertBox.innerHTML = `<i class="fas fa-exclamation-triangle" style="margin-right:6px;"></i> <span>Server communication error (${err.message || 'connection failed'}). Ensure backend is running at <strong>http://localhost:8000</strong>.</span>`;
+                        alertBox.innerHTML = `<i class="fas fa-exclamation-triangle" style="margin-right:6px;"></i> <span>Server communication error: ${err.message || 'connection failed'}. Ensure backend is running.</span>`;
                     }
                 } finally {
                     submitBtn.disabled = false;

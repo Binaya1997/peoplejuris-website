@@ -1,0 +1,1 @@
+# PeopleJuris uses Python standard library only (zero pip dependencies required)
