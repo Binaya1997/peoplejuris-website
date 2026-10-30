@@ -11,3 +11,5 @@ Procfile
 render.yaml
 README.md
 .gitignore
+wrangler.jsonc
+.wrangler/
