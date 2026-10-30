@@ -8,11 +8,53 @@
    -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
   nav {
+<<<<<<< HEAD
     padding: 14px 28px;
   }
 
   nav.nav-scrolled {
     padding: 10px 28px;
+=======
+    padding: 12px clamp(16px, 2.4vw, 28px);
+    gap: clamp(10px, 1.4vw, 18px);
+  }
+
+  nav.nav-scrolled {
+    padding: 10px clamp(16px, 2.4vw, 28px);
+  }
+
+  .logo {
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .logo img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .logo span {
+    font-size: 1.18rem;
+    letter-spacing: 1.4px;
+    white-space: nowrap;
+  }
+
+  nav ul {
+    gap: clamp(8px, 1.1vw, 16px);
+  }
+
+  nav ul li a {
+    font-size: 0.83rem;
+    padding: 6px 2px;
+    white-space: nowrap;
+  }
+
+  .nav-cta {
+    padding: 7px 14px !important;
+    font-size: 0.81rem !important;
+    white-space: nowrap;
+    flex-shrink: 0;
+>>>>>>> a3d6cd1 (feat: add admin dashboard and project deployment setup)
   }
 
   .hero-inner {
@@ -68,12 +110,44 @@
     grid-template-columns: 1fr;
     gap: 40px;
   }
+<<<<<<< HEAD
 }
 
 /* --------------------------------------------------------------------------
    MOBILE SCREENS (max-width: 768px)
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
+=======
+
+  .newsletter-unified-card {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 40px 28px;
+  }
+
+  .tech-divider-wrap {
+    flex-direction: row;
+    width: 100%;
+    height: 28px;
+    margin: 8px 0;
+  }
+
+  .tech-divider-line {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.35) 20%, rgba(212, 175, 55, 0.35) 80%, transparent);
+  }
+
+  .tech-divider-beacon {
+    margin: 0 14px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE NAVIGATION DRAWER (max-width: 920px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 920px) {
+>>>>>>> a3d6cd1 (feat: add admin dashboard and project deployment setup)
   nav {
     padding: 14px 20px;
   }
@@ -84,10 +158,18 @@
 
   nav ul {
     position: fixed;
+<<<<<<< HEAD
     top: 72px;
     left: 0;
     width: 100%;
     height: calc(100vh - 72px);
+=======
+    top: 68px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 68px);
+    height: calc(100dvh - 68px);
+>>>>>>> a3d6cd1 (feat: add admin dashboard and project deployment setup)
     background: rgba(8, 14, 26, 0.98);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -95,7 +177,11 @@
     justify-content: flex-start;
     align-items: center;
     gap: 24px;
+<<<<<<< HEAD
     padding: 40px 24px;
+=======
+    padding: 36px 24px;
+>>>>>>> a3d6cd1 (feat: add admin dashboard and project deployment setup)
     border-top: 1px solid rgba(212, 175, 55, 0.2);
     transform: translateY(-120%);
     opacity: 0;
@@ -114,6 +200,10 @@
   nav ul li a {
     font-size: 1.25rem;
     padding: 10px 0;
+<<<<<<< HEAD
+=======
+    white-space: nowrap;
+>>>>>>> a3d6cd1 (feat: add admin dashboard and project deployment setup)
   }
 
   .nav-cta {
@@ -123,8 +213,19 @@
     justify-content: center;
     padding: 14px 24px !important;
     font-size: 1rem !important;
+<<<<<<< HEAD
   }
 
+=======
+    white-space: nowrap;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   MOBILE SCREENS (max-width: 768px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+>>>>>>> a3d6cd1 (feat: add admin dashboard and project deployment setup)
   /* Section Spacing Reductions */
   .hero {
     padding: 110px 20px 60px;
@@ -231,6 +332,27 @@
     gap: 20px;
   }
 
+<<<<<<< HEAD
+=======
+  .why-cta-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 20px;
+    gap: 20px;
+  }
+
+  .why-cta-actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .why-cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+>>>>>>> a3d6cd1 (feat: add admin dashboard and project deployment setup)
   .form-group.col-span-2 {
     grid-column: span 1;
   }
@@ -252,9 +374,44 @@
 
   .disclaimer-content {
     border-radius: 20px 20px 0 0;
+<<<<<<< HEAD
     padding: 30px 20px 24px;
     max-height: 85vh;
     overflow-y: auto;
+=======
+    padding: 24px 20px 24px;
+    max-height: 86vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .disclaimer-content::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .disclaimer-content::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .disclaimer-content::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.35);
+    border-radius: 4px;
+  }
+
+  /* Full, unclipped Scales of Justice crest badge on mobile */
+  .disclaimer-content::before {
+    position: relative;
+    top: 0;
+    left: auto;
+    transform: none;
+    margin: 0 auto 14px auto;
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+    display: flex;
+>>>>>>> a3d6cd1 (feat: add admin dashboard and project deployment setup)
   }
 
   .disclaimer-content ul {
@@ -264,6 +421,17 @@
 
   .disclaimer-header h3 {
     font-size: 1.8rem;
+<<<<<<< HEAD
+=======
+    margin-bottom: 12px;
+  }
+
+  .disclaimer-actions .agree-btn {
+    width: 100%;
+    max-width: 340px;
+    padding: 13px 24px;
+    font-size: 1rem;
+>>>>>>> a3d6cd1 (feat: add admin dashboard and project deployment setup)
   }
 
   /* Chatbot Widget Mobile */
@@ -305,6 +473,94 @@
 }
 
 /* --------------------------------------------------------------------------
+<<<<<<< HEAD
+=======
+   INTERMEDIATE MOBILE PHONES (max-width: 640px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .feedback-interactive-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+  }
+
+  .feedback-action-pill {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   EXTRA SMALL MOBILE SCREENS (max-width: 480px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .feedback-headline {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .pagination {
+    gap: 8px;
+  }
+
+  .page-btn {
+    min-width: 105px;
+    height: 38px;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+
+  .page-number {
+    width: 38px;
+    height: 38px;
+    font-size: 0.88rem;
+  }
+
+  .newsletter-showcase-section {
+    padding: 60px 16px;
+  }
+
+  .newsletter-unified-card {
+    padding: 28px 16px;
+    gap: 28px;
+    border-radius: 20px;
+  }
+
+  .tech-telemetry-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .tech-headline {
+    font-size: 1.65rem;
+  }
+
+  .tech-intel-tags {
+    gap: 6px;
+  }
+
+  .form-grid-duo {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .card-header-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .contact-info,
+  .contact-form {
+    padding: 28px 18px;
+    border-radius: 20px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+>>>>>>> a3d6cd1 (feat: add admin dashboard and project deployment setup)
    SMALL MOBILE PHONES (max-width: 380px)
    -------------------------------------------------------------------------- */
 @media (max-width: 380px) {
@@ -329,4 +585,19 @@
     padding: 14px 20px;
     font-size: 0.95rem;
   }
+<<<<<<< HEAD
+=======
+
+  .page-btn {
+    min-width: 96px;
+    padding: 8px 10px;
+    font-size: 0.82rem;
+  }
+
+  .page-number {
+    width: 34px;
+    height: 34px;
+    font-size: 0.82rem;
+  }
+>>>>>>> a3d6cd1 (feat: add admin dashboard and project deployment setup)
 }

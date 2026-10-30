@@ -64,7 +64,11 @@
       // Auto close mobile menu when clicking a link
       navLinks.querySelectorAll('a').forEach(function (link) {
         link.addEventListener('click', function () {
+<<<<<<< HEAD
           if (window.innerWidth <= 768) {
+=======
+          if (window.innerWidth <= 920 || (menuToggle && window.getComputedStyle(menuToggle).display !== 'none')) {
+>>>>>>> a3d6cd1 (feat: add admin dashboard and project deployment setup)
             navLinks.classList.remove('active');
             menuToggle.textContent = '☰';
             menuToggle.setAttribute('aria-expanded', 'false');
