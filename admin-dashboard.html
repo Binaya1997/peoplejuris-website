@@ -4,7 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | PeopleJuris LLP</title>
+    <script>
+    (function () {
+        const loginHandoff = sessionStorage.getItem('pj_dashboard_login_handoff');
+        sessionStorage.removeItem('pj_dashboard_login_handoff');
 
+        if (loginHandoff !== '1') {
+            window.location.replace(
+                (window.location.protocol === 'file:' ? 'http://localhost:8000/' : '') +
+                'admin-login.html?reauth=1'
+            );
+        }
+    })();
+</script>
     <!-- Favicon -->
     <link rel="icon" href="favicon.ico">
     <link rel="icon" type="image/png" sizes="48x48" href="images/favicon.png">
@@ -1245,18 +1257,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            // Require a successful login-page handoff for each dashboard entry.
-            const loginHandoff = sessionStorage.getItem('pj_dashboard_login_handoff');
-            sessionStorage.removeItem('pj_dashboard_login_handoff');
-
-            if (loginHandoff !== '1') {
-                window.location.replace(
-                    (window.location.protocol === 'file:' ? 'http://localhost:8000/' : '') +
-                    'admin-login.html?reauth=1'
-                );
-                return;
-            }
-
             verifyAuth();
             loadNewsletters();
             updateTimerDisplay();
