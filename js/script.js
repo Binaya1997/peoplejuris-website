@@ -1235,8 +1235,11 @@
                 <h3>${item.title}</h3>
                 <p>${item.description || ''}</p>
                 <div class="archive-actions">
-                  <a href="${item.pdf_path}" target="_blank" rel="noopener noreferrer" class="newsletter-btn newsletter-btn-read">Read PDF</a>
-                  <a href="${item.pdf_path}" download class="newsletter-btn newsletter-btn-download">Download</a>
+                    <a href="https://docs.google.com/gview?embedded=1&url=${encodeURIComponent(item.pdf_path)}"
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     class="newsletter-btn newsletter-btn-read">Read PDF</a>
+                    <a href="${item.pdf_path}" download class="newsletter-btn newsletter-btn-download">Download</a>
                 </div>
               </div>
             `;
