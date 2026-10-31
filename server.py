@@ -29,6 +29,24 @@ from http import HTTPStatus
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from socketserver import ThreadingMixIn
 
+from db_adapter import (
+    get_db_adapter,
+    DatabaseAdapter,
+    DatabaseError,
+    D1WorkerError,
+    ConfigurationError,
+    RecordNotFoundError,
+    RECENTLY_EXPIRED_TOKENS,
+    record_recently_expired,
+    is_recently_expired
+)
+from github_storage import (
+    get_storage_backend,
+    StorageBackend,
+    GitHubStorageError,
+    GitHubConfigError
+)
+
 # ------------------------------------------------------------------------------
 # CONFIGURATION & CONSTANTS
 # ------------------------------------------------------------------------------
@@ -48,39 +66,29 @@ MAX_COVER_SIZE_BYTES = 8 * 1024 * 1024    # 8 MB
 RATE_LIMIT_MAX_ATTEMPTS = 5
 RATE_LIMIT_WINDOW_SECONDS = 15 * 60       # 15 minutes
 
+# Initialize persistent data adapter (SQLite by default, Cloudflare D1 if PJ_DB_BACKEND=d1)
+db = get_db_adapter()
+
 def make_session_cookie(token: str, max_age: int = SESSION_INACTIVITY_TIMEOUT_SECONDS) -> str:
-    """Generates an HttpOnly, SameSite=Lax session cookie with specified max age."""
-    return f"{SESSION_COOKIE_NAME}={token}; Path=/; Max-Age={max_age}; HttpOnly; SameSite=Lax"
+    """Generates a cross-site HttpOnly session cookie."""
+    return (
+        f"{SESSION_COOKIE_NAME}={token}; "
+        f"Path=/; Max-Age={max_age}; "
+        "HttpOnly; SameSite=None; Secure"
+    )
+
 
 def make_clear_session_cookie() -> str:
-    """Generates an expired Set-Cookie header to completely wipe the session cookie on client browsers."""
-    return f"{SESSION_COOKIE_NAME}=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax; Expires=Thu, 01 Jan 1970 00:00:00 GMT"
+    """Clears the cross-site session cookie."""
+    return (
+        f"{SESSION_COOKIE_NAME}=; "
+        "Path=/; Max-Age=0; "
+        "HttpOnly; SameSite=None; Secure; "
+        "Expires=Thu, 01 Jan 1970 00:00:00 GMT"
+    )
 
 # Rate limiting store: {ip_or_user: [timestamps]}
 LOGIN_ATTEMPTS = {}
-
-# Recently expired session tokens cache (allows graceful ?expired=1 redirection on concurrent/subsequent requests): {token: timestamp}
-RECENTLY_EXPIRED_TOKENS = {}
-
-def record_recently_expired(token: str):
-    if not token:
-        return
-    now = time.time()
-    for t in list(RECENTLY_EXPIRED_TOKENS.keys()):
-        if now - RECENTLY_EXPIRED_TOKENS[t] > 120:
-            del RECENTLY_EXPIRED_TOKENS[t]
-    RECENTLY_EXPIRED_TOKENS[token] = now
-
-def is_recently_expired(token: str) -> bool:
-    if not token:
-        return False
-    now = time.time()
-    if token in RECENTLY_EXPIRED_TOKENS:
-        if now - RECENTLY_EXPIRED_TOKENS[token] <= 120:
-            return True
-        else:
-            del RECENTLY_EXPIRED_TOKENS[token]
-    return False
 
 # Ensure required directories exist
 for directory in [DATA_DIR, UPLOADS_PDF_DIR, UPLOADS_COVER_DIR]:
@@ -149,122 +157,8 @@ def get_db_connection() -> sqlite3.Connection:
     return conn
 
 def init_database():
-    """Initializes database tables and migrates existing hardcoded publications."""
-    with get_db_connection() as conn:
-        cursor = conn.cursor()
-
-        # 1. Admins Table
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS admins (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT UNIQUE NOT NULL,
-                password_hash TEXT NOT NULL,
-                recovery_code_hash TEXT,
-                recovery_code_used INTEGER DEFAULT 0,
-                must_change_password INTEGER DEFAULT 0,
-                created_at TEXT NOT NULL,
-                updated_at TEXT NOT NULL
-            )
-        """)
-
-        # 2. Sessions Table
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS sessions (
-                id TEXT PRIMARY KEY,
-                admin_id INTEGER NOT NULL,
-                expires_at TEXT NOT NULL,
-                created_at TEXT NOT NULL,
-                last_activity_at TEXT NOT NULL,
-                FOREIGN KEY (admin_id) REFERENCES admins(id) ON DELETE CASCADE
-            )
-        """)
-
-        # Migration: Ensure last_activity_at column exists in existing sessions table
-        cursor.execute("PRAGMA table_info(sessions)")
-        existing_cols = [row[1] for row in cursor.fetchall()]
-        if "last_activity_at" not in existing_cols:
-            cursor.execute("ALTER TABLE sessions ADD COLUMN last_activity_at TEXT")
-            cursor.execute("UPDATE sessions SET last_activity_at = created_at WHERE last_activity_at IS NULL")
-            conn.commit()
-
-        # Startup Cleanup: Purge expired and inactive sessions
-        now_utc = datetime.datetime.now(datetime.timezone.utc)
-        now_iso = now_utc.isoformat()
-        inactivity_cutoff = (now_utc - datetime.timedelta(seconds=SESSION_INACTIVITY_TIMEOUT_SECONDS)).isoformat()
-        cursor.execute("""
-            DELETE FROM sessions
-            WHERE expires_at <= ? OR last_activity_at <= ?
-        """, (now_iso, inactivity_cutoff))
-        conn.commit()
-
-        # 3. Newsletters Table
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS newsletters (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                title TEXT NOT NULL,
-                description TEXT,
-                category TEXT,
-                issue_date TEXT NOT NULL,
-                pdf_path TEXT NOT NULL,
-                cover_image_path TEXT NOT NULL,
-                status TEXT NOT NULL DEFAULT 'published',
-                is_latest INTEGER NOT NULL DEFAULT 0,
-                created_at TEXT NOT NULL,
-                updated_at TEXT NOT NULL
-            )
-        """)
-
-        # 4. Migrate baseline newsletter entries if table is empty
-        cursor.execute("SELECT COUNT(*) as cnt FROM newsletters")
-        if cursor.fetchone()["cnt"] == 0:
-            print("[Database] Seeding existing verified PeopleJuris publications...")
-            now = datetime.datetime.now(datetime.timezone.utc).isoformat()
-            baseline_entries = [
-                (
-                    "PeopleJuris Newsletter – September 2026",
-                    "IP & Trademark Law",
-                    "consumer corporate ip",
-                    "2026-09-01",
-                    "newsletters/sept-2026.pdf",
-                    "images/newsletter-covers/September-2026.jpeg",
-                    "published",
-                    1,
-                    now,
-                    now
-                ),
-                (
-                    "PeopleJuris Newsletter – August 2026",
-                    "CORPORATE GOVERNANCE",
-                    "corporate civil",
-                    "2026-08-01",
-                    "newsletters/Aug-2026.pdf",
-                    "images/newsletter-covers/aug-2026.jpeg",
-                    "published",
-                    0,
-                    now,
-                    now
-                ),
-                (
-                    "PeopleJuris Newsletter – July 2026",
-                    "Data Governance and Digital Regulatory Compliance",
-                    "corporate property",
-                    "2026-07-01",
-                    "newsletters/june-2026.pdf",
-                    "images/newsletter-covers/july.jpeg",
-                    "published",
-                    0,
-                    now,
-                    now
-                )
-            ]
-            cursor.executemany("""
-                INSERT INTO newsletters (
-                    title, description, category, issue_date, pdf_path,
-                    cover_image_path, status, is_latest, created_at, updated_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, baseline_entries)
-            conn.commit()
-            print("[Database] 3 baseline publications seeded successfully.")
+    """Initializes the database schema and baseline data according to the active PJ_DB_BACKEND."""
+    db.init_database()
 
 def ensure_latest_addition_mutex(conn: sqlite3.Connection, target_id: int):
     """Enforces that only one published newsletter can be marked as the latest addition."""
@@ -481,67 +375,18 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
         if not token:
             return None, False, None
 
-        if is_recently_expired(token):
-            return None, True, token
-
-        now = datetime.datetime.now(datetime.timezone.utc)
-        now_iso = now.isoformat()
-
-        with get_db_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-                SELECT s.id, s.admin_id, s.expires_at, s.created_at, s.last_activity_at,
-                       a.username, a.must_change_password
-                FROM sessions s
-                JOIN admins a ON s.admin_id = a.id
-                WHERE s.id = ?
-            """, (token,))
-            row = cursor.fetchone()
-            if not row:
-                return None, False, None
-
-            # 1. Check absolute session expiration
-            try:
-                expires_dt = datetime.datetime.fromisoformat(row["expires_at"])
-                if expires_dt.tzinfo is None:
-                    expires_dt = expires_dt.replace(tzinfo=datetime.timezone.utc)
-            except Exception:
-                expires_dt = now
-
-            if now >= expires_dt:
-                record_recently_expired(token)
-                cursor.execute("DELETE FROM sessions WHERE id = ?", (token,))
-                conn.commit()
-                return None, True, token
-
-            # 2. Check 15-minute inactivity expiration
-            last_act_raw = row["last_activity_at"] or row["created_at"]
-            try:
-                last_act_dt = datetime.datetime.fromisoformat(last_act_raw)
-                if last_act_dt.tzinfo is None:
-                    last_act_dt = last_act_dt.replace(tzinfo=datetime.timezone.utc)
-            except Exception:
-                last_act_dt = now - datetime.timedelta(seconds=SESSION_INACTIVITY_TIMEOUT_SECONDS + 1)
-
-            idle_seconds = (now - last_act_dt).total_seconds()
-            if idle_seconds >= SESSION_INACTIVITY_TIMEOUT_SECONDS:
-                record_recently_expired(token)
-                cursor.execute("DELETE FROM sessions WHERE id = ?", (token,))
-                conn.commit()
-                return None, True, token
-
-            # Session is active and valid: update last_activity_at if requested
-            if update_activity:
-                cursor.execute("UPDATE sessions SET last_activity_at = ? WHERE id = ?", (now_iso, token))
-                conn.commit()
-
-            admin_data = {
-                "id": row["admin_id"],
-                "username": row["username"],
-                "must_change_password": bool(row["must_change_password"])
-            }
-            self._validated_token = token
-            return admin_data, False, token
+        try:
+            admin_data, is_expired, validated_token = db.validate_session(
+                token,
+                update_activity=update_activity,
+                inactivity_timeout_seconds=SESSION_INACTIVITY_TIMEOUT_SECONDS
+            )
+            if admin_data:
+                self._validated_token = validated_token
+            return admin_data, is_expired, validated_token
+        except DatabaseError as e:
+            print(f"[Database Error] Session validation failed: {e}")
+            return None, False, None
 
     def get_authenticated_admin(self, update_activity: bool = True):
         """Verifies session and returns admin info dict if valid, else None."""
@@ -718,18 +563,12 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
     # --------------------------------------------------------------------------
     def handle_public_newsletters(self):
         """Returns all published newsletters ordered by latest addition first, then publication date descending."""
-        with get_db_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-                SELECT id, title, description, category, issue_date, pdf_path,
-                       cover_image_path, is_latest, created_at
-                FROM newsletters
-                WHERE status = 'published'
-                ORDER BY is_latest DESC, issue_date DESC, id DESC
-            """)
-            rows = [dict(r) for r in cursor.fetchall()]
-
-        self.send_json({"success": True, "newsletters": rows})
+        try:
+            rows = db.get_public_newsletters()
+            self.send_json({"success": True, "newsletters": rows})
+        except DatabaseError as e:
+            print(f"[Database Error] {e}")
+            self.send_error_json("Failed to load newsletters. Please try again later.", status=503)
 
     # --------------------------------------------------------------------------
     # HANDLERS: AUTHENTICATION & SESSIONS
@@ -753,28 +592,31 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
             self.send_error_json("Username and password are required", status=400)
             return
 
-        with get_db_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute("SELECT id, username, password_hash, must_change_password FROM admins WHERE username = ?", (username,))
-            admin = cursor.fetchone()
+        try:
+            admin = db.get_admin_by_username(username)
+        except DatabaseError as e:
+            print(f"[Database Error] {e}")
+            self.send_error_json("Authentication service temporarily unavailable.", status=503)
+            return
 
-            if not admin or not verify_password(password, admin["password_hash"]):
-                record_failed_attempt(ip)
-                self.send_error_json("Invalid username or password", status=401)
-                return
+        if not admin or not verify_password(password, admin["password_hash"]):
+            record_failed_attempt(ip)
+            self.send_error_json("Invalid username or password", status=401)
+            return
 
-            # Successful login: clear rate limiting and generate secure session
-            clear_rate_limit(ip)
-            session_token = secrets.token_hex(32)
-            now_dt = datetime.datetime.now(datetime.timezone.utc)
-            expires_dt = now_dt + datetime.timedelta(seconds=SESSION_MAX_LIFETIME_SECONDS)
-            now_iso = now_dt.isoformat()
+        # Successful login: clear rate limiting and generate secure session
+        clear_rate_limit(ip)
+        session_token = secrets.token_hex(32)
+        now_dt = datetime.datetime.now(datetime.timezone.utc)
+        expires_dt = now_dt + datetime.timedelta(seconds=SESSION_MAX_LIFETIME_SECONDS)
+        now_iso = now_dt.isoformat()
 
-            cursor.execute("""
-                INSERT INTO sessions (id, admin_id, expires_at, created_at, last_activity_at)
-                VALUES (?, ?, ?, ?, ?)
-            """, (session_token, admin["id"], expires_dt.isoformat(), now_iso, now_iso))
-            conn.commit()
+        try:
+            db.create_session(session_token, admin["id"], expires_dt.isoformat(), now_iso, now_iso)
+        except DatabaseError as e:
+            print(f"[Database Error] {e}")
+            self.send_error_json("Failed to initialize session.", status=503)
+            return
 
         # Set secure HttpOnly cookie with 15-minute inactivity Max-Age
         cookie_header = make_session_cookie(session_token, max_age=SESSION_INACTIVITY_TIMEOUT_SECONDS)
@@ -787,10 +629,10 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
     def handle_logout(self):
         token = self.get_session_token()
         if token:
-            with get_db_connection() as conn:
-                cursor = conn.cursor()
-                cursor.execute("DELETE FROM sessions WHERE id = ?", (token,))
-                conn.commit()
+            try:
+                db.delete_session(token)
+            except DatabaseError as e:
+                print(f"[Database Error] {e}")
 
         # Clear cookie
         cookie_header = make_clear_session_cookie()
@@ -826,38 +668,36 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
 
         provided_code_hash = hash_recovery_code(recovery_code)
 
-        with get_db_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-                SELECT id, recovery_code_hash, recovery_code_used
-                FROM admins
-                WHERE username = ?
-            """, (username,))
-            admin = cursor.fetchone()
+        try:
+            admin = db.get_admin_recovery_info(username)
+        except DatabaseError as e:
+            print(f"[Database Error] {e}")
+            self.send_error_json("Database service temporarily unavailable.", status=503)
+            return
 
-            if not admin or admin["recovery_code_used"] or not admin["recovery_code_hash"]:
+        if not admin or admin.get("recovery_code_used") or not admin.get("recovery_code_hash"):
+            record_failed_attempt(f"pwd_reset:{ip}")
+            self.send_error_json("Invalid username or recovery code.", status=400)
+            return
+
+        # Constant-time comparison of recovery code hash
+        if not hmac.compare_digest(admin["recovery_code_hash"], provided_code_hash):
+            record_failed_attempt(f"pwd_reset:{ip}")
+            self.send_error_json("Invalid username or recovery code.", status=400)
+            return
+
+        # Valid recovery code: update password, mark code used, invalidate active sessions
+        new_hash = hash_password(new_password)
+        try:
+            consumed = db.consume_recovery_code(admin["id"], new_hash)
+            if not consumed:
                 record_failed_attempt(f"pwd_reset:{ip}")
-                self.send_error_json("Invalid username or recovery code.", status=400)
+                self.send_error_json("Recovery code has already been consumed or admin not found.", status=400)
                 return
-
-            # Constant-time comparison of recovery code hash
-            if not hmac.compare_digest(admin["recovery_code_hash"], provided_code_hash):
-                record_failed_attempt(f"pwd_reset:{ip}")
-                self.send_error_json("Invalid username or recovery code.", status=400)
-                return
-
-            # Valid recovery code: update password, mark code used, invalidate active sessions
-            new_hash = hash_password(new_password)
-            now = datetime.datetime.now(datetime.timezone.utc).isoformat()
-            cursor.execute("""
-                UPDATE admins
-                SET password_hash = ?, recovery_code_used = 1, must_change_password = 0, updated_at = ?
-                WHERE id = ?
-            """, (new_hash, now, admin["id"]))
-
-            # Invalidate all existing sessions
-            cursor.execute("DELETE FROM sessions WHERE admin_id = ?", (admin["id"],))
-            conn.commit()
+        except DatabaseError as e:
+            print(f"[Database Error] {e}")
+            self.send_error_json("Failed to reset password. Please try again later.", status=503)
+            return
 
         clear_rate_limit(f"pwd_reset:{ip}")
         self.send_json({
@@ -893,29 +733,27 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
             self.send_error_json("New password must be at least 8 characters long.", status=400)
             return
 
-        with get_db_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute("SELECT password_hash FROM admins WHERE id = ?", (admin["id"],))
-            stored = cursor.fetchone()
+        try:
+            stored = db.get_admin_by_id(admin["id"])
+        except DatabaseError as e:
+            print(f"[Database Error] {e}")
+            self.send_error_json("Database service temporarily unavailable.", status=503)
+            return
 
-            if not stored or not verify_password(current_password, stored["password_hash"]):
-                self.send_error_json("Incorrect current password.", status=400)
+        if not stored or not verify_password(current_password, stored["password_hash"]):
+            self.send_error_json("Incorrect current password.", status=400)
+            return
+
+        new_hash = hash_password(new_password)
+        try:
+            success = db.update_admin_password(admin["id"], new_hash, keep_session_token=token)
+            if not success:
+                self.send_error_json("Admin not found.", status=404)
                 return
-
-            new_hash = hash_password(new_password)
-            now = datetime.datetime.now(datetime.timezone.utc).isoformat()
-            cursor.execute("""
-                UPDATE admins
-                SET password_hash = ?, must_change_password = 0, updated_at = ?
-                WHERE id = ?
-            """, (new_hash, now, admin["id"]))
-
-            # Invalidate all OTHER sessions for this admin
-            if token:
-                cursor.execute("DELETE FROM sessions WHERE admin_id = ? AND id != ?", (admin["id"], token))
-            else:
-                cursor.execute("DELETE FROM sessions WHERE admin_id = ?", (admin["id"],))
-            conn.commit()
+        except DatabaseError as e:
+            print(f"[Database Error] {e}")
+            self.send_error_json("Failed to update password.", status=503)
+            return
 
         self.send_json({"success": True, "message": "Password updated successfully."})
 
@@ -928,16 +766,16 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
 
         new_code = generate_recovery_code()
         new_hash = hash_recovery_code(new_code)
-        now = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
-        with get_db_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-                UPDATE admins
-                SET recovery_code_hash = ?, recovery_code_used = 0, updated_at = ?
-                WHERE id = ?
-            """, (new_hash, now, admin["id"]))
-            conn.commit()
+        try:
+            success = db.regenerate_recovery_code(admin["id"], new_hash)
+            if not success:
+                self.send_error_json("Admin not found.", status=404)
+                return
+        except DatabaseError as e:
+            print(f"[Database Error] {e}")
+            self.send_error_json("Failed to update recovery code.", status=503)
+            return
 
         self.send_json({
             "success": True,
@@ -949,17 +787,12 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
     # HANDLERS: ADMIN NEWSLETTER MANAGEMENT
     # --------------------------------------------------------------------------
     def handle_admin_newsletters(self):
-        with get_db_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-                SELECT id, title, description, category, issue_date, pdf_path,
-                       cover_image_path, status, is_latest, created_at, updated_at
-                FROM newsletters
-                ORDER BY is_latest DESC, issue_date DESC, id DESC
-            """)
-            rows = [dict(r) for r in cursor.fetchall()]
-
-        self.send_json({"success": True, "newsletters": rows})
+        try:
+            rows = db.get_all_newsletters()
+            self.send_json({"success": True, "newsletters": rows})
+        except DatabaseError as e:
+            print(f"[Database Error] {e}")
+            self.send_error_json("Failed to load newsletters. Please try again later.", status=503)
 
     def handle_create_newsletter(self):
         admin = self.get_authenticated_admin()
@@ -996,6 +829,13 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
             self.send_error_json("A newsletter PDF file is required.", status=400)
             return
 
+        # Resolve storage backend (GitHub or Local)
+        try:
+            storage = get_storage_backend()
+        except GitHubConfigError as e:
+            self.send_error_json(f"Storage configuration error: {e}", status=500)
+            return
+
         # 1. Validate and save PDF file
         pdf_info = files["pdf_file"]
         pdf_bytes = pdf_info["bytes"]
@@ -1011,10 +851,17 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
         safe_stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         rand_token = secrets.token_hex(4)
         pdf_filename = f"newsletter_{safe_stamp}_{rand_token}.pdf"
-        pdf_disk_path = os.path.join(UPLOADS_PDF_DIR, pdf_filename)
-        with open(pdf_disk_path, "wb") as fp:
-            fp.write(pdf_bytes)
-        relative_pdf_path = f"newsletters/{pdf_filename}"
+
+        try:
+            pdf_storage_res = storage.save_pdf(pdf_bytes, pdf_filename)
+        except GitHubStorageError as e:
+            self.send_error_json(f"Failed to upload PDF to storage: {e}", status=502)
+            return
+        except Exception as e:
+            self.send_error_json(f"Unexpected error storing PDF file: {e}", status=500)
+            return
+
+        relative_pdf_path = pdf_storage_res["url"]
 
         # 2. Validate and save Cover Image (if provided)
         relative_cover_path = "images/newsletter-covers/September-2026.jpeg"  # Fallback default cover
@@ -1039,34 +886,52 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
                 return
 
             cover_filename = f"cover_{safe_stamp}_{rand_token}{ext}"
-            cover_disk_path = os.path.join(UPLOADS_COVER_DIR, cover_filename)
-            with open(cover_disk_path, "wb") as fp:
-                fp.write(cover_bytes)
-            relative_cover_path = f"images/newsletter-covers/{cover_filename}"
+            try:
+                cover_storage_res = storage.save_cover(cover_bytes, cover_filename)
+                relative_cover_path = cover_storage_res["url"]
+            except GitHubStorageError as e:
+                print(f"[Storage Partial Failure] PDF saved as '{pdf_storage_res['path']}', but cover failed: {e}")
+                self.send_error_json(
+                    f"Partial upload failure: PDF committed as '{pdf_storage_res['path']}', but cover image upload failed: {e}",
+                    status=502
+                )
+                return
+            except Exception as e:
+                print(f"[Storage Partial Failure] PDF saved as '{pdf_storage_res['path']}', but cover failed unexpectedly: {e}")
+                self.send_error_json(
+                    f"Partial upload failure: PDF committed, but cover image failed: {e}",
+                    status=500
+                )
+                return
 
         now = datetime.datetime.now(datetime.timezone.utc).isoformat()
-        with get_db_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-                INSERT INTO newsletters (
-                    title, description, category, issue_date, pdf_path,
-                    cover_image_path, status, is_latest, created_at, updated_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (title, description, category, issue_date, relative_pdf_path,
-                  relative_cover_path, status, is_latest, now, now))
-            new_id = cursor.lastrowid
-
-            if is_latest and status == "published":
-                ensure_latest_addition_mutex(conn, new_id)
-            elif status == "published":
-                promote_fallback_latest(conn)
-
-            conn.commit()
+        newsletter_data = {
+            "title": title,
+            "description": description,
+            "category": category,
+            "issue_date": issue_date,
+            "pdf_path": relative_pdf_path,
+            "cover_image_path": relative_cover_path,
+            "status": status,
+            "is_latest": is_latest,
+            "created_at": now
+        }
+        try:
+            new_id = db.create_newsletter(newsletter_data)
+        except DatabaseError as e:
+            print(f"[Database Error after storage commit] {e}. Committed files: PDF={relative_pdf_path}, Cover={relative_cover_path}")
+            self.send_error_json(
+                f"Failed to record newsletter in database after files were committed to storage. PDF: {relative_pdf_path}",
+                status=503
+            )
+            return
 
         self.send_json({
             "success": True,
             "message": "Newsletter created successfully.",
-            "newsletter_id": new_id
+            "newsletter_id": new_id,
+            "pdf_path": relative_pdf_path,
+            "cover_image_path": relative_cover_path
         }, status=201)
 
     def handle_update_newsletter(self, newsletter_id: int):
@@ -1082,35 +947,15 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
             self.send_error_json("Invalid JSON body", status=400)
             return
 
-        with get_db_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute("SELECT * FROM newsletters WHERE id = ?", (newsletter_id,))
-            current = cursor.fetchone()
-            if not current:
+        try:
+            success = db.update_newsletter(newsletter_id, body)
+            if not success:
                 self.send_error_json("Newsletter not found", status=404)
                 return
-
-            title = body.get("title", current["title"]).strip()
-            description = body.get("description", current["description"]).strip()
-            category = body.get("category", current["category"]).strip().lower()
-            issue_date = body.get("issue_date", current["issue_date"]).strip()
-            status = body.get("status", current["status"]).strip().lower()
-            is_latest = 1 if body.get("is_latest") in (True, 1, "1") else 0
-            now = datetime.datetime.now(datetime.timezone.utc).isoformat()
-
-            cursor.execute("""
-                UPDATE newsletters
-                SET title = ?, description = ?, category = ?, issue_date = ?,
-                    status = ?, is_latest = ?, updated_at = ?
-                WHERE id = ?
-            """, (title, description, category, issue_date, status, is_latest, now, newsletter_id))
-
-            if is_latest and status == "published":
-                ensure_latest_addition_mutex(conn, newsletter_id)
-            else:
-                promote_fallback_latest(conn)
-
-            conn.commit()
+        except DatabaseError as e:
+            print(f"[Database Error] {e}")
+            self.send_error_json("Failed to update newsletter.", status=503)
+            return
 
         self.send_json({"success": True, "message": "Newsletter updated successfully."})
 
@@ -1120,21 +965,19 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
             self.send_error_json("Unauthorized", status=401)
             return
 
-        with get_db_connection() as conn:
-            cursor = conn.cursor()
-            cursor.execute("SELECT pdf_path, cover_image_path FROM newsletters WHERE id = ?", (newsletter_id,))
-            item = cursor.fetchone()
-            if not item:
+        try:
+            files_to_cleanup = db.delete_newsletter(newsletter_id)
+            if files_to_cleanup is None:
                 self.send_error_json("Newsletter not found", status=404)
                 return
-
-            cursor.execute("DELETE FROM newsletters WHERE id = ?", (newsletter_id,))
-            promote_fallback_latest(conn)
-            conn.commit()
+        except DatabaseError as e:
+            print(f"[Database Error] {e}")
+            self.send_error_json("Failed to delete newsletter.", status=503)
+            return
 
         # Delete custom generated files if they reside in uploads and aren't baseline assets
         for path_key in ["pdf_path", "cover_image_path"]:
-            rel = item[path_key]
+            rel = files_to_cleanup.get(path_key)
             if rel and ("newsletter_" in rel or "cover_" in rel):
                 full = os.path.join(BASE_DIR, rel.replace("/", os.sep))
                 if os.path.exists(full):
@@ -1151,8 +994,9 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
 def setup_initial_admin():
     """Interactive / CLI setup for the initial administrator account."""
     init_database()
+    backend_name = os.environ.get("PJ_DB_BACKEND", "sqlite").upper()
     print("\n" + "="*70)
-    print(" PEOPLEJURIS LLP — SECURE ADMINISTRATOR INITIALIZATION")
+    print(f" PEOPLEJURIS LLP — SECURE ADMINISTRATOR INITIALIZATION [{backend_name}]")
     print("="*70)
 
     username = os.environ.get("PJ_ADMIN_USER")
@@ -1161,12 +1005,12 @@ def setup_initial_admin():
     if not username:
         username = input("Enter Administrator Username [default: admin]: ").strip() or "admin"
 
-    must_change = 0
+    must_change = False
     if not password:
         prompt_pass = input("Enter Administrator Password (leave blank to generate a temporary password): ").strip()
         if not prompt_pass:
             password = secrets.token_urlsafe(12)
-            must_change = 1
+            must_change = True
             print(f"\n[Generated Temporary Password]: {password}")
             print("(!) Administrator will be forced to change this password upon first login.")
         else:
@@ -1175,31 +1019,17 @@ def setup_initial_admin():
     recovery_code = generate_recovery_code()
     recovery_hash = hash_recovery_code(recovery_code)
     pass_hash = hash_password(password)
-    now = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
-    with get_db_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT id FROM admins WHERE username = ?", (username,))
-        existing = cursor.fetchone()
-
-        if existing:
-            cursor.execute("""
-                UPDATE admins
-                SET password_hash = ?, recovery_code_hash = ?, recovery_code_used = 0,
-                    must_change_password = ?, updated_at = ?
-                WHERE id = ?
-            """, (pass_hash, recovery_hash, must_change, now, existing["id"]))
+    try:
+        res = db.upsert_admin(username, pass_hash, recovery_hash, must_change_password=must_change)
+        action = res.get("action", "saved")
+        if action == "updated":
             print(f"\n[Success] Existing administrator account '{username}' updated successfully.")
         else:
-            cursor.execute("""
-                INSERT INTO admins (
-                    username, password_hash, recovery_code_hash, recovery_code_used,
-                    must_change_password, created_at, updated_at
-                ) VALUES (?, ?, ?, 0, ?, ?, ?)
-            """, (username, pass_hash, recovery_hash, must_change, now, now))
             print(f"\n[Success] Administrator account '{username}' created successfully.")
-
-        conn.commit()
+    except DatabaseError as e:
+        print(f"\n[Error] Failed to initialize administrator: {e}")
+        sys.exit(1)
 
     print("\n" + "-"*70)
     print(" (!) CRITICAL: WRITE DOWN YOUR BACKUP RECOVERY CODE NOW")
@@ -1215,29 +1045,28 @@ def run_server(port: int = None, host: str = None):
     init_database()
 
     # Automatically check if at least one admin exists; if not, create a default secure setup
-    with get_db_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT COUNT(*) as cnt FROM admins")
-        if cursor.fetchone()["cnt"] == 0:
-            print("[Security Notice] No administrator accounts detected. Initializing default admin...")
-            temp_pass = "welcome123"
-            code = generate_recovery_code()
-            code_hash = hash_recovery_code(code)
-            p_hash = hash_password(temp_pass)
-            now = datetime.datetime.now(datetime.timezone.utc).isoformat()
-            cursor.execute("""
-                INSERT INTO admins (
-                    username, password_hash, recovery_code_hash, recovery_code_used,
-                    must_change_password, created_at, updated_at
-                ) VALUES (?, ?, ?, 0, 1, ?, ?)
-            """, ("admin", p_hash, code_hash, now, now))
-            conn.commit()
+    try:
+        admin_count = db.get_admin_count()
+    except DatabaseError as e:
+        print(f"[Database Error] Could not query administrator count: {e}")
+        admin_count = -1
+
+    if admin_count == 0:
+        print("[Security Notice] No administrator accounts detected. Initializing default admin...")
+        temp_pass = "welcome123"
+        code = generate_recovery_code()
+        code_hash = hash_recovery_code(code)
+        p_hash = hash_password(temp_pass)
+        try:
+            db.upsert_admin("admin", p_hash, code_hash, must_change_password=True)
             print("="*70)
             print(" [AUTOMATIC INITIAL ADMIN SETUP]")
             print(f" Username:      admin")
             print(f" Temp Password: {temp_pass}  (Requires immediate change on first login)")
             print(f" Recovery Code: {code}")
             print("="*70)
+        except DatabaseError as e:
+            print(f"[Warning] Failed to auto-provision initial admin: {e}")
 
     if port is None:
         port = int(os.environ.get("PORT", DEFAULT_PORT))
@@ -1248,11 +1077,17 @@ def run_server(port: int = None, host: str = None):
         host = os.environ.get("PJ_HOST", "0.0.0.0" if os.environ.get("PORT") else "127.0.0.1")
 
     server = ThreadedHTTPServer((host, port), PeopleJurisHandler)
+    backend_mode = os.environ.get("PJ_DB_BACKEND", "sqlite").lower()
     print(f"\n[PeopleJuris Server Running] Serving on http://{host}:{port}")
     print(f"- Public Website:     http://{host}:{port}/index.html")
     print(f"- Newsletter Page:    http://{host}:{port}/newsletter.html")
     print(f"- Administrator Login: http://{host}:{port}/admin-login.html")
-    print(f"- SQLite Database:    {DB_PATH}\n")
+    if backend_mode == "d1":
+        worker_target = getattr(db, "worker_url", "Cloudflare Worker")
+        print(f"- Database Backend:   Cloudflare D1 via Worker API ({worker_target})\n")
+    else:
+        print(f"- Database Backend:   SQLite ({getattr(db, 'db_path', DB_PATH)})\n")
+
     try:
         server.serve_forever()
     except KeyboardInterrupt:
