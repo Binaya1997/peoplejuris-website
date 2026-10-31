@@ -445,6 +445,7 @@
                     }
 
                     if (response.ok && data.success) {
+                        sessionStorage.setItem('pj_dashboard_login_handoff', '1');
                         alertBox.className = 'auth-alert success';
                         alertBox.style.display = 'flex';
                         alertBox.textContent = 'Authentication successful. Redirecting...';
