@@ -959,6 +959,7 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
 
         self.send_json({"success": True, "message": "Newsletter updated successfully."})
 
+
     def handle_delete_newsletter(self, newsletter_id: int):
         admin = self.get_authenticated_admin()
         if not admin:
@@ -966,27 +967,73 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
             return
 
         try:
+            # Read the newsletter before deleting its database record.
+            newsletter = db.get_newsletter_by_id(newsletter_id)
+            if newsletter is None:
+                self.send_error_json("Newsletter not found", status=404)
+                return
+
+            storage = get_storage_backend()
+
+            # Collect the newsletter assets that need cleanup.
+            paths_to_cleanup = [
+                newsletter.get("pdf_path"),
+                newsletter.get("cover_image_path"),
+            ]
+
+            # Preserve the fallback/default cover.
+            default_cover_path = (
+                "images/newsletter-covers/September-2026.jpeg"
+            )
+
+            for asset_path in paths_to_cleanup:
+                if not asset_path:
+                    continue
+
+                clean_path = asset_path.strip().lstrip("/")
+
+                # Never delete the shared default cover.
+                if clean_path == default_cover_path:
+                    continue
+
+                # Only delete assets inside the expected directories.
+                if not (
+                    clean_path.startswith("newsletters/")
+                    or clean_path.startswith("images/newsletter-covers/")
+                ):
+                    raise ValueError(
+                        f"Unexpected newsletter asset path: {clean_path}"
+                    )
+
+                storage.delete_file(clean_path)
+
+            # Delete the database record only after asset cleanup succeeds.
             files_to_cleanup = db.delete_newsletter(newsletter_id)
+
             if files_to_cleanup is None:
                 self.send_error_json("Newsletter not found", status=404)
                 return
+
         except DatabaseError as e:
             print(f"[Database Error] {e}")
-            self.send_error_json("Failed to delete newsletter.", status=503)
+            self.send_error_json(
+                "Failed to delete newsletter.",
+                status=503
+            )
+            return
+        except Exception as e:
+            print(f"[Newsletter Deletion Error] {e}")
+            self.send_error_json(
+                "Failed to delete newsletter assets. The newsletter record was not deleted.",
+                status=503
+            )
             return
 
-        # Delete custom generated files if they reside in uploads and aren't baseline assets
-        for path_key in ["pdf_path", "cover_image_path"]:
-            rel = files_to_cleanup.get(path_key)
-            if rel and ("newsletter_" in rel or "cover_" in rel):
-                full = os.path.join(BASE_DIR, rel.replace("/", os.sep))
-                if os.path.exists(full):
-                    try:
-                        os.remove(full)
-                    except Exception:
-                        pass
+        self.send_json({
+            "success": True,
+            "message": "Newsletter deleted successfully."
+        })
 
-        self.send_json({"success": True, "message": "Newsletter deleted successfully."})
 
 # ------------------------------------------------------------------------------
 # SETUP CLI: INITIAL SECURE ADMINISTRATOR CREATION

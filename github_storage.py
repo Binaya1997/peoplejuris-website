@@ -78,6 +78,10 @@ class StorageBackend(ABC):
         """Saves a newsletter cover image and returns path/URL info."""
         pass
 
+    @abstractmethod
+    def delete_file(self, repo_path: str) -> bool:
+        """Deletes a stored file. Returns True if deleted or already absent."""
+        pass
 
 # ------------------------------------------------------------------------------
 # LOCAL DISK STORAGE (Local dev fallback & test double)
@@ -113,6 +117,29 @@ class LocalDiskStorage(StorageBackend):
             "url": relative_path,
             "backend": "local"
         }
+
+    def delete_file(self, repo_path: str) -> bool:
+        """Deletes a local newsletter asset if it exists."""
+        clean_path = repo_path.strip().lstrip("/")
+
+        allowed_prefixes = (
+            f"{DEFAULT_NEWSLETTER_DIR}/",
+            f"{DEFAULT_COVER_DIR}/",
+        )
+
+        if not clean_path.startswith(allowed_prefixes) or ".." in clean_path.split("/"):
+            raise GitHubStorageError("Invalid newsletter asset path.")
+
+        full_path = os.path.abspath(os.path.join(self.base_dir, clean_path))
+        base_path = os.path.abspath(self.base_dir)
+
+        if not full_path.startswith(base_path + os.sep):
+            raise GitHubStorageError("Invalid newsletter asset path.")
+
+        if os.path.isfile(full_path):
+            os.remove(full_path)
+
+        return True
 
 
 # ------------------------------------------------------------------------------
@@ -259,6 +286,52 @@ class GitHubStorage(StorageBackend):
             "backend": "github"
         }
 
+    def delete_file(self, repo_path: str) -> bool:
+        """Deletes a newsletter asset from GitHub using the Contents API."""
+
+        clean_path = repo_path.strip().lstrip("/")
+
+        allowed_prefixes = (
+            f"{self.newsletter_dir}/",
+            f"{self.cover_dir}/",
+        )
+
+        if (
+            not clean_path.startswith(allowed_prefixes)
+            or ".." in clean_path.split("/")
+        ):
+            raise GitHubStorageError("Invalid newsletter asset path.")
+
+        api_endpoint = (
+            f"repos/{self.owner}/{self.repo}/contents/{clean_path}"
+        )
+
+        # Retrieve the current file SHA required by GitHub's DELETE API.
+        file_meta = self._request(
+            "GET",
+            f"{api_endpoint}?ref={self.branch}"
+        )
+
+        file_sha = file_meta.get("sha")
+
+        if not file_sha:
+            raise GitHubStorageError(
+                f"GitHub did not return a SHA for '{clean_path}'."
+            )
+
+        payload = {
+            "message": f"Delete newsletter asset: {clean_path} [skip ci]",
+            "sha": file_sha,
+            "branch": self.branch,
+        }
+
+        self._request(
+            "DELETE",
+            api_endpoint,
+            payload=payload
+        )
+
+        return True
 
 # ------------------------------------------------------------------------------
 # FACTORY & CONFIGURATION
