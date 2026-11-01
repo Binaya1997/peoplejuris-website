@@ -1,0 +1,25 @@
+digraph G {
+
+graph [fontname="DejaVu Sans", fontsize=11, bgcolor="white", pad="0.25", nodesep="0.42", ranksep="0.62", splines=ortho, labelloc="t", labeljust="l", fontcolor="#16243A"];
+node [fontname="DejaVu Sans", fontsize=10, shape=box, style="rounded,filled", color="#59708B", fillcolor="#F3F6FA", fontcolor="#172B45", penwidth=1.25, margin="0.16,0.11"];
+edge [fontname="DejaVu Sans", fontsize=9, color="#52657A", fontcolor="#334155", penwidth=1.25, arrowsize=0.75];
+
+  label="REPOSITORY / STORAGE RESPONSIBILITY MAP";
+  rankdir=LR;
+  repo [label="GitHub repository\npeoplejuris-website", fillcolor="#F4F4F5"];
+  source [label="Application source\nHTML • CSS • JS • server.py\ndb_adapter.py • github_storage.py", fillcolor="#EAF4FF"];
+  config [label="Deployment/runtime config\nrender.yaml • Procfile\nwrangler.jsonc", fillcolor="#EAF4FF"];
+  docs [label="Technical documentation\nthis docs package", fillcolor="#EAF4FF"];
+  assets [label="Newsletter assets\nPDFs + cover images\nrepository paths / commits", fillcolor="#F4F4F5"];
+  backend [label="Render Python runtime\nreads source/config at deploy\n(runtime integration unverified)", fillcolor="#F1ECFF"];
+  adapter [label="GitHub storage adapter\nPJ_GITHUB_* settings\nserver-side token", fillcolor="#F1ECFF"];
+  repo -> source;
+  repo -> config;
+  repo -> docs;
+  repo -> assets;
+  backend -> adapter;
+  adapter -> assets [label="Contents API upload / delete"];
+  caution [shape=note, label="Keep secret values out of the repository:\nPJ_GITHUB_TOKEN • PJ_WORKER_API_SECRET\nD1 credentials/session material • .env files\nOnly variable names and safe examples belong in docs.", fillcolor="#FFFBEA", color="#C49A3A"];
+  {rank=sink; caution;}
+  repo -> caution [style=dotted, arrowhead=none];
+}

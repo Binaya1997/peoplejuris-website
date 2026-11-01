@@ -1,0 +1,38 @@
+digraph G {
+ graph [fontname="DejaVu Sans", fontsize=11, bgcolor="white", pad="0.30", nodesep="0.52", ranksep="0.72", splines=ortho, labelloc="t", labeljust="l", fontcolor="#16243A"];
+ node [fontname="DejaVu Sans", fontsize=10, shape=box, style="rounded,filled", color="#59708B", fillcolor="#F3F6FA", fontcolor="#172B45", penwidth=1.25, margin="0.17,0.12"];
+ edge [fontname="DejaVu Sans", fontsize=9, color="#52657A", fontcolor="#334155", penwidth=1.25, arrowsize=0.75];
+ label="PEOPLEJURIS — PRODUCTION TOPOLOGY + DOMAIN / DNS OWNERSHIP\nCloudflare dashboard screenshots: 1 Nov 2026 • GoDaddy registrar; Cloudflare DNS configured";
+ rankdir=LR;
+ subgraph cluster_client { label="CLIENTS"; color="#C9D5E3"; style="rounded";
+   browser [label="Visitor / administrator\nWeb browser", fillcolor="#EAF4FF"];
+ }
+ godaddy [label="GoDaddy\nDomain registrar\npeoplejuris.com registration / renewal\nOwner-confirmed", fillcolor="#FFF4E5"];
+ subgraph cluster_edge { label="CLOUDFLARE DNS & EDGE"; color="#C9D5E3"; style="rounded";
+   cfzone [label="Cloudflare DNS zone\npeoplejuris.com\nApex Worker record: Proxied\nDashboard screenshot", shape=box, fillcolor="#FFF4E5"];
+   siteworker [label="peoplejuris-website\nCloudflare Worker\nWebsite / frontend entrypoint\nGitHub: Binaya1997/peoplejuris-website\nBindings shown: 0", fillcolor="#FFF4E5"];
+   apiworker [label="peoplejuris-db-api\nCloudflare Worker API\npeoplejuris-db-api.patnaikbinaya61.workers.dev\nD1 binding: DB", fillcolor="#FFF4E5"];
+   d1 [label="peoplejuris-d1\nCloudflare D1 database\nDashboard snapshot: 0 tables shown*", shape=cylinder, fillcolor="#EAF7EF"];
+   cfzone -> siteworker [label="DNS record: peoplejuris.com\nType Worker • proxied"];
+   apiworker -> d1 [label="binding DB → peoplejuris-d1\nSQL / D1 operations", color="#24845B", fontcolor="#17613F"];
+ }
+ subgraph cluster_runtime { label="APPLICATION BACKEND — OWNER-CONFIRMED SERVICE"; color="#C9D5E3"; style="rounded";
+   render [label="Render service\npeoplejuris-feature-api.onrender.com", fillcolor="#F1ECFF"];
+   python [label="Python server.py\nREST API • admin auth • sessions\nnewsletter logic • storage adapters", fillcolor="#F1ECFF"];
+   render -> python [label="runs"];
+ }
+ subgraph cluster_repo { label="GITHUB SOURCE & FILE STORAGE"; color="#C9D5E3"; style="rounded";
+   repo [label="GitHub repository\nBinaya1997/peoplejuris-website\napplication source / version history", fillcolor="#F4F4F5"];
+   ghfiles [label="GitHub Contents API\nnewsletter PDFs + cover images\nrepository commits", fillcolor="#F4F4F5"];
+   repo -> ghfiles [label="repository storage"];
+ }
+ godaddy -> cfzone [style=solid, color="#52657A", fontcolor="#334155", label="Domain registered at GoDaddy\nDNS configured in Cloudflare"];
+ browser -> cfzone [label="DNS lookup / HTTPS site request"];
+ siteworker -> browser [label="website response\nstatic/frontend content"];
+ browser -> render [label="HTTPS API calls\npublic + admin endpoints", color="#2878B5", fontcolor="#1D5E91"];
+ python -> apiworker [label="server-to-server API\nWorker URL + shared secret", color="#24845B", fontcolor="#17613F"];
+ python -> ghfiles [label="upload / delete assets", color="#24845B", fontcolor="#17613F"];
+ repo -> siteworker [style=dashed, label="GitHub repository connected in dashboard\nexact build/trigger settings not shown", color="#A36A16", fontcolor="#8B5A12"];
+ repo -> render [style=dashed, label="Render deployment linkage not shown\nowner confirms deployed Render service", color="#A36A16", fontcolor="#8B5A12"];
+
+}

@@ -1,0 +1,38 @@
+digraph G {
+
+graph [fontname="DejaVu Sans", fontsize=11, bgcolor="white", pad="0.25", nodesep="0.42", ranksep="0.62", splines=ortho, labelloc="t", labeljust="l", fontcolor="#16243A"];
+node [fontname="DejaVu Sans", fontsize=10, shape=box, style="rounded,filled", color="#59708B", fillcolor="#F3F6FA", fontcolor="#172B45", penwidth=1.25, margin="0.16,0.11"];
+edge [fontname="DejaVu Sans", fontsize=9, color="#52657A", fontcolor="#334155", penwidth=1.25, arrowsize=0.75];
+
+  label="ADMIN AUTHENTICATION, SESSION VALIDATION & PASSWORD RECOVERY";
+  rankdir=TB;
+  start [label="Admin opens login page", fillcolor="#EAF4FF"];
+  login [label="POST /api/admin/login\nusername + password", fillcolor="#EAF4FF"];
+  rate [label="Process-local rate limiter\n5 attempts / 15 minutes", fillcolor="#FFFBEA"];
+  verify [label="Read admin record via DB adapter\nverify PBKDF2-HMAC-SHA256 hash\n600,000 iterations", fillcolor="#F1ECFF"];
+  ok [shape=diamond, label="Password valid?", fillcolor="#FFF4E5"];
+  deny [label="Reject login\nrecord failure", fillcolor="#FFF1F0", color="#B65C58"];
+  create [label="Create session record\nD1 in production", fillcolor="#EAF7EF"];
+  cookie [label="Set pj_admin_session cookie\nSecure • HttpOnly • SameSite=None", fillcolor="#EAF7EF"];
+  protected [label="Protected API request\nvalidate session + expiry/activity", fillcolor="#EAF4FF"];
+  dashboard [label="Admin dashboard / protected actions", fillcolor="#EAF4FF"];
+  start -> login -> rate -> verify -> ok;
+  ok -> deny [label="No"];
+  ok -> create [label="Yes"];
+  create -> cookie -> protected -> dashboard;
+  subgraph cluster_recovery { label="FORGOT-PASSWORD RECOVERY PATH"; color="#D6B46C"; style="rounded";
+    forgot [label="POST /api/admin/forgot-password\nusername + one-use Recovery Code\n+ new password", fillcolor="#FFFBEA"];
+    code [shape=diamond, label="Recovery hash matches\nand is unused?", fillcolor="#FFF4E5"];
+    reject [label="Reject reset", fillcolor="#FFF1F0", color="#B65C58"];
+    reset [label="Consume Recovery Code\nupdate password hash\ninvalidate active sessions", fillcolor="#EAF7EF"];
+    regen [label="Log in, then regenerate code\nshown once — store offline", fillcolor="#EAF7EF"];
+    forgot -> code;
+    code -> reject [label="No"];
+    code -> reset [label="Yes"];
+    reset -> regen;
+  }
+  start -> forgot [style=dashed, label="forgot password entry", color="#A36A16", fontcolor="#8B5A12"];
+  risk [shape=note, label="Security review note from supplied source:\nrun_server() contains an initial-admin fallback\nwhen no admin exists. Do not assume it is safe\nto trigger in production; review before deployment.", fillcolor="#FFF1F0", color="#B65C58", fontsize=9];
+  {rank=sink; risk;}
+  verify -> risk [style=dotted, arrowhead=none];
+}

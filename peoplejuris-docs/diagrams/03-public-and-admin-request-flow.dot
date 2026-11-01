@@ -1,0 +1,28 @@
+digraph G {
+ graph [fontname="DejaVu Sans", fontsize=11, bgcolor="white", pad="0.28", nodesep="0.52", ranksep="0.66", splines=ortho, labelloc="t", labeljust="l", fontcolor="#16243A"];
+ node [fontname="DejaVu Sans", fontsize=10, shape=box, style="rounded,filled", color="#59708B", fillcolor="#F3F6FA", fontcolor="#172B45", penwidth=1.25, margin="0.17,0.12"];
+ edge [fontname="DejaVu Sans", fontsize=9, color="#52657A", fontcolor="#334155", penwidth=1.25, arrowsize=0.75];
+ label="PEOPLEJURIS — ACTUAL SERVICE REQUEST FLOW\nCloudflare dashboard evidence: website Worker is separate from the D1-bound API Worker";
+ rankdir=TB;
+ browser [label="Visitor / administrator\nBrowser", fillcolor="#EAF4FF"];
+ domain [label="peoplejuris.com\nCloudflare DNS Worker record\nProxied", shape=oval, fillcolor="#FFF4E5"];
+ site [label="Cloudflare Worker\npeoplejuris-website\nwebsite/frontend response\nBindings shown: 0", fillcolor="#FFF4E5"];
+ render [label="Render service\nPython server.py\npeoplejuris-feature-api.onrender.com", fillcolor="#F1ECFF"];
+ adapter [label="Python DB adapter\nproduction D1 mode", fillcolor="#F1ECFF"];
+ api [label="Cloudflare Worker API\npeoplejuris-db-api\nworkers.dev endpoint\nBinding: DB", fillcolor="#FFF4E5"];
+ d1 [label="Cloudflare D1\npeoplejuris-d1", shape=cylinder, fillcolor="#EAF7EF"];
+ browser -> domain [label="1. HTTPS request"];
+ domain -> site [label="2. proxied Worker route"];
+ site -> browser [label="3. website content", dir=back];
+ browser -> render [label="4. browser API call\npublic/admin requests", color="#2878B5", fontcolor="#1D5E91"];
+ render -> adapter [label="5. Python handler + adapter"];
+ adapter -> api [label="6. server-to-server HTTPS\nWorker URL + shared secret", color="#24845B", fontcolor="#17613F"];
+ api -> d1 [label="7. D1 binding DB\nread / write", color="#24845B", fontcolor="#17613F"];
+ d1 -> api [label="8. query result"];
+ api -> adapter [label="9. JSON result"];
+ adapter -> render [label="10. mapped result"];
+ render -> browser [label="11. JSON / HTTP status\nadmin session cookie", color="#2878B5", fontcolor="#1D5E91"];
+ note [shape=note, label="Do NOT draw a direct D1 binding on peoplejuris-website: its dashboard shows 0 bindings. The DB binding DB is attached to peoplejuris-db-api. The exact browser API URL configured in the live frontend and Render environment still needs config verification.", fillcolor="#FFFBEA", color="#C49A3A", fontsize=9];
+ {rank=sink; note;}
+ api -> note [style=dotted, arrowhead=none];
+}
