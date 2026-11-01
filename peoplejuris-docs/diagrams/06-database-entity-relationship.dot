@@ -1,0 +1,14 @@
+digraph G {
+ graph [fontname="DejaVu Sans", fontsize=11, bgcolor="white", pad="0.28", nodesep="0.55", ranksep="0.72", splines=ortho, labelloc="t", labeljust="l", fontcolor="#16243A"];
+ node [fontname="DejaVu Sans", fontsize=10, shape=box, style="rounded,filled", color="#59708B", fillcolor="#F3F6FA", fontcolor="#172B45", penwidth=1.25, margin="0.17,0.12"];
+ edge [fontname="DejaVu Sans", fontsize=9, color="#52657A", fontcolor="#334155", penwidth=1.25, arrowsize=0.75];
+ label="PEOPLEJURIS — EXPECTED D1 SCHEMA REFERENCE\nPrior migration output listed these tables; current dashboard screenshot reports 0 tables — reconcile before relying on this ERD";
+ rankdir=TB;
+ admins [shape=record, label="{admins|id : INTEGER PK\lusername : TEXT UNIQUE NOT NULL\lpassword_hash : TEXT NOT NULL\lrecovery_code_hash : TEXT\lrecovery_code_used : INTEGER\lmust_change_password : INTEGER\lcreated_at : TEXT\lupdated_at : TEXT\l}", fillcolor="#EAF4FF"];
+ sessions [shape=record, label="{sessions|id : TEXT PK\ladmin_id : INTEGER FK\lexpires_at : TEXT NOT NULL\lcreated_at : TEXT NOT NULL\llast_activity_at : TEXT NOT NULL\l}", fillcolor="#F1ECFF"];
+ newsletters [shape=record, label="{newsletters|id : INTEGER PK\ltitle : TEXT NOT NULL\ldescription : TEXT\lcategory : TEXT\lissue_date : TEXT NOT NULL\lpdf_path : TEXT NOT NULL\lcover_image_path : TEXT NOT NULL\lstatus : TEXT DEFAULT 'published'\lis_latest : INTEGER DEFAULT 0\lcreated_at : TEXT NOT NULL\lupdated_at : TEXT NOT NULL\l}", fillcolor="#EAF7EF"];
+ admins -> sessions [label="1 admin owns 0..N sessions\nadmin_id FK; ON DELETE CASCADE", arrowhead=crow, penwidth=1.5];
+ note [shape=note, label="LIVE DASHBOARD DISCREPANCY (1 Nov 2026)\nCloudflare D1 list showed: peoplejuris-d1 • Tables: 0 • Queries: 353 • Size: 69.63 kB. This screenshot does not prove these three tables currently exist. Run read-only sqlite_master / PRAGMA checks in D1 Console first. Do not run migrations or reset data until actual schema state is known.\n\nNo role column was present in the previously inspected migration schema. Newsletter binaries are stored in GitHub, not as D1 blobs.", fillcolor="#FFFBEA", color="#C49A3A", fontsize=9];
+ {rank=sink; note;}
+ newsletters -> note [style=dotted, arrowhead=none];
+}

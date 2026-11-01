@@ -1,0 +1,30 @@
+digraph G {
+
+graph [fontname="DejaVu Sans", fontsize=11, bgcolor="white", pad="0.25", nodesep="0.55", ranksep="0.72", splines=ortho, labelloc="t", labeljust="l", fontcolor="#16243A"];
+node [fontname="DejaVu Sans", fontsize=10, shape=box, style="rounded,filled", color="#59708B", fillcolor="#F3F6FA", fontcolor="#172B45", penwidth=1.25, margin="0.16,0.11"];
+edge [fontname="DejaVu Sans", fontsize=9, color="#52657A", fontcolor="#334155", penwidth=1.25, arrowsize=0.75];
+
+  label="NEWSLETTER UPLOAD → STORAGE → PUBLICATION";
+  rankdir=TB;
+  admin [label="Administrator\nAdmin dashboard", fillcolor="#EAF4FF"];
+  api [label="POST /api/admin/newsletters\nmultipart form + metadata", fillcolor="#EAF4FF"];
+  validate [label="Python backend validation\nauth • fields • file type/size\nsafe generated filenames", fillcolor="#F1ECFF"];
+  storage [label="github_storage.py\nselected storage adapter", fillcolor="#F1ECFF"];
+  gh [label="GitHub Contents API\nPDF + cover image\nrepository commit", fillcolor="#F4F4F5"];
+  metadata [label="Cloudflare Worker API\npeoplejuris-db-api\nD1 binding DB", fillcolor="#FFF4E5"];
+  d1 [label="Cloudflare D1\npeoplejuris-d1\nnewsletter row + asset paths\nstatus + is_latest", shape=cylinder, fillcolor="#EAF7EF"];
+  public [label="GET /api/newsletters\npublic published records", fillcolor="#EAF4FF"];
+  ui [label="Public newsletter UI\nlatest issue + archive", fillcolor="#EAF4FF"];
+  assets [label="Browser loads asset path/URL\nfrom configured GitHub URL strategy", fillcolor="#F4F4F5"];
+  admin -> api -> validate -> storage;
+  storage -> gh [label="upload files"];
+  storage -> metadata [label="persist paths / metadata", color="#24845B", fontcolor="#17613F"];
+  metadata -> d1 [label="save row"];
+  d1 -> public [label="published metadata", dir=back];
+  public -> ui [label="JSON"];
+  ui -> assets [label="load PDF / cover"];
+  gh -> assets [label="asset content / URL"];
+  note [shape=note, label="Important: asset upload and D1 metadata write are separate operations.\nA failure between them can leave an orphaned file or metadata gap.\nPDF limit in source: 25 MB • cover limit: 8 MB.\nConfirm the active production URL strategy and token settings.", fillcolor="#FFFBEA", color="#C49A3A", fontsize=9];
+  {rank=sink; note;}
+  metadata -> note [style=dotted, arrowhead=none];
+}
