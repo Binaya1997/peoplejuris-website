@@ -990,8 +990,24 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
             for asset_path in paths_to_cleanup:
                 if not asset_path:
                     continue
+                clean_path = asset_path.strip()
 
-                clean_path = asset_path.strip().lstrip("/")
+                # Convert a raw GitHub URL to a repository-relative path.
+                raw_prefix = (
+                    "https://raw.githubusercontent.com/"
+                    f"{storage.owner}/{storage.repo}/{storage.branch}/"
+                )
+
+                if clean_path.startswith(raw_prefix):
+                    clean_path = clean_path[len(raw_prefix):]
+                elif clean_path.startswith("https://raw.githubusercontent.com/"):
+                    raise ValueError(
+                        "Newsletter asset URL belongs to an unexpected "
+                        "GitHub repository or branch."
+                    )
+                else:
+                    clean_path = clean_path.lstrip("/")
+
 
                 # Never delete the shared default cover.
                 if clean_path == default_cover_path:
