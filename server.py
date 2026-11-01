@@ -25,6 +25,7 @@ import sqlite3
 import mimetypes
 import datetime
 import urllib.parse
+import traceback
 from http import HTTPStatus
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from socketserver import ThreadingMixIn
@@ -1022,7 +1023,8 @@ class PeopleJurisHandler(SimpleHTTPRequestHandler):
             )
             return
         except Exception as e:
-            print(f"[Newsletter Deletion Error] {e}")
+            print(f"[Newsletter Deletion Error] {e}", flush=True)
+            traceback.print_exc()
             self.send_error_json(
                 "Failed to delete newsletter assets. The newsletter record was not deleted.",
                 status=503
