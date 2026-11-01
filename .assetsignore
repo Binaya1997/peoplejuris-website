@@ -1,0 +1,15 @@
+.git/
+.github/
+__pycache__/
+*.pyc
+.env
+.env.*
+data/
+server.py
+requirements.txt
+Procfile
+render.yaml
+README.md
+.gitignore
+wrangler.jsonc
+.wrangler/
